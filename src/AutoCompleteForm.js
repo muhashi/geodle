@@ -47,8 +47,8 @@ function AutoCompleteForm({ suggestions, handleSubmit, synonyms, descriptions })
         focusOnSubmit();
     }
 
-    const onKeyDown = (key) => {      
-      if (key.code === "Enter" || key.code === "Tab" || key.code === "ArrowRight") {
+    const onKeyDown = (key) => {
+      if ((key.code === "Enter" || key.code === "Tab" || key.code === "ArrowRight") && filteredSuggestions.length > 0) {
         key.preventDefault();
         setInput(filteredSuggestions[activeSuggestionIndex]);
         setFilteredSuggestions([]);
