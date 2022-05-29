@@ -12,7 +12,7 @@ const today = new Date();
 today.setHours(0, 0, 0); // Make sure both dates are on same time of 00:00:00
 const msPerDay = 1000 * 60 * 60 * 24;
 const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
-const country = wordlist[dayNumber % wordlist.length];
+const correctCountry = wordlist[dayNumber % wordlist.length];
 
 // Get the data for country
 function getData(countryName) {
@@ -35,7 +35,7 @@ function generateDescription(countryName) {
 // Store all description strings for countries in an object
 const descriptions = wordlist.reduce((obj, countryName) => ({...obj, [countryName]: generateDescription(countryName)}), {});
 
-const { population, landlocked, religion, temperatureCelsius, continent, government } = getData(country);
+const { population, landlocked, religion, temperatureCelsius, continent, government } = getData(correctCountry);
 
 
 const synonyms = {
@@ -55,4 +55,4 @@ const synonyms = {
 };
 
 const [correctPopulation, correctLandlocked, correctReligion, correctTemperatureCelsius, correctContinent, correctGovernment] = [population, landlocked, religion, temperatureCelsius, continent, government];
-export { country, dayNumber, getData, synonyms, descriptions, correctPopulation, correctLandlocked, correctReligion, correctTemperatureCelsius, correctContinent, correctGovernment };
+export { correctCountry, dayNumber, getData, synonyms, descriptions, correctPopulation, correctLandlocked, correctReligion, correctTemperatureCelsius, correctContinent, correctGovernment };
