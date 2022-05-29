@@ -16,43 +16,71 @@ const correctCountry = wordlist[dayNumber % wordlist.length];
 
 // Get the data for country
 function getData(countryName) {
-    const countrySearch = countryName.toLowerCase().trim();
-    const population = parseInt(populationData.find(x => x.country.toLowerCase().trim() === countrySearch)?.population) || 0;
-    const landlocked = landlockedData.find(x => x.country.toLowerCase().trim() === countrySearch)?.landlocked === "1" || false;
-    const religion = religionData.find(x => x.country.toLowerCase().trim() === countrySearch)?.religion || "N/A";
-    const temperatureCelsius = parseFloat(temperatureCelsiusData.find(x => x.country.toLowerCase().trim() === countrySearch)?.temperature) || "N/A";
-    const continent = continentData.find(x => x.country.toLowerCase().trim() === countrySearch)?.continent || "";
-    const government = governmentData.find(x => x.country.toLowerCase().trim() === countrySearch)?.government || "N/A";
-    return { population, landlocked, religion, temperatureCelsius, continent, government };
+  const countrySearch = countryName.toLowerCase().trim();
+  const populationStr = populationData
+    .find((x) => x.country.toLowerCase().trim() === countrySearch)?.population;
+  const population = parseInt(populationStr, 10) || 0;
+  const landlocked = landlockedData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.landlocked === '1' || false;
+  const religion = religionData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.religion || 'N/A';
+  const temperatureCelsius = parseFloat(temperatureCelsiusData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.temperature) || 'N/A';
+  const continent = continentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.continent || '';
+  const government = governmentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.government || 'N/A';
+  return {
+    population, landlocked, religion, temperatureCelsius, continent, government,
+  };
 }
 
-// Returns a string of description for the country, used to provide some information when searching for the country (i.e. "Kenya" => "Africa, 55,000,000, Republic")
+// Returns a string of description for the country
+// Used to provide some information when searching for the country
+// (i.e. "Kenya" => "Africa, 55,000,000, Republic")
 function generateDescription(countryName) {
-    const { population, continent, government } = getData(countryName);
-    return `${continent}, ${population.toLocaleString()}, ${government}`;
+  const { population, continent, government } = getData(countryName);
+  return `${continent}, ${population.toLocaleString()}, ${government}`;
 }
 
 // Store all description strings for countries in an object
-const descriptions = wordlist.reduce((obj, countryName) => ({...obj, [countryName]: generateDescription(countryName)}), {});
+const descriptions = wordlist.reduce((obj, countryName) => (
+  { ...obj, [countryName]: generateDescription(countryName) }), {});
 
-const { population, landlocked, religion, temperatureCelsius, continent, government } = getData(correctCountry);
-
+const {
+  population, landlocked, religion, temperatureCelsius, continent, government,
+} = getData(correctCountry);
 
 const synonyms = {
-    'Czech Republic': ['Czechia'],
-    'Russian Federation': ['Russia'],
-    'United Kingdom': ['Great Britain', 'UK'],
-    'Japan': ['Nippon'],
-    'Netherlands': ['Holland'],
-    'Papua New Guinea': ['PNG'],
-    'Myanmar': ['Burma'],
-    'Zimbabwe': ['Rhodesia'],
-    'United Arab Emirates': ['UAE'],
-    'Ivory Coast': ["Cote dlvoire"],
-    'Germany': ['Deutschland'],
-    'United States': ['America', 'USA'],
-    'China': ['PRC']
+  'Czech Republic': ['Czechia'],
+  'Russian Federation': ['Russia'],
+  'United Kingdom': ['Great Britain', 'UK'],
+  Japan: ['Nippon'],
+  Netherlands: ['Holland'],
+  'Papua New Guinea': ['PNG'],
+  Myanmar: ['Burma'],
+  Zimbabwe: ['Rhodesia'],
+  'United Arab Emirates': ['UAE'],
+  'Ivory Coast': ['Cote dlvoire'],
+  Germany: ['Deutschland'],
+  'United States': ['America', 'USA'],
+  China: ['PRC'],
 };
 
-const [correctPopulation, correctLandlocked, correctReligion, correctTemperatureCelsius, correctContinent, correctGovernment] = [population, landlocked, religion, temperatureCelsius, continent, government];
-export { correctCountry, dayNumber, getData, synonyms, descriptions, correctPopulation, correctLandlocked, correctReligion, correctTemperatureCelsius, correctContinent, correctGovernment };
+const [
+  correctPopulation,
+  correctLandlocked,
+  correctReligion,
+  correctTemperatureCelsius,
+  correctContinent,
+  correctGovernment,
+] = [population, landlocked, religion, temperatureCelsius, continent, government];
+
+export {
+  correctCountry,
+  dayNumber,
+  getData,
+  synonyms,
+  descriptions,
+  correctPopulation,
+  correctLandlocked,
+  correctReligion,
+  correctTemperatureCelsius,
+  correctContinent,
+  correctGovernment,
+};
