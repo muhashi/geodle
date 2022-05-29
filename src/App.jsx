@@ -33,7 +33,7 @@ function Header() {
     <header className="App-header">
       <h2>Geodle</h2>
       <h3>
-        A Wordle-ish geography game by
+        A Wordle-ish geography game by&nbsp;
         <a href="https://muhashi.github.io">Muhashi</a>
       </h3>
     </header>
@@ -98,16 +98,16 @@ function Results({ guessesData }) {
         <th scope="col">
           <ToolTip content="Population" tip="Population within 10% of correct country" />
         </th>
-        <th>
+        <th scope="col">
           <ToolTip content="Landlocked?" tip="A landlocked country does not have territory connected to an ocean." />
         </th>
-        <th>
+        <th scope="col">
           <ToolTip content="Religion" tip="Most common religion matches the correct country" />
         </th>
-        <th>
+        <th scope="col">
           <ToolTip content="Avg. Temp." tip="Yearly average temperature within 10% of correct country" />
         </th>
-        <th>
+        <th scope="col">
           <ToolTip content="Gov." tip="System of government used in the country" />
         </th>
       </tr>
@@ -146,7 +146,7 @@ function ResultRow({ guessData }) {
 
   return (
     <tr>
-      <td>{ country }</td>
+      <th scope="row">{ country }</th>
       <td>
         <ResultHint correct={correctContinent} guess={continent} tip={continent} />
       </td>
