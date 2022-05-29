@@ -4,7 +4,7 @@ import populationData from './data/country-by-population.json'; // TODO: Round t
 import religionData from './data/country-by-religion.json';
 import temperatureCelsiusData from './data/country-by-yearly-average-temperature.json';
 import landlockedData from './data/country-by-landlocked.json';
-import { wordlist } from './wordlist';
+import wordlist from './wordlist';
 
 // Get the country of the day
 const epoch = new Date(2022, 4, 9); // Created on 9th May 2022!
