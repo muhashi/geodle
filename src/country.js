@@ -22,7 +22,13 @@ function getData(countryName) {
   const population = parseInt(populationStr, 10) || 0;
   const landlocked = landlockedData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.landlocked === '1' || false;
   const religion = religionData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.religion || 'N/A';
-  const temperatureCelsius = parseFloat(temperatureCelsiusData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.temperature) || 'N/A';
+
+  const temperatureCelsius = parseFloat(
+    temperatureCelsiusData.find(
+      (x) => x.country.toLowerCase().trim() === countrySearch,
+    )?.temperature,
+  ) || 0; // Default of 0, because no country has an average of 0.00 C, we can use 0 as a `null`
+
   const continent = continentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.continent || '';
   const government = governmentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.government || 'N/A';
   return {

@@ -1,5 +1,6 @@
 import './App.css';
 import { useState, React } from 'react';
+import PropTypes from 'prop-types';
 import {
   correctCountry,
   dayNumber,
@@ -68,7 +69,7 @@ function Main() {
       <p>
         Guess which country I&apos;m thinking of! You have&nbsp;
         { guessesLeft }
-        guess
+        &nbsp;guess
         { guessesLeft === 1 ? '' : 'es' }
         &nbsp;left.
       </p>
@@ -118,6 +119,22 @@ function Results({ guessesData }) {
   ) : (null);
 }
 
+const guessDataPropType = PropTypes.exact({
+  country: PropTypes.string,
+  population: PropTypes.number,
+  landlocked: PropTypes.bool,
+  religion: PropTypes.string,
+  temperatureCelsius: PropTypes.number,
+  continent: PropTypes.string,
+  government: PropTypes.string,
+});
+
+const guessesDataPropType = PropTypes.arrayOf(guessDataPropType);
+
+Results.propTypes = {
+  guessesData: guessesDataPropType.isRequired,
+};
+
 function tempFahrenheit(celsius) {
   return (celsius * 9) / 5 + 32;
 }
@@ -140,7 +157,7 @@ function ResultRow({ guessData }) {
     continent,
     government,
   } = guessData;
-  const temperatureTip = typeof temperatureCelsius === 'number' ? `${Math.round(temperatureCelsius)}°C / ${Math.round(tempFahrenheit(temperatureCelsius))}°F` : temperatureCelsius;
+  const temperatureTip = temperatureCelsius === 0 ? 'N/A' : `${Math.round(temperatureCelsius)}°C / ${Math.round(tempFahrenheit(temperatureCelsius))}°F`;
   const landlockedTip = landlocked ? 'Landlocked' : 'Not landlocked';
   const populationTip = formatPopulation(population);
 
@@ -173,6 +190,10 @@ function ResultRow({ guessData }) {
   );
 }
 
+ResultRow.propTypes = {
+  guessData: guessDataPropType.isRequired,
+};
+
 // If numeric value of `a` is within `(100 * MAX_DIFF_PERCENT)`% of `b`,
 // then they're considered approx. equal values
 function isApproxEqual(a, b) {
@@ -183,7 +204,7 @@ function isApproxEqual(a, b) {
 }
 
 function getEmojiHint(correct, guess) {
-  const isCorrect = correct === guess || (typeof guess === 'number' && isApproxEqual(guess, correct));
+  const isCorrect = correct === guess || (typeof guess === 'number' && typeof correct === 'number' && isApproxEqual(guess, correct));
   const higher = !isCorrect && typeof guess === 'number' && correct > guess;
   const lower = !isCorrect && typeof guess === 'number' && correct < guess;
 
@@ -202,11 +223,17 @@ function getEmojiHint(correct, guess) {
 function ResultHint({ correct, guess, tip }) {
   return (
     <ToolTip
-      content={<span className="emoji">{ getEmojiHint(correct, guess) }</span>}
+      content={getEmojiHint(correct, guess)}
       tip={tip}
     />
   );
 }
+
+ResultHint.propTypes = {
+  correct: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]).isRequired,
+  guess: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]).isRequired,
+  tip: PropTypes.string.isRequired,
+};
 
 function ToolTip({ content, tip }) {
   return (
@@ -216,6 +243,11 @@ function ToolTip({ content, tip }) {
     </div>
   );
 }
+
+ToolTip.propTypes = {
+  content: PropTypes.string.isRequired,
+  tip: PropTypes.string.isRequired,
+};
 
 function WonMessage({ guessesData }) {
   return (
@@ -230,6 +262,10 @@ function WonMessage({ guessesData }) {
   );
 }
 
+WonMessage.propTypes = {
+  guessesData: guessesDataPropType.isRequired,
+};
+
 function LostMessage({ guessesData }) {
   return (
     <>
@@ -242,6 +278,11 @@ function LostMessage({ guessesData }) {
     </>
   );
 }
+
+LostMessage.propTypes = {
+  guessesData: guessesDataPropType.isRequired,
+};
+
 function Share({ guessesData }) {
   const emojis = guessesData
     .map(({
@@ -269,5 +310,9 @@ function Share({ guessesData }) {
     </button>
   );
 }
+
+Share.propTypes = {
+  guessesData: guessesDataPropType.isRequired,
+};
 
 export default App;

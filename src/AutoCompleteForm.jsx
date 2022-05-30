@@ -1,14 +1,17 @@
 import {
   useState, useRef, useLayoutEffect, React,
 } from 'react';
+import PropTypes from 'prop-types';
 
 // Valid suggestions will appear in the same order as they do in the array `suggestions`.
-// `synonyms` is an obj where keys are inputs that have a synonym,
-// and the value is an array of said synonyms.
+// `handleSubmit` is a callback func where the input will be passed to when form is submitted.
+// `synonyms` is an obj where keys are from `suggestions` and values are a list of synonyms.
 // If user input is a prefix of a synonym or a suggestion,
-// the suggestion will appear below the input box.
+//   the suggestion will appear below the input box.
+// `descriptions` is an obj where keys are from `suggestions` and values are a
+//   subtitle to be shown under the suggestion
 // Assumes suggestions/synonyms have no punctuation/digits for simplicity,
-// Modify regex in `cleanInput` if otherwise.
+//   modify regex in `cleanInput` if otherwise.
 // Some code used from https://blog.logrocket.com/build-react-autocomplete-component/
 function AutoCompleteForm({
   suggestions, handleSubmit, synonyms, descriptions,
@@ -125,6 +128,13 @@ function AutoCompleteForm({
   );
 }
 
+AutoCompleteForm.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  synonyms: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  descriptions: PropTypes.objectOf(PropTypes.string).isRequired,
+};
+
 function SuggestionsListComponent({
   filteredSuggestions, activeSuggestionIndex, activeSuggestionRef, descriptions, onClick,
 }) {
@@ -159,5 +169,19 @@ function SuggestionsListComponent({
     </div>
   );
 }
+
+// PropType for react `ref`s, from https://stackoverflow.com/a/56950157
+const refPropType = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+]);
+
+SuggestionsListComponent.propTypes = {
+  filteredSuggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  activeSuggestionIndex: PropTypes.number.isRequired,
+  activeSuggestionRef: refPropType.isRequired,
+  descriptions: PropTypes.objectOf(PropTypes.string).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default AutoCompleteForm;
