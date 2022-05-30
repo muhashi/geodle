@@ -93,25 +93,27 @@ function Main() {
 function Results({ guessesData }) {
   return guessesData.length > 0 ? (
     <table>
-      <tr>
-        <td />
-        <th>Continent</th>
-        <th scope="col">
-          <ToolTip content="Population" tip="Population within 10% of correct country" />
-        </th>
-        <th scope="col">
-          <ToolTip content="Landlocked?" tip="A landlocked country does not have territory connected to an ocean." />
-        </th>
-        <th scope="col">
-          <ToolTip content="Religion" tip="Most common religion matches the correct country" />
-        </th>
-        <th scope="col">
-          <ToolTip content="Avg. Temp." tip="Yearly average temperature within 10% of correct country" />
-        </th>
-        <th scope="col">
-          <ToolTip content="Gov." tip="System of government used in the country" />
-        </th>
-      </tr>
+      <thead>
+        <tr>
+          <td />
+          <th>Continent</th>
+          <th scope="col">
+            <ToolTip content="Population" tip="Population within 10% of correct country" />
+          </th>
+          <th scope="col">
+            <ToolTip content="Landlocked?" tip="A landlocked country does not have territory connected to an ocean." />
+          </th>
+          <th scope="col">
+            <ToolTip content="Religion" tip="Most common religion matches the correct country" />
+          </th>
+          <th scope="col">
+            <ToolTip content="Avg. Temp." tip="Yearly average temperature within 10% of correct country" />
+          </th>
+          <th scope="col">
+            <ToolTip content="Gov." tip="System of government used in the country" />
+          </th>
+        </tr>
+      </thead>
       <tbody>
         { guessesData.map((data) => <ResultRow guessData={data} key={data.country} />) }
       </tbody>
