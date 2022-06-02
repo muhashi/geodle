@@ -145,3 +145,8 @@ table {
     transform: translateX(-50%);
   }
 }
+
+.emoji-icon {
+  height: 1em;
+  width: 1em;
+}

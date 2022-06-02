@@ -17,6 +17,12 @@ import {
 import AutoCompleteForm from './AutoCompleteForm';
 import wordlist from './wordlist';
 
+// Images
+import svgSquareRed from './img/square-red.svg';
+import svgSquareGreen from './img/square-green.svg';
+import svgUpwardsArrow from './img/square-caret-up.svg';
+import svgDownwardsArrow from './img/square-caret-down.svg';
+
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Make sure all countries in wordlist have all data required for the game
 
@@ -211,15 +217,15 @@ function getEmojiHint(correct, guess) {
   const lower = !isCorrect && typeof guess === 'number' && correct < guess;
 
   if (isCorrect) {
-    return '🟩';
+    return (<img src={svgSquareGreen} className="emoji-icon" alt="Green Square" />);
   }
   if (higher) {
-    return '🔼';
+    return (<img src={svgUpwardsArrow} className="emoji-icon" alt="Upwards Arrow" />);
   }
   if (lower) {
-    return '🔽';
+    return (<img src={svgDownwardsArrow} className="emoji-icon" alt="Downwards Arrow" />);
   }
-  return '🟥';
+  return (<img src={svgSquareRed} className="emoji-icon" alt="Red Square" />);
 }
 
 function ResultHint({ correct, guess, tip }) {
@@ -247,7 +253,10 @@ function ToolTip({ content, tip }) {
 }
 
 ToolTip.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   tip: PropTypes.string.isRequired,
 };
 
