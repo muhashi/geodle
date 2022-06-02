@@ -153,8 +153,14 @@ function SuggestionsListComponent({
           ref = activeSuggestionRef;
         }
 
-        // TODO: change `li` to `select > option`
         return (
+        // Reasoning: Key events are in parent form,
+        // click event required for this element bc of hitbox
+          /*
+            eslint-disable-next-line
+            jsx-a11y/no-noninteractive-element-interactions,
+            jsx-a11y/click-events-have-key-events
+          */
           <li className={className} key={suggestion} onClick={onClick} ref={ref}>
             {suggestion}
             {descriptions && descriptions[suggestion]
