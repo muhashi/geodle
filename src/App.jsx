@@ -211,18 +211,33 @@ function isApproxEqual(a, b) {
   return percentDiff <= MAX_DIFF_PERCENT;
 }
 
-function getEmojiHint(correct, guess) {
+function getEmojiHintText(correct, guess) {
   const isCorrect = correct === guess || (typeof guess === 'number' && typeof correct === 'number' && isApproxEqual(guess, correct));
   const higher = !isCorrect && typeof guess === 'number' && correct > guess;
   const lower = !isCorrect && typeof guess === 'number' && correct < guess;
 
   if (isCorrect) {
-    return (<img src={svgSquareGreen} className="emoji-icon" alt="Green Square" />);
+    return '🟩';
   }
   if (higher) {
-    return (<img src={svgUpwardsArrow} className="emoji-icon" alt="Upwards Arrow" />);
+    return '🔼';
   }
   if (lower) {
+    return '🔽';
+  }
+  return '🟥';
+}
+
+function getEmojiHintImage(correct, guess) {
+  const textEmoji = getEmojiHintText(correct, guess);
+
+  if (textEmoji === '🟩') {
+    return (<img src={svgSquareGreen} className="emoji-icon" alt="Green Square" />);
+  }
+  if (textEmoji === '🔼') {
+    return (<img src={svgUpwardsArrow} className="emoji-icon" alt="Upwards Arrow" />);
+  }
+  if (textEmoji === '🔽') {
     return (<img src={svgDownwardsArrow} className="emoji-icon" alt="Downwards Arrow" />);
   }
   return (<img src={svgSquareRed} className="emoji-icon" alt="Red Square" />);
@@ -231,7 +246,7 @@ function getEmojiHint(correct, guess) {
 function ResultHint({ correct, guess, tip }) {
   return (
     <ToolTip
-      content={getEmojiHint(correct, guess)}
+      content={getEmojiHintImage(correct, guess)}
       tip={tip}
     />
   );
@@ -304,7 +319,7 @@ function Share({ guessesData }) {
       [correctReligion, religion],
       [correctTemperatureCelsius, temperatureCelsius],
       [correctGovernment, government]])
-    .map((data) => data.map(([correct, guess]) => getEmojiHint(correct, guess)).join(''))
+    .map((data) => data.map(([correct, guess]) => getEmojiHintText(correct, guess)).join(''))
     .join('\n');
 
   const title = `Geodle ${dayNumber} ${guessesData.length}/7`;
