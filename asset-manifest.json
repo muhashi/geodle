@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/geodle/static/css/main.84606209.css",
-    "main.js": "/geodle/static/js/main.2fe17f20.js",
+    "main.css": "/geodle/static/css/main.a02c1c33.css",
+    "main.js": "/geodle/static/js/main.51c779a9.js",
     "static/js/787.575bedc7.chunk.js": "/geodle/static/js/787.575bedc7.chunk.js",
     "index.html": "/geodle/index.html",
     "static/media/square-caret-down.svg": "/geodle/static/media/square-caret-down.88567bd358a8bf897eed3ff4ffda1523.svg",
     "static/media/square-caret-up.svg": "/geodle/static/media/square-caret-up.1fb735e34c6a57dac45b53683b604705.svg",
     "static/media/square-green.svg": "/geodle/static/media/square-green.87b6f4a87d837fbf8895145f7401bc35.svg",
     "static/media/square-red.svg": "/geodle/static/media/square-red.8e45e33ac381e961e398e3164c2bc433.svg",
-    "main.84606209.css.map": "/geodle/static/css/main.84606209.css.map",
-    "main.2fe17f20.js.map": "/geodle/static/js/main.2fe17f20.js.map",
+    "main.a02c1c33.css.map": "/geodle/static/css/main.a02c1c33.css.map",
+    "main.51c779a9.js.map": "/geodle/static/js/main.51c779a9.js.map",
     "787.575bedc7.chunk.js.map": "/geodle/static/js/787.575bedc7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.84606209.css",
-    "static/js/main.2fe17f20.js"
+    "static/css/main.a02c1c33.css",
+    "static/js/main.51c779a9.js"
   ]
 }
