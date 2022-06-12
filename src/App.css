@@ -70,6 +70,7 @@ input, button {
   color: #000;
   font-weight: normal;
   height: fit-content;
+  -webkit-appearance: none;
 }
 
 .Main-input {
@@ -98,7 +99,6 @@ input, button {
   border-radius: 6px;
   position: absolute;
   z-index: 1;
-  -webkit-transform: translate3d(0,0,0); /* To fix z-index problem on Safari, don't ask https://stackoverflow.com/a/40896165) */
 }
 
 .tooltiptext {
