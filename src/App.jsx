@@ -102,21 +102,36 @@ function Results({ guessesData }) {
       <thead>
         <tr>
           <td />
-          <th scope="col"><span className="table-header-innertext">Continent</span></th>
+          <th scope="col"><div className="table-header-innertext">Continent</div></th>
           <th scope="col">
-            <ToolTip content="Population" tip="Population within 10% of correct country" />
+            <ToolTip
+              content={<div className="table-header-innertext">Population</div>}
+              tip="Population within 10% of correct country"
+            />
           </th>
           <th scope="col">
-            <ToolTip content="Landlocked?" tip="A landlocked country does not have territory connected to an ocean." />
+            <ToolTip
+              content={<div className="table-header-innertext">Landlocked?</div>}
+              tip="A landlocked country does not have territory connected to an ocean."
+            />
           </th>
           <th scope="col">
-            <ToolTip content="Religion" tip="Most common religion matches the correct country" />
+            <ToolTip
+              content={<div className="table-header-innertext">Religion</div>}
+              tip="Most common religion matches the correct country"
+            />
           </th>
           <th scope="col">
-            <ToolTip content="Avg. Temp." tip="Yearly average temperature within 10% of correct country" />
+            <ToolTip
+              content={<div className="table-header-innertext">Avg. Temp.</div>}
+              tip="Yearly average temperature within 10% of correct country"
+            />
           </th>
           <th scope="col">
-            <ToolTip content="Gov." tip="System of government used in the country" />
+            <ToolTip
+              content={<div className="table-header-innertext">Gov.</div>}
+              tip="System of government used in the country"
+            />
           </th>
         </tr>
       </thead>
@@ -171,7 +186,7 @@ function ResultRow({ guessData }) {
 
   return (
     <tr>
-      <th scope="row"><span className="table-header-innertext">{ country }</span></th>
+      <th scope="row"><div className="table-header-innertext">{ country }</div></th>
       <td>
         <ResultHint correct={correctContinent} guess={continent} tip={continent} />
       </td>

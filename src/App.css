@@ -85,6 +85,9 @@ input, button {
 .tooltip {
   position: relative;
   display: inline-block;
+}
+
+.tooltip * {
   border-bottom: 2px dotted #000;
   cursor: pointer;
 }
@@ -116,7 +119,7 @@ table {
   margin: auto;
   font-size: calc(10px + 2vmin);
   margin-bottom: 5%;
-
+  table-layout: fixed;
 }
 
 @media only screen and (max-width: 680px) {
@@ -134,20 +137,26 @@ table {
     margin-right: 0;
   }
 
-  th, th > .tooltip, .table-header-innertext {
+  th {
+    height: fit-content;
+    width: 13%;
+  }
+
+  th > .tooltip {
+    width: 100%;
+  }
+
+  .table-header-innertext {
     writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
     -ms-writing-mode: vertical-rl;
-  }
-
-  th > .tooltip > .tooltiptext {
-    writing-mode: horizontal-tb;
-    -webkit-writing-mode: horizontal-tb;
-    -ms-writing-mode: horizontal-tb;
+    max-height: 6em;
+    margin: 0 auto;
   }
 
   .tooltip .tooltiptext {
     width: fit-content;
+    padding: 3px;
 
     /* Center without knowing the width */
     left: 50%;
