@@ -134,7 +134,7 @@ table {
     margin-right: 0;
   }
 
-  th, th > .tooltip {
+  th, th > .tooltip, .table-header-innertext {
     writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
     -ms-writing-mode: vertical-rl;
