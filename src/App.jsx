@@ -102,7 +102,7 @@ function Results({ guessesData }) {
       <thead>
         <tr>
           <td />
-          <th>Continent</th>
+          <th scope="col">Continent</th>
           <th scope="col">
             <ToolTip content="Population" tip="Population within 10% of correct country" />
           </th>

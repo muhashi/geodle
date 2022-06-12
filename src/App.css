@@ -1,7 +1,7 @@
 .App {
   text-align: center;
-  background-color: #eeeeee;
-  color: #000000;
+  background-color: #EEE;
+  color: #000;
   min-height: 100vh;
   display: block;
   position: relative;
@@ -26,13 +26,13 @@ a {
 }
 
 .suggestions {
-  border: 1px solid #000000;
+  border: 1px solid #000;
   border-radius: 0px;
   border-top-width: 0;
   list-style: none;
   padding-left: 0;
   width: calc(35% + 5rem);
-  background-color: #eee;
+  background-color: #EEE;
   position: absolute;
   margin: auto;
   left: 0;
@@ -52,7 +52,7 @@ a {
 }
 
 .suggestions li:not(:last-of-type) {
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #000;
 }
 
 .suggestion-description, .suggestion-description-active {
@@ -63,14 +63,13 @@ a {
 
 input, button {
   font-size: calc(10px + 2vmin);
-  padding: 0.5rem;
-  border: 2px solid #000000;
-  background-color: white;
+  padding: 0.5em;
+  border: 2px solid #000;
+  background-color: #FFF;
   border-radius: 6px;
-}
-
-input {
-  color: #000000;
+  color: #000;
+  font-weight: normal;
+  height: fit-content;
 }
 
 .Main-input {
@@ -85,20 +84,21 @@ input {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 2px dotted #000000;
+  border-bottom: 2px dotted #000;
   cursor: pointer;
 }
 
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 200px;
-  background-color: #000000;
+  background-color: #000;
   color: #fff;
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
   position: absolute;
   z-index: 1;
+  -webkit-transform: translate3d(0,0,0); /* To fix z-index problem on Safari, don't ask https://stackoverflow.com/a/40896165) */
 }
 
 .tooltiptext {
@@ -116,11 +116,16 @@ table {
   margin: auto;
   font-size: calc(10px + 2vmin);
   margin-bottom: 5%;
+
 }
 
 @media only screen and (max-width: 680px) {
   .App, input, button, table {
     font-size: 1rem;
+  }
+
+  .suggestion-description, .suggestion-description-active {
+    font-size: 0.9rem;
   }
 
   table {
