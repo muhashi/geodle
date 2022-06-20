@@ -119,7 +119,6 @@ table {
   margin: auto;
   font-size: calc(10px + 2vmin);
   margin-bottom: 5%;
-  table-layout: fixed;
 }
 
 @media only screen and (max-width: 680px) {
