@@ -24,6 +24,7 @@ import svgUpwardsArrow from './img/square-caret-up.svg';
 import svgDownwardsArrow from './img/square-caret-down.svg';
 
 // TODO: Add better hints visualisation like - these continents not ruled out
+// TODO: Add cookie to save game result after refresh
 // TODO: Make sure all countries in wordlist have all data required for the game
 
 function App() {
@@ -40,7 +41,7 @@ function Header() {
     <header className="App-header">
       <h2>Geodle</h2>
       <h3>
-        A Wordle-ish geography game by&nbsp;
+        A daily Wordle-ish geography game by&nbsp;
         <a href="https://muhashi.github.io">Muhashi</a>
       </h3>
     </header>
