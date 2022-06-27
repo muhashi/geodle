@@ -338,7 +338,7 @@ function Share({ guessesData }) {
     .map((data) => data.map(([correct, guess]) => getEmojiHintText(correct, guess)).join(''))
     .join('\n');
 
-  const title = `Geodle ${dayNumber} ${guessesData.length}/7`;
+  const title = `geodle.me ${dayNumber} ${guessesData.length}/7`;
 
   const onClick = () => {
     const copyText = `${title}\n${emojis}`;

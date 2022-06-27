@@ -5,7 +5,7 @@
 
 ### Repo Content
 
-[Try the game out here](https://muhashi.github.io/geodle/)! This is a modified `create-react-app` app, with additions of `eslint` and `PropTypes`. And the `gh-pages` module for deploying the build to Github Pages.
+[Try the game out here](https://geodle.me)! This is a modified `create-react-app` app, with additions of `eslint` and `PropTypes`. And the `gh-pages` module for deploying the build to Github Pages.
 
 ### Attributions
 
