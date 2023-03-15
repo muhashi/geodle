@@ -1,5 +1,5 @@
 // Wordlist consists of 100 most populous countries listed in a randomized order
-// NOTE: Wordist and game doesn't consider England seperately from UK to prevent confusion,
+// NOTE: Wordlist and game doesn't consider England seperately from UK to prevent confusion,
 // but the data DOES consider them seperately
 
 const wordlist = [
