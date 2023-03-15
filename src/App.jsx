@@ -1,6 +1,5 @@
 import './App.css';
 import { useState, React } from 'react';
-import PropTypes from 'prop-types';
 import {
   correctCountry,
   dayNumber,
@@ -143,22 +142,6 @@ function Results({ guessesData }) {
   ) : (null);
 }
 
-const guessDataPropType = PropTypes.exact({
-  country: PropTypes.string,
-  population: PropTypes.number,
-  landlocked: PropTypes.bool,
-  religion: PropTypes.string,
-  temperatureCelsius: PropTypes.number,
-  continent: PropTypes.string,
-  government: PropTypes.string,
-});
-
-const guessesDataPropType = PropTypes.arrayOf(guessDataPropType);
-
-Results.propTypes = {
-  guessesData: guessesDataPropType.isRequired,
-};
-
 function tempFahrenheit(celsius) {
   return (celsius * 9) / 5 + 32;
 }
@@ -214,10 +197,6 @@ function ResultRow({ guessData }) {
   );
 }
 
-ResultRow.propTypes = {
-  guessData: guessDataPropType.isRequired,
-};
-
 // If numeric value of `a` is within `(100 * MAX_DIFF_PERCENT)`% of `b`,
 // then they're considered approx. equal values
 function isApproxEqual(a, b) {
@@ -268,12 +247,6 @@ function ResultHint({ correct, guess, tip }) {
   );
 }
 
-ResultHint.propTypes = {
-  correct: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]).isRequired,
-  guess: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]).isRequired,
-  tip: PropTypes.string.isRequired,
-};
-
 function ToolTip({ content, tip }) {
   return (
     <div className="tooltip">
@@ -282,14 +255,6 @@ function ToolTip({ content, tip }) {
     </div>
   );
 }
-
-ToolTip.propTypes = {
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]).isRequired,
-  tip: PropTypes.string.isRequired,
-};
 
 function WonMessage({ guessesData }) {
   return (
@@ -304,10 +269,6 @@ function WonMessage({ guessesData }) {
   );
 }
 
-WonMessage.propTypes = {
-  guessesData: guessesDataPropType.isRequired,
-};
-
 function LostMessage({ guessesData }) {
   return (
     <>
@@ -320,10 +281,6 @@ function LostMessage({ guessesData }) {
     </>
   );
 }
-
-LostMessage.propTypes = {
-  guessesData: guessesDataPropType.isRequired,
-};
 
 function Share({ guessesData }) {
   const emojis = guessesData
@@ -352,9 +309,5 @@ function Share({ guessesData }) {
     </button>
   );
 }
-
-Share.propTypes = {
-  guessesData: guessesDataPropType.isRequired,
-};
 
 export default App;

@@ -1,7 +1,6 @@
 import {
   useState, useRef, useLayoutEffect, React,
 } from 'react';
-import PropTypes from 'prop-types';
 
 // Valid suggestions will appear in the same order as they do in the array `suggestions`.
 // `handleSubmit` is a callback func where the input will be passed to when form is submitted.
@@ -128,13 +127,6 @@ function AutoCompleteForm({
   );
 }
 
-AutoCompleteForm.propTypes = {
-  suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  synonyms: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  descriptions: PropTypes.objectOf(PropTypes.string).isRequired,
-};
-
 function SuggestionsListComponent({
   filteredSuggestions, activeSuggestionIndex, activeSuggestionRef, descriptions, onClick,
 }) {
@@ -175,19 +167,5 @@ function SuggestionsListComponent({
     </div>
   );
 }
-
-// PropType for react `ref`s, from https://stackoverflow.com/a/56950157
-const refPropType = PropTypes.oneOfType([
-  PropTypes.func,
-  PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-]);
-
-SuggestionsListComponent.propTypes = {
-  filteredSuggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeSuggestionIndex: PropTypes.number.isRequired,
-  activeSuggestionRef: refPropType.isRequired,
-  descriptions: PropTypes.objectOf(PropTypes.string).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 
 export default AutoCompleteForm;
