@@ -1,10 +1,9 @@
-// import './App.css';
-import { useState, React } from 'react';
+import { React, useState } from 'react';
 
 // MUI imports
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,48 +11,63 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 
 // Internal imports
+import './App.css';
 import {
+  correctContinent,
   correctCountry,
-  dayNumber,
-  getData,
-  correctPopulation,
+  correctGovernment,
   correctLandlocked,
+  correctPopulation,
   correctReligion,
   correctTemperatureCelsius,
-  correctContinent,
-  correctGovernment,
+  dayNumber,
+  getData,
 } from './country';
 import CountryForm from './CountryForm';
+import {
+  StyledButton, StyledLink,
+  StyledTableHeaderTypography,
+  StyledTypography,
+  theme,
+} from './StyledComponents';
 
-import svgSquareRed from './img/square-red.svg';
-import svgSquareGreen from './img/square-green.svg';
-import svgUpwardsArrow from './img/square-caret-up.svg';
 import svgDownwardsArrow from './img/square-caret-down.svg';
+import svgUpwardsArrow from './img/square-caret-up.svg';
+import svgSquareGreen from './img/square-green.svg';
+import svgSquareRed from './img/square-red.svg';
 
+// TODO: Update country data
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Add cookie to save game result after refresh
 // TODO: Make sure all countries in wordlist have all data required for the game
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Main />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Box sx={{
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '5vh 0',
+        }}
+        >
+          <Header />
+          <br />
+          <Main />
+        </Box>
+      </div>
+    </ThemeProvider>
   );
 }
 
 function Header() {
   return (
     <header className="App-header">
-      <Typography variant="h2">Geodle</Typography>
-      <Typography variant="h4">
+      <StyledTypography variant="h2" align="center" sx={{ fontWeight: 900, userSelect: 'none' }}>Geodle</StyledTypography>
+      <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
         A daily Wordle-ish geography game by&nbsp;
-        <Link href="https://muhashi.github.io" underline="hover">Muhashi</Link>
-      </Typography>
+        <StyledLink href="https://muhashi.github.io">Muhashi</StyledLink>
+      </StyledTypography>
     </header>
   );
 }
@@ -83,21 +97,28 @@ function Main() {
 
   return (
     <main>
-      <Typography variant="body">
-        Guess which country I&apos;m thinking of! You have&nbsp;
-        { guessesLeft }
-        &nbsp;guess
-        { guessesLeft === 1 ? '' : 'es' }
-        &nbsp;left.
-      </Typography>
-      <Results guessesData={guessesData} />
-      { !isWon
-        && !isLost
-        && (
-          <CountryForm onSubmit={onSubmit} />
-        )}
-      { isWon && <WonMessage guessesData={guessesData} /> }
-      { isLost && <LostMessage guessesData={guessesData} /> }
+      <Box sx={{
+        display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '10vh 0',
+      }}
+      >
+        <StyledTypography variant="h5" sx={{ fontWeight: 600 }}>
+          Guess which country I&apos;m thinking of! You have&nbsp;
+          <span style={{ fontWeight: 900 }}>
+            { guessesLeft }
+          </span>
+          &nbsp;guess
+          { guessesLeft === 1 ? '' : 'es' }
+          &nbsp;left.
+        </StyledTypography>
+        { !isWon
+          && !isLost
+          && (
+            <CountryForm onSubmit={onSubmit} />
+          )}
+        { isWon && <WonMessage guessesData={guessesData} /> }
+        { isLost && <LostMessage guessesData={guessesData} /> }
+        <Results guessesData={guessesData} />
+      </Box>
     </main>
   );
 }
@@ -116,25 +137,31 @@ function Results({ guessesData }) {
 
   return (
     guessesData.length > 0 && (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              { headers.map((header, i) => (
-                <Tooltip title={tips[i]} key={header}>
-                  <TableCell>
-                    { header }
-                  </TableCell>
-                </Tooltip>
-              )) }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { guessesData.map((data) => <ResultRow guessData={data} key={data.country} />) }
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Box sx={{ overflow: 'auto', margin: '0 10%' }}>
+        <Box sx={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+          <TableContainer component={Paper} sx={{ marginBottom: '10vh' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  { headers.map((header, i) => (
+                    <Tooltip title={tips[i]} key={header} align="center" sx={{ cursor: 'pointer' }}>
+                      <TableCell>
+                        <StyledTableHeaderTypography variant="body1" sx={{ borderBottom: '2px dotted' }}>
+                          { header }
+                        </StyledTableHeaderTypography>
+                      </TableCell>
+                    </Tooltip>
+                  )) }
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                { guessesData.map((data) => <ResultRow guessData={data} key={data.country} />) }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Box>
     )
   );
 }
@@ -179,17 +206,23 @@ function getEmojiHintText(correct, guess) {
 
 function getEmojiHintImage(correct, guess) {
   const textEmoji = getEmojiHintText(correct, guess);
+  let src = svgSquareRed;
+  let alt = 'Red Square';
 
   if (textEmoji === '🟩') {
-    return (<img src={svgSquareGreen} className="emoji-icon" alt="Green Square" />);
+    src = svgSquareGreen;
+    alt = 'Green Square';
   }
   if (textEmoji === '🔼') {
-    return (<img src={svgUpwardsArrow} className="emoji-icon" alt="Upwards Arrow" />);
+    src = svgUpwardsArrow;
+    alt = 'Upwards Arrow';
   }
   if (textEmoji === '🔽') {
-    return (<img src={svgDownwardsArrow} className="emoji-icon" alt="Downwards Arrow" />);
+    src = svgDownwardsArrow;
+    alt = 'Downwards Arrow';
   }
-  return (<img src={svgSquareRed} className="emoji-icon" alt="Red Square" />);
+
+  return (<img src={src} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt={alt} />);
 }
 
 function ResultRow({ guessData }) {
@@ -217,13 +250,15 @@ function ResultRow({ guessData }) {
   const tips = [continent, populationTip, landlockedTip, religion, temperatureTip, government];
 
   return (
-    <TableRow
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    >
-      <TableCell component="th" scope="row">{ country }</TableCell>
+    <TableRow>
+      <TableCell component="th" scope="row">
+        <StyledTableHeaderTypography>
+          { country }
+        </StyledTableHeaderTypography>
+      </TableCell>
       {tips.map((tip, i) => (
-        <TableCell key={tip}>
-          <Tooltip title={tip} arrow>{ getEmojiHintImage(dataCorrect[i], data[i]) }</Tooltip>
+        <TableCell key={tip} align="center" sx={{ cursor: 'pointer' }}>
+          <Tooltip title={tip}>{ getEmojiHintImage(dataCorrect[i], data[i]) }</Tooltip>
         </TableCell>
       ))}
     </TableRow>
@@ -233,11 +268,11 @@ function ResultRow({ guessData }) {
 function WonMessage({ guessesData }) {
   return (
     <>
-      <Typography variant="body">
+      <StyledTypography variant="body">
         You win! The secret country was&nbsp;
         <strong>{ correctCountry }</strong>
         !
-      </Typography>
+      </StyledTypography>
       <Share guessesData={guessesData} />
     </>
   );
@@ -246,11 +281,11 @@ function WonMessage({ guessesData }) {
 function LostMessage({ guessesData }) {
   return (
     <>
-      <Typography variant="body">
+      <StyledTypography variant="body">
         You ran out of guesses! The secret country was&nbsp;
         <strong>{ correctCountry }</strong>
         !
-      </Typography>
+      </StyledTypography>
       <Share guessesData={guessesData} />
     </>
   );
@@ -278,9 +313,9 @@ function Share({ guessesData }) {
   };
 
   return (
-    <Button variant="contained" onClick={onClick} type="button">
+    <StyledButton variant="contained" onClick={onClick} type="button">
       Share 📋
-    </Button>
+    </StyledButton>
   );
 }
 

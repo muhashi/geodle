@@ -1,9 +1,11 @@
-import { useState, React } from 'react';
-import Button from '@mui/material/Button';
-import Autocomplete from '@mui/material/Autocomplete';
+import { React, useState } from 'react';
+
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import wordlist from './wordlist';
+
 import { synonyms } from './country';
+import { StyledAutocomplete, StyledButton } from './StyledComponents';
+import wordlist from './wordlist';
 
 wordlist.sort((a, b) => a.localeCompare(b));
 
@@ -19,17 +21,19 @@ function CountryForm({ onSubmit }) {
 
   return (
     <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); }}>
-      <Autocomplete
-        disablePortal
-        id="country-select"
-        options={wordlist}
-        filterOptions={filterOptions}
-        sx={{ width: 300 }}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        renderInput={(params) => <TextField {...params} label="Country" />}
-        onChange={(event, newValue) => setCountry(newValue)}
-      />
-      <Button id="country-submit" variant="contained" type="submit">Submit</Button>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <StyledAutocomplete
+          disablePortal
+          id="country-select"
+          options={wordlist}
+          filterOptions={filterOptions}
+          sx={{ width: 300 }}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          renderInput={(params) => <TextField {...params} label="Country" />}
+          onChange={(event, newValue) => setCountry(newValue)}
+        />
+        <StyledButton id="country-submit" variant="contained" type="submit">Submit</StyledButton>
+      </Box>
     </form>
   );
 }
