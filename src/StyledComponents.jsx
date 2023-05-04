@@ -86,5 +86,10 @@ const theme = responsiveFontSizes(createTheme({
 }));
 
 export {
-  StyledAutocomplete, StyledButton, StyledLink, StyledTableHeaderTypography, StyledTypography, theme,
+  StyledAutocomplete,
+  StyledButton,
+  StyledLink,
+  StyledTableHeaderTypography,
+  StyledTypography,
+  theme,
 };
