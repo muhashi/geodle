@@ -67,14 +67,16 @@ const theme = responsiveFontSizes(createTheme({
       main: '#4d4d4d',
     },
   },
+  typography: {
+    description: {
+      fontSize: '0.9rem',
+    },
+  },
   components: {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
           fontSize: '1rem',
-        },
-        root: {
-          color: 'red',
         },
       },
       defaultProps: {
@@ -94,7 +96,7 @@ const theme = responsiveFontSizes(createTheme({
         root: {
           padding: '8px',
           '@media (max-width: 680px)': {
-            padding: '1px',
+            padding: '8px 0',
           },
         },
       },

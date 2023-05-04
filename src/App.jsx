@@ -143,7 +143,7 @@ function Results({ guessesData }) {
         >
           <TableContainer sx={{ marginBottom: '10vh' }}>
             <Table>
-              <TableHead>
+              <TableHead sx={{ borderBottom: '2px solid #4d4d4d' }}>
                 <TableRow>
                   <TableCell />
                   { headers.map((header, i) => (

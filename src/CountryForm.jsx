@@ -3,8 +3,8 @@ import { React, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-import { synonyms } from './country';
-import { StyledAutocomplete, StyledButton } from './StyledComponents';
+import { descriptions, synonyms } from './country';
+import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents';
 import wordlist from './wordlist';
 
 wordlist.sort((a, b) => a.localeCompare(b));
@@ -25,12 +25,22 @@ function CountryForm({ onSubmit }) {
         <StyledAutocomplete
           disablePortal
           id="country-select"
+          noOptionsText="No countries found..."
           options={wordlist}
           filterOptions={filterOptions}
           sx={{ width: 300 }}
           // eslint-disable-next-line react/jsx-props-no-spreading
           renderInput={(params) => <TextField {...params} label="Country" />}
-          onChange={(event, newValue) => setCountry(newValue)}
+          onChange={(_, newValue) => setCountry(newValue)}
+          renderOption={(props, option) => (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <li {...props}>
+              <Box sx={{ width: '100%' }}>
+                <StyledTypography variant="body1">{option}</StyledTypography>
+                <StyledTypography variant="description" sx={{ color: '#696969', display: 'block' }}>{descriptions[option] ?? ''}</StyledTypography>
+              </Box>
+            </li>
+          )}
         />
         <StyledButton id="country-submit" variant="contained" type="submit">Submit</StyledButton>
       </Box>
