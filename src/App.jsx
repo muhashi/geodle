@@ -110,7 +110,7 @@ function Main() {
   return (
     <main>
       <Box sx={{
-        display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '10vh 0',
+        display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '3rem 0',
       }}
       >
         <StyledTypography variant="h5" sx={{ fontWeight: 600 }}>
