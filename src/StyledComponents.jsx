@@ -17,8 +17,7 @@ const StyledButton = styled(Button)({
   color: '#000000',
   backgroundColor: 'rgba(255, 255, 255, 0.7)',
   '&:hover': {
-    backgroundColor: '#b3b3b3',
-    color: '#FFFFFF',
+    backgroundColor: '#dbdbdb',
   },
   border: '3px solid #4d4d4d',
 });

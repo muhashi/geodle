@@ -37,6 +37,11 @@ import svgUpwardsArrow from './img/square-caret-up.svg';
 import svgSquareGreen from './img/square-green.svg';
 import svgSquareRed from './img/square-red.svg';
 
+const squareRedImg = <img src={svgSquareRed} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Red Square" />;
+const squareGreenImg = <img src={svgSquareGreen} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Green Square" />;
+const upwardsArrowImg = <img src={svgUpwardsArrow} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Upwards Arrow" />;
+const downwardsArrowImg = <img src={svgDownwardsArrow} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Downwards Arrow" />;
+
 // TODO: Update country data
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Add cookie to save game result after refresh
@@ -62,7 +67,15 @@ function App() {
 function Header() {
   return (
     <header className="App-header">
-      <StyledTypography variant="h2" align="center" sx={{ fontWeight: 900, userSelect: 'none' }}>Geodle</StyledTypography>
+      <StyledTypography
+        variant="h2"
+        align="center"
+        sx={{
+          fontWeight: 900, userSelect: 'none', color: '#4d9999',
+        }}
+      >
+        Geodle
+      </StyledTypography>
       <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
         A daily Wordle-ish geography game by&nbsp;
         <StyledLink href="https://muhashi.github.io">Muhashi</StyledLink>
@@ -208,23 +221,19 @@ function getEmojiHintText(correct, guess) {
 
 function getEmojiHintImage(correct, guess) {
   const textEmoji = getEmojiHintText(correct, guess);
-  let src = svgSquareRed;
-  let alt = 'Red Square';
 
-  if (textEmoji === '🟩') {
-    src = svgSquareGreen;
-    alt = 'Green Square';
+  switch (textEmoji) {
+    case '🟥':
+      return squareRedImg;
+    case '🟩':
+      return squareGreenImg;
+    case '🔼':
+      return upwardsArrowImg;
+    case '🔽':
+      return downwardsArrowImg;
+    default:
+      return squareRedImg;
   }
-  if (textEmoji === '🔼') {
-    src = svgUpwardsArrow;
-    alt = 'Upwards Arrow';
-  }
-  if (textEmoji === '🔽') {
-    src = svgDownwardsArrow;
-    alt = 'Downwards Arrow';
-  }
-
-  return (<img src={src} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt={alt} />);
 }
 
 function ResultRow({ guessData }) {
