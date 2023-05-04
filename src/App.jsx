@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 
 // MUI imports
 import Box from '@mui/material/Box';
+import Popover from '@mui/material/Popover';
 import { ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -71,7 +72,7 @@ function Header() {
         variant="h2"
         align="center"
         sx={{
-          fontWeight: 900, userSelect: 'none', color: '#4d9999',
+          fontWeight: 900, userSelect: 'none', color: '#408080',
         }}
       >
         Geodle
@@ -303,6 +304,9 @@ function LostMessage({ guessesData }) {
 }
 
 function Share({ guessesData }) {
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
+  const popoverOpen = Boolean(popoverAnchorEl);
+
   const emojis = guessesData
     .map(({
       population, landlocked, religion, temperatureCelsius, continent, government,
@@ -317,16 +321,40 @@ function Share({ guessesData }) {
 
   const title = `geodle.me ${dayNumber} ${guessesData.length}/7`;
 
-  const onClick = () => {
+  const onClick = (event) => {
     const copyText = `${title}\n${emojis}`;
     navigator.clipboard.writeText(copyText);
-    alert('Copied results to clipboard'); // TODO: Create custom alert
+    setPopoverAnchorEl(event.currentTarget);
   };
 
   return (
-    <StyledButton variant="contained" onClick={onClick} type="button">
-      Share 📋
-    </StyledButton>
+    <>
+      <StyledButton variant="contained" onClick={onClick} type="button">
+        Share 📋
+      </StyledButton>
+      <Popover
+        open={popoverOpen}
+        anchorEl={popoverAnchorEl}
+        onClose={() => setPopoverAnchorEl(null)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <StyledTypography
+          variant="body1"
+          sx={{
+            padding: '0.5rem', border: '1px solid #4d4d4d', borderRadius: '4px', userSelect: 'none',
+          }}
+        >
+          Copied results to clipboard
+        </StyledTypography>
+      </Popover>
+    </>
   );
 }
 

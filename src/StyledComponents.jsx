@@ -101,7 +101,8 @@ const theme = responsiveFontSizes(createTheme({
       },
     },
   },
-  shadows: ['none', 'none'],
+  // disable all default MUI shadow styling
+  shadows: ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
 }));
 
 export {
