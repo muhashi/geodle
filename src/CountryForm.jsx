@@ -21,7 +21,7 @@ function CountryForm({ onSubmit }) {
 
   return (
     <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', maxWidth: '95vw' }}>
         <StyledAutocomplete
           disablePortal
           id="country-select"

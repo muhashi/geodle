@@ -1,6 +1,7 @@
 .App {
-  background-color: #FFFFFF;
+  background-color: #f7f7f7;
   min-height: 100vh;
+  width: 100vw;
   display: block;
   position: relative;
   top: 0;

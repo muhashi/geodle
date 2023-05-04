@@ -5,13 +5,22 @@ import Typography from '@mui/material/Typography';
 import { createTheme, responsiveFontSizes, styled } from '@mui/material/styles';
 
 const StyledAutocomplete = styled(Autocomplete)({
-  '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-    border: '2px solid #d3d6da',
+  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    border: '3px solid #4d4d4d',
   },
+  color: '#000000',
 });
 
 const StyledButton = styled(Button)({
   fontWeight: 600,
+  color: '#000000',
+  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  '&:hover': {
+    backgroundColor: '#b3b3b3',
+    color: '#FFFFFF',
+  },
+  border: '3px solid #4d4d4d',
 });
 
 // https://css-tricks.com/css-link-hover-effects/
@@ -47,7 +56,6 @@ const StyledTypography = styled(Typography)({
 
 const StyledTableHeaderTypography = styled(StyledTypography)({
   inlineSize: 'min-content',
-
   '@media (max-width: 680px)': {
     writingMode: 'vertical-rl',
   },
@@ -56,7 +64,7 @@ const StyledTableHeaderTypography = styled(StyledTypography)({
 const theme = responsiveFontSizes(createTheme({
   palette: {
     primary: {
-      main: '#d3d6da',
+      main: '#4d4d4d',
     },
   },
   components: {
@@ -77,12 +85,22 @@ const theme = responsiveFontSizes(createTheme({
     MuiTable: {
       styleOverrides: {
         root: {
-          tableLayout: 'fixed',
+          backgroundColor: '#f7f7f7',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          padding: '8px',
+          '@media (max-width: 680px)': {
+            padding: '1px',
+          },
         },
       },
     },
   },
-  shadows: ['none'],
+  shadows: ['none', 'none'],
 }));
 
 export {

@@ -2,7 +2,6 @@ import { React, useState } from 'react';
 
 // MUI imports
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import { ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -138,16 +137,19 @@ function Results({ guessesData }) {
   return (
     guessesData.length > 0 && (
       <Box sx={{ overflow: 'auto', margin: '0 10%' }}>
-        <Box sx={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
-          <TableContainer component={Paper} sx={{ marginBottom: '10vh' }}>
+        <Box sx={{
+          width: '100%', maxWidth: '97w', display: 'table', tableLayout: 'fixed',
+        }}
+        >
+          <TableContainer sx={{ marginBottom: '10vh' }}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell />
                   { headers.map((header, i) => (
                     <Tooltip title={tips[i]} key={header} align="center" sx={{ cursor: 'pointer' }}>
-                      <TableCell>
-                        <StyledTableHeaderTypography variant="body1" sx={{ borderBottom: '2px dotted' }}>
+                      <TableCell align="center">
+                        <StyledTableHeaderTypography variant="body1" sx={{ borderBottom: '2px dotted', margin: '0 auto', whiteSpace: 'nowrap' }}>
                           { header }
                         </StyledTableHeaderTypography>
                       </TableCell>
@@ -252,7 +254,7 @@ function ResultRow({ guessData }) {
   return (
     <TableRow>
       <TableCell component="th" scope="row">
-        <StyledTableHeaderTypography>
+        <StyledTableHeaderTypography sx={{ width: '100%' }}>
           { country }
         </StyledTableHeaderTypography>
       </TableCell>
