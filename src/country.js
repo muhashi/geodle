@@ -1,9 +1,9 @@
 import continentData from './data/country-by-continent.json';
 import governmentData from './data/country-by-government-type.json';
+import landlockedData from './data/country-by-landlocked.json';
 import populationData from './data/country-by-population.json'; // TODO: Round to 1 sig fig
 import religionData from './data/country-by-religion.json';
 import temperatureCelsiusData from './data/country-by-yearly-average-temperature.json';
-import landlockedData from './data/country-by-landlocked.json';
 import wordlist from './wordlist';
 
 // Get the country of the day
@@ -53,6 +53,7 @@ const {
 } = getData(correctCountry);
 
 const synonyms = {
+  Australia: ['Kangarooland'],
   'Czech Republic': ['Czechia'],
   'Russian Federation': ['Russia'],
   'United Kingdom': ['Great Britain', 'UK'],
@@ -66,6 +67,8 @@ const synonyms = {
   Germany: ['Deutschland'],
   'United States': ['America', 'USA'],
   China: ['PRC'],
+  'The Democratic Republic of the Congo': ['DRC'],
+  Turkey: ['Turkiye'],
 };
 
 const [
