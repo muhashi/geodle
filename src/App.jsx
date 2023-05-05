@@ -265,7 +265,7 @@ function ResultRow({ guessData }) {
 
   return (
     <TableRow>
-      <TableCell component="th" scope="row">
+      <TableCell component="th" scope="row" sx={{ minWidth: '2rem', overflow: 'auto' }}>
         <StyledTableHeaderTypography sx={{ width: '100%' }}>
           { country }
         </StyledTableHeaderTypography>

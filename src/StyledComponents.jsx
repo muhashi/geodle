@@ -57,8 +57,6 @@ const StyledTableHeaderTypography = styled(StyledTypography)({
   inlineSize: 'min-content',
   '@media (max-width: 680px)': {
     writingMode: 'vertical-rl',
-    height: 'min-content',
-    width: 'fit-content',
   },
 });
 
