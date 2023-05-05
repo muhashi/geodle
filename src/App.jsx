@@ -12,6 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 
+import ConfettiExplosion from 'react-confetti-explosion';
+
 // Internal imports
 import './App.css';
 import {
@@ -152,10 +154,10 @@ function Results({ guessesData }) {
     guessesData.length > 0 && (
       <Box sx={{ overflow: 'auto', margin: '0 10%' }}>
         <Box sx={{
-          width: '100%', maxWidth: '97w', display: 'table', tableLayout: 'fixed',
+          width: '100%', maxWidth: '97w', marginBottom: '10vh', display: 'table', tableLayout: 'fixed',
         }}
         >
-          <TableContainer sx={{ marginBottom: '10vh' }}>
+          <TableContainer>
             <Table>
               <TableHead sx={{ borderBottom: '2px solid #4d4d4d' }}>
                 <TableRow>
@@ -285,6 +287,13 @@ function WonMessage({ guessesData }) {
         <strong>{ correctCountry }</strong>
         !
       </StyledTypography>
+      <ConfettiExplosion
+        style={{
+          position: 'absolute', top: '50vh', left: '50vw',
+        }}
+        duration={3000}
+        force={0.6}
+      />
       <Share guessesData={guessesData} />
     </>
   );
