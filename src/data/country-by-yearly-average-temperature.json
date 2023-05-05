@@ -437,7 +437,7 @@
     },
     {
         "country": "Kazakhstan",
-        "temperature": null
+        "temperature": 5.50
     },
     {
         "country": "Kenya",
@@ -593,7 +593,7 @@
     },
     {
         "country": "Netherlands",
-        "temperature": null
+        "temperature": 9.25
     },
     {
         "country": "Netherlands Antilles",
@@ -709,7 +709,7 @@
     },
     {
         "country": "Russian Federation",
-        "temperature": null
+        "temperature": -5.35
     },
     {
         "country": "Rwanda",
@@ -801,7 +801,7 @@
     },
     {
         "country": "South Sudan",
-        "temperature": null
+        "temperature": 26.90
     },
     {
         "country": "Spain",
