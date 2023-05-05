@@ -138,6 +138,8 @@ function Main() {
   );
 }
 
+const getHeaders = () => ['Continent', 'Population', 'Landlocked', 'Religion', 'Avg. Temp.', 'Gov.'];
+
 function Results({ guessesData }) {
   const tips = [
     'Continent matches the correct country',
@@ -148,7 +150,7 @@ function Results({ guessesData }) {
     'Government type matches the correct country',
   ];
 
-  const headers = ['Continent', 'Population', 'Landlocked?', 'Religion', 'Avg. Temp.', 'Gov.'];
+  const headers = getHeaders();
 
   return (
     guessesData.length > 0 && (
@@ -239,6 +241,16 @@ function getEmojiHintImage(correct, guess) {
   }
 }
 
+const getTooltipText = ({
+  population, landlocked, religion, temperatureCelsius, continent, government,
+}) => {
+  const temperatureTip = temperatureCelsius === 0 ? 'N/A' : `${Math.round(temperatureCelsius)}°C / ${Math.round(tempFahrenheit(temperatureCelsius))}°F`;
+  const landlockedTip = landlocked ? 'Landlocked' : 'Coastal';
+  const populationTip = formatPopulation(population);
+  const tips = [continent, populationTip, landlockedTip, religion, temperatureTip, government];
+  return tips;
+};
+
 function ResultRow({ guessData }) {
   const {
     country,
@@ -249,10 +261,9 @@ function ResultRow({ guessData }) {
     continent,
     government,
   } = guessData;
-  const temperatureTip = temperatureCelsius === 0 ? 'N/A' : `${Math.round(temperatureCelsius)}°C / ${Math.round(tempFahrenheit(temperatureCelsius))}°F`;
-  const landlockedTip = landlocked ? 'Landlocked' : 'Coastal';
-  const populationTip = formatPopulation(population);
+
   const data = [continent, population, landlocked, religion, temperatureCelsius, government];
+
   const dataCorrect = [
     correctContinent,
     correctPopulation,
@@ -261,14 +272,18 @@ function ResultRow({ guessData }) {
     correctTemperatureCelsius,
     correctGovernment,
   ];
-  const tips = [continent, populationTip, landlockedTip, religion, temperatureTip, government];
+  const tips = getTooltipText(guessData);
+  const headers = getHeaders();
+  const tooltipText = <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>{headers.map((header, i) => `${header}: ${tips[i]}`).join('\n')}</div>;
 
   return (
     <TableRow>
       <TableCell component="th" scope="row" sx={{ minWidth: '2rem', overflow: 'auto' }}>
-        <StyledTableHeaderTypography sx={{ width: '100%' }}>
-          { country }
-        </StyledTableHeaderTypography>
+        <Tooltip title={tooltipText} align="center">
+          <StyledTableHeaderTypography sx={{ width: '100%', borderBottom: '2px dotted #000000' }}>
+            { country }
+          </StyledTableHeaderTypography>
+        </Tooltip>
       </TableCell>
       {tips.map((tip, i) => (
         <TableCell key={tip} align="center" sx={{ cursor: 'pointer' }}>
