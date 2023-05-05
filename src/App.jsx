@@ -45,7 +45,6 @@ const squareGreenImg = <img src={svgSquareGreen} className="emoji-icon" style={{
 const upwardsArrowImg = <img src={svgUpwardsArrow} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Upwards Arrow" />;
 const downwardsArrowImg = <img src={svgDownwardsArrow} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Downwards Arrow" />;
 
-// TODO: Update country data
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Add cookie to save game result after refresh
 // TODO: Make sure all countries in wordlist have all data required for the game
@@ -167,7 +166,12 @@ function Results({ guessesData }) {
                   { headers.map((header, i) => (
                     <Tooltip title={tips[i]} key={header} align="center" sx={{ cursor: 'pointer' }}>
                       <TableCell align="center">
-                        <StyledTableHeaderTypography variant="body1" sx={{ borderBottom: '2px dotted', margin: '0 auto', whiteSpace: 'nowrap' }}>
+                        <StyledTableHeaderTypography
+                          variant="body1"
+                          sx={{
+                            textDecoration: 'underline dotted', textDecorationThickness: '2px', margin: '0 auto', whiteSpace: 'nowrap',
+                          }}
+                        >
                           { header }
                         </StyledTableHeaderTypography>
                       </TableCell>
@@ -280,7 +284,7 @@ function ResultRow({ guessData }) {
     <TableRow>
       <TableCell component="th" scope="row" sx={{ minWidth: '2rem', overflow: 'auto' }}>
         <Tooltip title={tooltipText} align="center">
-          <StyledTableHeaderTypography sx={{ width: '100%', borderBottom: '2px dotted #000000' }}>
+          <StyledTableHeaderTypography sx={{ width: '100%', textDecoration: 'underline dotted', textDecorationThickness: '2px' }}>
             { country }
           </StyledTableHeaderTypography>
         </Tooltip>
