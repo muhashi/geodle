@@ -1,11 +1,11 @@
 # Geodle
 ## A Wordle-like game for testing knowledge about the world's countries
 
-![image](https://user-images.githubusercontent.com/105213357/174512109-1ade041b-5bc7-466d-ba37-13c4787e7fd6.png)
+![image](https://user-images.githubusercontent.com/105213357/236619874-a1de630c-3f81-426d-b4c1-b445f69c0b4b.png)
 
 ### Repo Content
 
-[Try the game out here](https://geodle.me)! This is a modified `create-react-app` app, with additions of `eslint` and `PropTypes`. And the `gh-pages` module for deploying the build to Github Pages.
+[Try the game out here](https://geodle.me)! The codebase is bootstrapped with `create-react-app`.
 
 ### Attributions
 
