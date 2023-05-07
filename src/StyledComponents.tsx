@@ -2,7 +2,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { createTheme, responsiveFontSizes, styled } from '@mui/material/styles';
+import {
+  Shadows,
+  createTheme, responsiveFontSizes, styled,
+} from '@mui/material/styles';
 
 const StyledAutocomplete = styled(Autocomplete)({
   backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -67,7 +70,7 @@ const theme = responsiveFontSizes(createTheme({
     },
   },
   typography: {
-    description: {
+    subtitle1: {
       fontSize: '0.9rem',
     },
   },
@@ -102,7 +105,7 @@ const theme = responsiveFontSizes(createTheme({
     },
   },
   // disable all default MUI shadow styling
-  shadows: ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
+  shadows: Array(25).fill('none') as Shadows,
 }));
 
 export {

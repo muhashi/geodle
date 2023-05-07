@@ -15,31 +15,37 @@ const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
 const correctCountry = wordlist[dayNumber % wordlist.length];
 
 // Get the data for country
-function getData(countryName) {
+function getData(countryName: string) {
   const countrySearch = countryName.toLowerCase().trim();
-  const populationStr = populationData
+  const populationRaw = populationData
     .find((x) => x.country.toLowerCase().trim() === countrySearch)?.population;
-  const population = parseInt(populationStr, 10) || 0;
+  const population = populationRaw ?? 0;
   const landlocked = landlockedData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.landlocked === '1' || false;
   const religion = religionData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.religion || 'N/A';
 
-  const temperatureCelsius = parseFloat(
+  const temperatureCelsius = Number(
     temperatureCelsiusData.find(
       (x) => x.country.toLowerCase().trim() === countrySearch,
-    )?.temperature,
-  ) || 0; // Default of 0, because no country has an average of 0.00 C, we can use 0 as a `null`
+    )?.temperature ?? 0,
+  ); // Default of 0, because no country has an average of 0.00 C, we can use 0 as a `null`
 
-  const continent = continentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.continent || '';
-  const government = governmentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.government || 'N/A';
+  const continent = continentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.continent ?? '';
+  const government = governmentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.government ?? 'N/A';
   return {
-    population, landlocked, religion, temperatureCelsius, continent, government,
+    population,
+    landlocked,
+    religion,
+    temperatureCelsius,
+    continent,
+    government,
+    country: countryName,
   };
 }
 
 // Returns a string of description for the country
 // Used to provide some information when searching for the country
 // (i.e. "Kenya" => "Africa, 55,000,000, Republic")
-function generateDescription(countryName) {
+function generateDescription(countryName: string) {
   const { population, continent, government } = getData(countryName);
   return `${continent}, ${population.toLocaleString()}, ${government}`;
 }
