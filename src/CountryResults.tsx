@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
+import { Suspense } from 'react';
 
 import {
   correctContinent,
@@ -34,19 +35,26 @@ type DemographicDataType = number | string | boolean;
 
 function getEmojiHintImage(correct: DemographicDataType, guess: DemographicDataType) {
   const textEmoji = getEmojiHintText(correct, guess);
+  let img = squareRedImg;
 
   switch (textEmoji) {
     case '🟥':
-      return squareRedImg;
+      img = squareRedImg;
+      break;
     case '🟩':
-      return squareGreenImg;
+      img = squareGreenImg;
+      break;
     case '🔼':
-      return upwardsArrowImg;
+      img = upwardsArrowImg;
+      break;
     case '🔽':
-      return downwardsArrowImg;
+      img = downwardsArrowImg;
+      break;
     default:
-      return squareRedImg;
+      img = squareRedImg;
   }
+  // Suspense so that all images are loaded before rendering, otherwise it flickers
+  return <Suspense>{img}</Suspense>;
 }
 
 type CountryData = {
