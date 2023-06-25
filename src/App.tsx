@@ -159,7 +159,13 @@ function Header() {
           variant="h2"
           align="center"
           sx={{
-            fontWeight: 900, userSelect: 'none', color: '#408080', flexGrow: 1,
+            fontWeight: 900,
+            userSelect: 'none',
+            color: '#408080',
+            flexGrow: 1,
+            background: 'linear-gradient(to right, #02AAB0, #00CDAC)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
           }}
         >
           Geodle

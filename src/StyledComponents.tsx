@@ -32,8 +32,8 @@ const StyledLink = styled(Link)({
   background:
     `linear-gradient(
       to right,
-      rgba(100, 200, 200, 1),
-      rgba(100, 200, 200, 1)
+      #02AAB0,
+      #00CDAC
     ),
     linear-gradient(
       to right,
