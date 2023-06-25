@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
 
 // Internal imports
@@ -9,10 +10,9 @@ import CountryForm from './CountryForm.tsx';
 import Results from './CountryResults.tsx';
 import Share from './Share.tsx';
 import { StyledLink, StyledTypography, theme } from './StyledComponents.tsx';
-import { correctCountry, getData } from './country.ts';
+import { correctCountry, dayNumber, getData } from './country.ts';
 
 // TODO: Add better hints visualisation like - these continents not ruled out
-// TODO: Add cookie to save game result after refresh
 // TODO: Make sure all countries in wordlist have all data required for the game
 
 type CountryData = {
@@ -65,6 +65,27 @@ function Main() {
   const guessesLeft = TOTAL_GUESSES - guessesData.length;
   const isLost = !isWon && guessesLeft <= 0;
 
+  const lastAttemptNumber = Cookies.get('lastAttempt');
+  const lastAttemptData = Cookies.get('lastAttemptData');
+
+  useEffect(() => {
+    if (lastAttemptNumber && parseInt(lastAttemptNumber, 10) === dayNumber && lastAttemptData) {
+      const data: CountryData[] = JSON.parse(lastAttemptData);
+      setGuessesData(data);
+      setIsWon(
+        data.some((d: CountryData) => (
+          d.country.toLowerCase().trim() === correctCountry.toLowerCase().trim())),
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isWon || isLost) {
+      Cookies.set('lastAttempt', dayNumber.toString(), { expires: 1 });
+      Cookies.set('lastAttemptData', JSON.stringify(guessesData), { expires: 1 });
+    }
+  }, [isWon, isLost]);
+
   // Add submitted guess to list of guesses, check for win
   const onSubmit = (guess: string) => {
     const cleanGuess = (guess || '').toLowerCase().trim();
@@ -88,13 +109,19 @@ function Main() {
       }}
       >
         <StyledTypography variant="h5" sx={{ fontWeight: 600 }}>
-          Guess which country I&apos;m thinking of! You have&nbsp;
-          <span style={{ fontWeight: 900 }}>
-            { guessesLeft }
-          </span>
-          &nbsp;guess
-          { guessesLeft === 1 ? '' : 'es' }
-          &nbsp;left.
+          {(isWon || isLost) ? (
+            <>Come back tomorrow for a new country!</>
+          ) : (
+            <>
+              Guess which country I&apos;m thinking of! You have&nbsp;
+              <span style={{ fontWeight: 900 }}>
+                { guessesLeft }
+              </span>
+              &nbsp;guess
+              { guessesLeft === 1 ? '' : 'es' }
+              &nbsp;left.
+            </>
+          )}
         </StyledTypography>
         { !isWon
           && !isLost
