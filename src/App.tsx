@@ -1,5 +1,7 @@
+import MailIcon from '@mui/icons-material/Mail';
 import Box from '@mui/material/Box';
-import { ThemeProvider } from '@mui/material/styles';
+import Link from '@mui/material/Link';
+import { SxProps, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
@@ -136,18 +138,34 @@ function Main() {
   );
 }
 
+function Contact({ sx = {} }: { sx?: SxProps }) {
+  return (
+    <Link href={`mailto:${atob('aGVsbG9AZ2VvZGxlLm1l')}`} sx={sx}>
+      <MailIcon />
+    </Link>
+  );
+}
+
 function Header() {
   return (
-    <header className="App-header">
-      <StyledTypography
-        variant="h2"
-        align="center"
-        sx={{
-          fontWeight: 900, userSelect: 'none', color: '#408080',
-        }}
+    <header className="App-header" style={{ width: '100%' }}>
+      <Box sx={{
+        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', alignItems: 'center', margin: '0 5vw',
+      }}
       >
-        Geodle
-      </StyledTypography>
+        {/* Hidden contact for symettrical layout */}
+        <Contact sx={{ visibility: 'hidden' }} />
+        <StyledTypography
+          variant="h2"
+          align="center"
+          sx={{
+            fontWeight: 900, userSelect: 'none', color: '#408080', flexGrow: 1,
+          }}
+        >
+          Geodle
+        </StyledTypography>
+        <Contact />
+      </Box>
       <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
         A daily Wordle-ish geography game by&nbsp;
         <StyledLink href="https://muhashi.github.io">Muhashi</StyledLink>
@@ -165,7 +183,6 @@ function App() {
         }}
         >
           <Header />
-          <br />
           <Main />
         </Box>
       </div>
