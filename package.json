@@ -27,7 +27,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "echo geodle.me > ./build/CNAME && gh-pages -d build",
+    "deploy": "gh-pages -d build --cname geodle.me",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "start": "vite",
     "build": "tsc && vite build",
