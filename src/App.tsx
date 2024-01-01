@@ -10,9 +10,20 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import './App.css';
 import CountryForm from './CountryForm.tsx';
 import Results from './CountryResults.tsx';
+import InfoText from './InfoText.tsx';
 import Share from './Share.tsx';
 import { StyledLink, StyledTypography, theme } from './StyledComponents.tsx';
-import { correctCountry, dayNumber, getData } from './country.ts';
+import {
+  correctCountry,
+  dayNumber,
+  getData,
+  correctContinent,
+  correctPopulation,
+  correctLandlocked,
+  correctReligion,
+  correctTemperatureCelsius,
+  correctGovernment,
+} from './country.ts';
 
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Make sure all countries in wordlist have all data required for the game
@@ -25,6 +36,16 @@ type CountryData = {
   temperatureCelsius: number,
   government: string,
   country: string,
+};
+
+const correctData: CountryData = {
+  continent: correctContinent,
+  population: correctPopulation,
+  landlocked: correctLandlocked,
+  religion: correctReligion,
+  temperatureCelsius: correctTemperatureCelsius,
+  government: correctGovernment,
+  country: correctCountry,
 };
 
 function WonMessage({ guessesData }: { guessesData: CountryData[] }) {
@@ -132,7 +153,8 @@ function Main() {
           )}
         { isWon && <WonMessage guessesData={guessesData} /> }
         { isLost && <LostMessage guessesData={guessesData} /> }
-        <Results guessesData={guessesData} />
+        <Results guessesData={guessesData} correctData={correctData} />
+        { guessesData.length === 0 && <InfoText /> }
       </Box>
     </main>
   );

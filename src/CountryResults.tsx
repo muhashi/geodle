@@ -7,14 +7,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 
-import {
-  correctContinent,
-  correctGovernment,
-  correctLandlocked,
-  correctPopulation,
-  correctReligion,
-  correctTemperatureCelsius,
-} from './country.ts';
 import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers.ts';
 import { StyledTableHeaderTypography } from './StyledComponents.tsx';
 
@@ -69,7 +61,9 @@ const getTooltipText = ({
   return tips;
 };
 
-function ResultRow({ guessData }: { guessData: CountryData }) {
+function ResultRow(
+  { guessData, correctData }: { guessData: CountryData, correctData: CountryData },
+) {
   const {
     country,
     population,
@@ -82,14 +76,15 @@ function ResultRow({ guessData }: { guessData: CountryData }) {
 
   const data = [continent, population, landlocked, religion, temperatureCelsius, government];
 
-  const dataCorrect = [
-    correctContinent,
-    correctPopulation,
-    correctLandlocked,
-    correctReligion,
-    correctTemperatureCelsius,
-    correctGovernment,
+  const correctDataList = [
+    correctData.continent,
+    correctData.population,
+    correctData.landlocked,
+    correctData.religion,
+    correctData.temperatureCelsius,
+    correctData.government,
   ];
+
   const tips = getTooltipText(guessData);
   const headers = getHeaders();
   const tooltipText = <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>{headers.map((header, i) => `${header}: ${tips[i]}`).join('\n')}</div>;
@@ -105,14 +100,16 @@ function ResultRow({ guessData }: { guessData: CountryData }) {
       </TableCell>
       {tips.map((tip, i) => (
         <TableCell key={tip} align="center" sx={{ cursor: 'pointer' }}>
-          <Tooltip title={tip}>{ getEmojiHintImage(dataCorrect[i], data[i]) }</Tooltip>
+          <Tooltip title={tip}>{ getEmojiHintImage(correctDataList[i], data[i]) }</Tooltip>
         </TableCell>
       ))}
     </TableRow>
   );
 }
 
-function Results({ guessesData }: { guessesData: CountryData[] }) {
+function Results(
+  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
+) {
   const tips = [
     'Continent matches the correct country',
     'Population within 10% of correct country',
@@ -153,7 +150,11 @@ function Results({ guessesData }: { guessesData: CountryData[] }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                { guessesData.map((data) => <ResultRow guessData={data} key={data.country} />) }
+                {
+                  guessesData.map((data) => (
+                    <ResultRow guessData={data} correctData={correctData} key={data.country} />
+                  ))
+                }
               </TableBody>
             </Table>
           </TableContainer>
