@@ -24,6 +24,7 @@ import {
   correctTemperatureCelsius,
   correctGovernment,
 } from './country.ts';
+import Title from './Title.tsx';
 
 // TODO: Add better hints visualisation like - these continents not ruled out
 // TODO: Make sure all countries in wordlist have all data required for the game
@@ -177,21 +178,7 @@ function Header() {
       >
         {/* Hidden contact for symettrical layout */}
         <Contact sx={{ visibility: 'hidden' }} />
-        <StyledTypography
-          variant="h2"
-          align="center"
-          sx={{
-            fontWeight: 900,
-            userSelect: 'none',
-            color: '#408080',
-            flexGrow: 1,
-            background: 'linear-gradient(to right, #02AAB0, #00CDAC)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          Geodle
-        </StyledTypography>
+        <Title />
         <Contact />
       </Box>
       <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
