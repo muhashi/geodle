@@ -161,14 +161,6 @@ function Main() {
   );
 }
 
-function KofiButtion() {
-  return (
-    <a href='https://ko-fi.com/D1D5V1DSF' target='_blank' style={{width: 0}}>
-      <img height='36' style={{border: 0, height: '36px'}} src='https://storage.ko-fi.com/cdn/kofi4.png?v=3' alt='Buy Me a Coffee at ko-fi.com' />
-    </a>
-  );
-}
-
 function Contact({ sx = {} }: { sx?: SxProps }) {
   return (
     <Link href={`mailto:${atob('aGVsbG9AZ2VvZGxlLm1l')}`} sx={sx}>
@@ -184,7 +176,8 @@ function Header() {
         display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', alignItems: 'center', margin: '0 5vw',
       }}
       >
-        <KofiButtion />
+        {/* Hidden contact for symettrical layout */}
+        <Contact sx={{ visibility: 'hidden' }} />
         <Title />
         <Contact />
       </Box>

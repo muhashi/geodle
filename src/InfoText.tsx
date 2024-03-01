@@ -9,12 +9,26 @@ const squareRedImg = <img src={svgSquareRed} className="emoji-icon" style={{ wid
 const squareGreenImg = <img src={svgSquareGreen} className="emoji-icon" style={{ width: '1rem', height: '1rem', padding: '0 0.5rem' }} alt="Green Square" />;
 const upwardsArrowImg = <img src={svgSquareCaretUp} className="emoji-icon" style={{ width: '1rem', height: '1rem', padding: '0 0.5rem' }} alt="Upwards Arrow" />;
 
+function KofiButtion() {
+  return (
+    <a href='https://ko-fi.com/D1D5V1DSF' target='_blank'>
+      <img height='36' style={{border: 0, height: '36px'}} src='https://storage.ko-fi.com/cdn/kofi4.png?v=3' alt='Buy Me a Coffee at ko-fi.com' />
+    </a>
+  );
+}
+
 function InfoText() {
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: '2rem', width: '75%',
     }}
     >
+      <div style={{
+        display: 'flex', alignContent: 'center', justifyContent: 'center', gap: '0.5rem',
+      }}
+      >
+        <KofiButtion />
+      </div>
       <div style={{
         display: 'flex', alignContent: 'center', justifyContent: 'center', gap: '0.5rem',
       }}
