@@ -55,12 +55,12 @@ const correctData: CountryData = {
 function VerticalText({ topText, bottomText }: { topText: string, bottomText: string }) {
   return (
     <Box sx={{
-      display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0.5rem 0',
+      display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', width: 'fit-content',
     }}>
-      <StyledTypography variant="h5">
+      <StyledTypography variant="body1" sx={{ fontWeight: 500, fontSize: '1.25rem' }}>
         {topText}
       </StyledTypography>
-      <StyledTypography variant="subtitle1">
+      <StyledTypography variant="overline" sx={{ lineHeight: 1.5 }}>
        {bottomText}
       </StyledTypography>
     </Box>
@@ -113,7 +113,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
             Statistics
           </StyledTypography>
           <Box sx={{
-            display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 3rem',
+            display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 7%', width: '80%',
           }}>
             <VerticalText bottomText='Played' topText={statistics['total']} />
             <VerticalText bottomText='Win Rate' topText={Math.round(100 * statistics['won'] / statistics['total']) + '%'} />
