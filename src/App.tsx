@@ -67,7 +67,7 @@ function VerticalText({ topText, bottomText }: { topText: string, bottomText: st
   );
 }
 
-function AlertDialog({ guessesData, isWon }: { guessesData: CountryData[], isWon: boolean }) {
+function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData[], isWon: boolean }) {
   const [open, setOpen] = useState(false);
   
   const statistics = Cookies.get('statistics') ? JSON.parse(Cookies.get('statistics') || "{}") : {
@@ -146,7 +146,7 @@ function WonMessage({ guessesData }: { guessesData: CountryData[] }) {
         duration={3000}
         force={0.6}
       />
-      <AlertDialog guessesData={guessesData} isWon={true} />
+      <GameStatisticsDialog guessesData={guessesData} isWon={true} />
       <Share guessesData={guessesData} />
     </>
   );
@@ -160,6 +160,7 @@ function LostMessage({ guessesData }: { guessesData: CountryData[] }) {
         <strong>{ correctCountry }</strong>
         !
       </StyledTypography>
+      <GameStatisticsDialog guessesData={guessesData} isWon={false} />
       <Share guessesData={guessesData} />
     </>
   );
