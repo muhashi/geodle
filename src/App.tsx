@@ -3,8 +3,11 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { SxProps, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
+import Zoom from '@mui/material/Zoom';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 
 // Internal imports
 import './App.css';
@@ -49,6 +52,85 @@ const correctData: CountryData = {
   country: correctCountry,
 };
 
+function VerticalText({ topText, bottomText }: { topText: string, bottomText: string }) {
+  return (
+    <Box sx={{
+      display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0.5rem 0',
+    }}>
+      <StyledTypography variant="h5">
+        {topText}
+      </StyledTypography>
+      <StyledTypography variant="subtitle1">
+       {bottomText}
+      </StyledTypography>
+    </Box>
+  );
+}
+
+function AlertDialog({ guessesData, isWon }: { guessesData: CountryData[], isWon: boolean }) {
+  const [open, setOpen] = useState(false);
+  
+  const statistics = Cookies.get('statistics') ? JSON.parse(Cookies.get('statistics') || "{}") : {
+    won: 0,
+    total: 0,
+    streak: 0,
+    longestStreak: 0,
+    distribution: [0, 0, 0, 0, 0, 0, 0],
+    lastDayNumber: 0,
+  };
+  
+
+  useEffect(() => {
+    setTimeout(() => setOpen(true), 2000);
+
+    if (statistics['lastDayNumber'] !== dayNumber) {
+      statistics['lastDayNumber'] = dayNumber;
+      statistics['streak'] = isWon ? statistics['streak'] + 1 : 0;
+      statistics['longestStreak'] = Math.max(statistics['streak'], statistics['longestStreak']);
+      statistics['won'] += isWon ? 1 : 0;
+      statistics['total'] += 1;
+      statistics['distribution'][guessesData.length - 1] += 1;
+      Cookies.set('statistics', JSON.stringify(statistics), { expires: 500 });
+    }
+  }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Fragment>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Zoom}
+        fullWidth={true}
+      >
+        <Box sx={{
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 0', margin: '1rem 0',
+        }}>
+          <StyledTypography variant="h6" sx={{ fontWeight: 'bold' }}>
+            Statistics
+          </StyledTypography>
+          <Box sx={{
+            display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 3rem',
+          }}>
+            <VerticalText bottomText='Played' topText={statistics['total']} />
+            <VerticalText bottomText='Win Rate' topText={Math.round(100 * statistics['won'] / statistics['total']) + '%'} />
+            <VerticalText bottomText='Streak' topText={statistics['streak']} />
+            <VerticalText bottomText='Longest Streak' topText={statistics['longestStreak']} />
+          </Box>
+        </Box>
+        <DialogActions sx={{
+          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 1rem', marginBottom: '1rem',
+        }}>
+          <Share guessesData={guessesData} />
+        </DialogActions>
+      </Dialog>
+    </Fragment>
+  );
+}
+
 function WonMessage({ guessesData }: { guessesData: CountryData[] }) {
   return (
     <>
@@ -64,6 +146,7 @@ function WonMessage({ guessesData }: { guessesData: CountryData[] }) {
         duration={3000}
         force={0.6}
       />
+      <AlertDialog guessesData={guessesData} isWon={true} />
       <Share guessesData={guessesData} />
     </>
   );
