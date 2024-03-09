@@ -57,10 +57,10 @@ function VerticalText({ topText, bottomText }: { topText: string, bottomText: st
     <Box sx={{
       display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', width: 'fit-content',
     }}>
-      <StyledTypography variant="body1" sx={{ fontWeight: 500, fontSize: '1.25rem' }}>
+      <StyledTypography variant="body1" sx={{ fontWeight: 600, fontSize: '1.125rem' }}>
         {topText}
       </StyledTypography>
-      <StyledTypography variant="overline" sx={{ lineHeight: 1.5 }}>
+      <StyledTypography variant="overline" sx={{ lineHeight: 1.5, fontSize: '0.75rem' }}>
        {bottomText}
       </StyledTypography>
     </Box>
@@ -116,9 +116,9 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
             display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 7%', width: '80%',
           }}>
             <VerticalText bottomText='Played' topText={statistics['total']} />
-            <VerticalText bottomText='Win Rate' topText={Math.round(100 * statistics['won'] / statistics['total']) + '%'} />
+            <VerticalText bottomText='Win %' topText={Math.round(100 * statistics['won'] / statistics['total']) + '%'} />
             <VerticalText bottomText='Streak' topText={statistics['streak']} />
-            <VerticalText bottomText='Longest Streak' topText={statistics['longestStreak']} />
+            <VerticalText bottomText='Max Streak' topText={statistics['longestStreak']} />
           </Box>
         </Box>
         <DialogActions sx={{
