@@ -90,7 +90,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
       statistics['longestStreak'] = Math.max(statistics['streak'], statistics['longestStreak']);
       statistics['won'] += isWon ? 1 : 0;
       statistics['total'] += 1;
-      statistics['distribution'][guessesData.length - 1] += 1;
+      statistics['distribution'][guessesData.length - 1] += isWon ? 1 : 0;
       Cookies.set('statistics', JSON.stringify(statistics), { expires: 500 });
     }
   }, []);
