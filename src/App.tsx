@@ -13,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions';
 import './App.css';
 import CountryForm from './CountryForm.tsx';
 import Results from './CountryResults.tsx';
+import GuessDistribution from './GuessDistribution.tsx';
 import InfoText from './InfoText.tsx';
 import Share from './Share.tsx';
 import { StyledLink, StyledTypography, theme } from './StyledComponents.tsx';
@@ -120,6 +121,14 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
             <VerticalText bottomText='Streak' topText={statistics['streak']} />
             <VerticalText bottomText='Max Streak' topText={statistics['longestStreak']} />
           </Box>
+        </Box>
+        <Box sx={{
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 0', width: '100%', height: '20rem',
+        }}>
+          <StyledTypography variant="h6" sx={{ fontWeight: 'bold' }}>
+          Guess Distribution
+          </StyledTypography>
+          <GuessDistribution distribution={statistics['distribution']} userResult={guessesData.length} />
         </Box>
         <DialogActions sx={{
           display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 1rem', marginBottom: '1rem',
