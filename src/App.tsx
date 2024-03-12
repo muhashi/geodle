@@ -128,7 +128,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
           <StyledTypography variant="h6" sx={{ fontWeight: 'bold' }}>
           Guess Distribution
           </StyledTypography>
-          <GuessDistribution distribution={statistics['distribution']} userResult={guessesData.length} />
+          <GuessDistribution distribution={statistics['distribution']} userResult={guessesData.length} isWon={isWon} />
         </Box>
         <DialogActions sx={{
           display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 1rem', marginBottom: '1rem',
