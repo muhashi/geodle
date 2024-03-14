@@ -25,6 +25,14 @@ const getHeaders = () => ['Continent', 'Population', 'Landlocked', 'Religion', '
 type DemographicDataType = number | string | boolean;
 
 function getEmojiHintImage(correct: DemographicDataType, guess: DemographicDataType) {
+  if (typeof correct === 'number') {
+    correct = Math.round(correct);
+  }
+
+  if (typeof guess === 'number') {
+    guess = Math.round(guess);
+  }
+
   const textEmoji = getEmojiHintText(correct, guess);
 
   switch (textEmoji) {
