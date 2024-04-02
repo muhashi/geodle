@@ -4,7 +4,7 @@
 
 const wordlist = [
   'The Democratic Republic of Congo',
-  'Russian Federation',
+  'Russia',
   'Venezuela',
   'Haiti',
   'Zimbabwe',
