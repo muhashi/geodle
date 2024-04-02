@@ -73,7 +73,7 @@ const synonyms = {
   Germany: ['Deutschland'],
   'United States': ['America', 'USA'],
   China: ['PRC'],
-  'The Democratic Republic of the Congo': ['DRC'],
+  'The Democratic Republic of Congo': ['DRC'],
   Turkey: ['Turkiye'],
 };
 
