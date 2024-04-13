@@ -85,8 +85,8 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
     setTimeout(() => setOpen(true), 2000);
 
     if (statistics['lastDayNumber'] !== dayNumber) {
+      statistics['streak'] = isWon && statistics['lastDayNumber'] + 1 === dayNumber ? statistics['streak'] + 1 : (isWon ? 1 : 0);
       statistics['lastDayNumber'] = dayNumber;
-      statistics['streak'] = isWon ? statistics['streak'] + 1 : 0;
       statistics['longestStreak'] = Math.max(statistics['streak'], statistics['longestStreak']);
       statistics['won'] += isWon ? 1 : 0;
       statistics['total'] += 1;
