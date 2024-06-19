@@ -5,7 +5,6 @@ const datasets = [
   'country-by-continent.json',
   'country-by-government-type.json',
   'country-by-landlocked.json',
-  'country-by-name.json',
   'country-by-population.json',
   'country-by-religion.json',
   'country-by-yearly-average-temperature.json',
