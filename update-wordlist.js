@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const NUMBER_OF_COUNTRIES = 150;
+const NUMBER_OF_COUNTRIES = 200;
 
 const EXCLUDED_COUNTRIES = [
   'England',
@@ -26,12 +26,12 @@ const populationData = JSON.parse(fs.readFileSync(path.join(dir, 'country-by-pop
 
 populationData.sort((a, b) => b.population - a.population);
 
-const countryList = populationData.slice(0, NUMBER_OF_COUNTRIES + EXCLUDED_COUNTRIES.length).map(({ country }) => country)
+let countryList = populationData.slice(0, NUMBER_OF_COUNTRIES).map(({ country }) => country)
   .filter((country) => !EXCLUDED_COUNTRIES.includes(country));
 
 const countrySet = new Set(...[countryList]);
 
-let missingDataCount = 0;
+const countriesMissingData = [];
 
 // Check if all picked countries have data in all datasets
 datasets.forEach((filename) => {
@@ -44,14 +44,14 @@ datasets.forEach((filename) => {
 
     if (!countryData || !countryData[dataKey]) {
       console.log(`Missing data for ${countryName} in ${filename}`);
-      missingDataCount++;
+      countriesMissingData.push(countryName);
     }
   }
 });
 
-if (missingDataCount > 0) {
-  console.log(`Missing ${missingDataCount} data points. Exiting...`);
-  process.exit(1);
+if (countriesMissingData.length > 0) {
+  console.log(`Missing ${countriesMissingData.length} data points. Removing these countries from wordlist...`);
+  countryList = countryList.filter((country) => !countriesMissingData.includes(country));
 }
 
 shuffle(countryList);
