@@ -57,7 +57,7 @@ if (countriesMissingData.length > 0) {
 shuffle(countryList);
 
 // Generate wordlist.js
-const output = `// Wordlist consists of ${NUMBER_OF_COUNTRIES} most populous countries listed in a randomized order
+const output = `// Wordlist consists of ${countryList.length} most populous countries listed in a randomized order
 // NOTE: Wordlist and game doesn't consider England or other British Isles seperately from UK to prevent confusion,
 // but the data DOES consider them seperately
 
