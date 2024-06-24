@@ -29,7 +29,6 @@ function InfoText() {
       </Typography>
       <Typography>
         Each guess must be a country that appears in the search box.
-        Only the 100 most populated countries are in this game.
       </Typography>
       <Typography>
         After each guess,
