@@ -8,6 +8,8 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import Zoom from '@mui/material/Zoom';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Internal imports
 import './App.css';
@@ -254,10 +256,10 @@ function Main() {
   );
 }
 
-function Contact({ sx = {} }: { sx?: SxProps }) {
+function Contact() {
   return (
-    <Link href={`mailto:${atob('aGVsbG9AZ2VvZGxlLm1l')}`} sx={sx}>
-      <MailIcon />
+    <Link href={`mailto:${atob('aGVsbG9AZ2VvZGxlLm1l')}`}>
+      <MailIcon fontSize='large' />
     </Link>
   );
 }
@@ -270,20 +272,39 @@ function KofiButtion() {
   );
 }
 
+function GithubLink() {
+  return (
+    <Link href="https://github.com/muhashi/geodle" target="_blank">
+      <GitHubIcon fontSize='large' />
+    </Link>
+  );
+}
+
 function Header() {
+  const matches = useMediaQuery('(min-width:600px)');
+
   return (
     <header className="App-header" style={{ width: '100%' }}>
       <Box sx={{
-        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', alignItems: 'center', margin: '0 5vw',
+        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: matches ? 'space-between' : 'center', alignItems: 'center', margin: '0 auto', width: '85%',
       }}
       >
-        {/* Hidden contact for symettrical layout */}
-        <Contact sx={{ visibility: 'hidden' }} />
+        {matches && <GithubLink />}
         <Title />
-        <Contact />
+        {matches && <Contact />}
       </Box>
+      {!matches && (
+        <Box sx={{
+          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'space-around', alignItems: 'center', gap: '0 1rem', margin: '1rem auto', width: '85%',
+        }}
+        >
+          <GithubLink />
+          <Contact />
+        </Box>
+      
+      )}
       <Box sx={{
-        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '0 1rem',
+        display: 'flex', flexDirection: matches ? 'row' : 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', marginBottom: '1rem',
       }}
       >
         <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
