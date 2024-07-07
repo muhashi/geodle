@@ -10,7 +10,9 @@ function isApproxEqual(a: number, b: number) {
 type DemographicDataType = number | string | boolean;
 
 function getEmojiHintText(correct: DemographicDataType, guess: DemographicDataType) {
-  const isCorrect = correct === guess || (typeof guess === 'number' && typeof correct === 'number' && isApproxEqual(guess, correct));
+  const isCorrect = correct === guess
+    || (typeof guess === 'string' && typeof correct === 'string' && guess.toLowerCase() === correct.toLowerCase())
+    || (typeof guess === 'number' && typeof correct === 'number' && isApproxEqual(guess, correct));
   const higher = !isCorrect && typeof guess === 'number' && (correct as number) > (guess as number);
   const lower = !isCorrect && typeof guess === 'number' && (correct as number) < (guess as number);
 
