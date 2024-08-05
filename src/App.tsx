@@ -317,37 +317,6 @@ function Header() {
   );
 }
 
-function UpdatePopup() {
-  const seenUpdate = Cookies.get('seenUpdate');
-  const [open, setOpen] = useState(!seenUpdate);
-
-  const handleClose = () => {
-    Cookies.set('seenUpdate', '1', { expires: 500 });
-    setOpen(false);
-  };
-
-  return (
-    <Fragment>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Zoom}
-        fullWidth={true}
-      >
-        <Box sx={{
-          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', width: '85%', minHeight: '10rem', gap: '1rem', margin: '2rem auto',
-        }}>
-          <StyledTypography variant='h5'>New Update!</StyledTypography>
-          <StyledTypography variant='body1'>Thank you for your patience, the new Geodle update is finally here!</StyledTypography>
-          <StyledTypography variant='body1'>We have increased the number of countries to <b>181 countries</b></StyledTypography>
-          <StyledTypography variant='body1'>Enjoy a more complete and challenging Geodle { ":)" }</StyledTypography>
-          <StyledTypography variant='body1'>Don't hesitate to email us any bugs!</StyledTypography>
-        </Box>
-      </Dialog>
-    </Fragment>
-  );
-}
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -358,7 +327,6 @@ function App() {
         >
           <Header />
           <Main />
-          <UpdatePopup />
         </Box>
       </div>
     </ThemeProvider>
