@@ -5,13 +5,13 @@
   "type": "module",
   "homepage": "https://geodle.me",
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fontsource/roboto": "^5.0.13",
-    "@mui/icons-material": "^5.15.20",
-    "@mui/material": "^5.15.20",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^20.14.7",
+    "@types/node": "^22.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -20,8 +20,8 @@
     "react": "^18.3.1",
     "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.3.1",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.1"
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -49,14 +49,14 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
-    "country-json": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.0.1",
+    "@typescript-eslint/parser": "^8.0.1",
+    "country-json": "^2.2.5",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2"
   }
 }
