@@ -177,7 +177,7 @@
     },
     {
         "country": "China",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "Colombia",
@@ -221,7 +221,7 @@
     },
     {
         "country": "Czech Republic",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "Denmark",
@@ -261,7 +261,7 @@
     },
     {
         "country": "Estonia",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "Eswatini",
@@ -284,7 +284,7 @@
         "religion": "Christianity"
     },
     {
-        "country": "Fiji",
+        "country": "Fiji Islands",
         "religion": "Christianity"
     },
     {
@@ -373,7 +373,7 @@
     },
     {
         "country": "Hong Kong",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "Hungary",
@@ -425,7 +425,7 @@
     },
     {
         "country": "Japan",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "Jordan",
@@ -801,7 +801,7 @@
     },
     {
         "country": "South Korea",
-        "religion": null
+        "religion": "Unaffiliated Religions"
     },
     {
         "country": "South Sudan",
