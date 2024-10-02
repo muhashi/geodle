@@ -1,16 +1,21 @@
 # Geodle
-## A Wordle-like game for testing knowledge about the world's countries
+## A Wordle-like game that tests knowledge about the world's countries
 
-![image](https://user-images.githubusercontent.com/105213357/236619874-a1de630c-3f81-426d-b4c1-b445f69c0b4b.png)
+![image](https://github.com/user-attachments/assets/674592de-5c37-4d79-9083-af6033bc29ad)
 
-### Repo Content
-
-[Try the game out here](https://geodle.me)! The codebase is bootstrapped with `create-react-app`.
+[Try the game out here](https://geodle.me)! Built with TypeScript, React, Material UI, and Vite. 
 
 ### Attributions
 
 Country demographic data used is from [samayo](https://github.com/samayo/country-json) under MIT license.
 
-### How to host it yourself
+### Deployment
 
-If you want to host this on your own domain, fork/clone the repo and run `npm install` at the root. In `package.json` change the `homepage` attribute to whatever domain you are hosting on. Run `npm run start` to make sure it compiles correctly, and then after committing to your repo run `npm run deploy` to deploy it to Github Pages.
+If you want to host this on your own domain, fork/clone the repo and run `npm install` at the root. In `package.json` change the `homepage` attribute and the `--cname` option in the `deploy` script to whatever domain you are hosting on. Run `npm run start` to make sure it compiles correctly, and then after committing to your repo run `npm run deploy` to deploy it to Github Pages.
+
+### Updating Wordlist/Dataset
+
+Scripts exist for updating the wordlist and dataset. Ensure `npm install` has been run before running these scripts.
+
+- `node update-wordlist.js`: Updates the wordlist of countries, and randomly shuffles the data. Countries with any missing data will be excluded.
+- `node update-country-data.js`: Updates datasets used in the game with the latest values.
