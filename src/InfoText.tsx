@@ -19,7 +19,7 @@ function InfoText() {
         display: 'flex', alignContent: 'center', justifyContent: 'center', gap: '0.5rem',
       }}
       >
-        <InfoIcon />
+        <InfoIcon sx={{ margin: 'auto 0' }} />
         <Typography variant="h5" sx={{ fontWeight: 600 }}>
           How to Play
         </Typography>
