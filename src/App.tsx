@@ -309,7 +309,7 @@ function Header() {
       >
         <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
           A daily Wordle-ish geography game by&nbsp;
-          <StyledLink href="https://muhashi.github.io">Muhashi</StyledLink>
+          <StyledLink href="https://muhashi.github.io" target="_blank">Muhashi</StyledLink>
         </StyledTypography>
         <KofiButtion />
       </Box>
