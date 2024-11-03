@@ -70,6 +70,13 @@ const theme = responsiveFontSizes(createTheme({
     },
   },
   typography: {
+    fontFamily: [
+      'Roboto Mono',
+      'Roboto',
+      'Helvetica',
+      'Arial',
+      'sans-serif',
+    ].join(','),
     subtitle1: {
       fontSize: '0.9rem',
     },
