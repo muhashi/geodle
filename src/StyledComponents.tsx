@@ -71,8 +71,7 @@ const theme = responsiveFontSizes(createTheme({
   },
   typography: {
     fontFamily: [
-      'Roboto Mono',
-      'Roboto',
+      'Inter',
       'Helvetica',
       'Arial',
       'sans-serif',

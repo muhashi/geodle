@@ -7,7 +7,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
-    "@fontsource/roboto-mono": "^5.1.0",
+    "@fontsource/inter": "^5.1.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@types/js-cookie": "^3.0.6",

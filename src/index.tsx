@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '@fontsource/roboto-mono';
+import '@fontsource/inter';
 
 import App from './App.tsx';
 import './index.css';
