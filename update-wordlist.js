@@ -8,6 +8,7 @@ const EXCLUDED_COUNTRIES = [
   'Wales',
   'Scotland',
   'Northern Ireland',
+  'Puerto Rico',
 ];
 
 const datasets = [

@@ -166,7 +166,6 @@ const wordlist = [
   'Georgia',
   'Dominican Republic',
   'Uganda',
-  'Puerto Rico',
   'Portugal',
   'Madagascar',
   'Honduras',
