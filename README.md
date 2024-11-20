@@ -1,7 +1,7 @@
 # Geodle
 ## A Wordle-like game that tests knowledge about the world's countries
 
-![image](https://github.com/user-attachments/assets/91c473e6-2e45-47d2-a85e-30fab38b2b51)
+![image](https://github.com/user-attachments/assets/faf45c4f-b449-4986-9e07-26a58a76beea)
 
 [Try the game out here](https://geodle.me)! Built with TypeScript, React, Material UI, and Vite. 
 
