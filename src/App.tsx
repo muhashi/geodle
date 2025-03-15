@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import { SxProps, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useEffect, useState, Fragment } from 'react';
-import ConfettiExplosion from 'react-confetti-explosion';
+import ConfettiExplosion from 'react-confetti-blast';
 import Zoom from '@mui/material/Zoom';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
