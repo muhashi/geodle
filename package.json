@@ -18,7 +18,7 @@
     "gh-pages": "^6.2.0",
     "js-cookie": "^3.0.5",
     "react": "^19.0.0",
-    "react-confetti-blast": "^1.0.0",
+    "react-confetti-blast": "^1.0.1",
     "react-dom": "^19.0.0",
     "typescript": "^5.6.3",
     "vite": "^6.2.2"
