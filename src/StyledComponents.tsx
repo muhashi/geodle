@@ -25,8 +25,12 @@ const StyledButton = styled(Button)({
   border: '3px solid #4d4d4d',
 });
 
+type StyledLinkProps = {
+  component?: string;
+};
+
 // https://css-tricks.com/css-link-hover-effects/
-const StyledLink = styled(Link)({
+const StyledLink = styled(Link)<StyledLinkProps>({
   textDecoration: 'none',
   color: '#000000',
   background:
