@@ -1,7 +1,7 @@
 import MailIcon from '@mui/icons-material/Mail';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import { SxProps, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useEffect, useState, Fragment } from 'react';
 import ConfettiExplosion from 'react-confetti-blast';
@@ -43,6 +43,12 @@ type CountryData = {
   temperatureCelsius: number,
   government: string,
   country: string,
+};
+
+interface global {
+    playlightSDK?: {
+        setDiscovery: (show: boolean) => void;
+    };
 };
 
 const correctData: CountryData = {
@@ -137,6 +143,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
         }}>
           <Share guessesData={guessesData} />
         </DialogActions>
+        <MoreGamesButton />
       </Dialog>
     </Fragment>
   );
@@ -222,7 +229,7 @@ function Main() {
   };
 
   return (
-    <main>
+    <main style={{ flex: 1 }}>
       <Box sx={{
         display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '3rem 0',
       }}
@@ -317,16 +324,35 @@ function Header() {
   );
 }
 
+function MoreGamesButton() {
+  return (
+    <StyledLink
+      component="button"
+      style={{
+        textDecoration: 'none',
+      color: '#000000',
+      margin: '2rem auto',
+      }}
+      variant="h6"
+      onClick={() => {(globalThis as global)?.playlightSDK?.setDiscovery(true)}}
+    >
+      More games
+    </StyledLink>
+  );
+}
+
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
         <Box sx={{
-          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '5vh 0',
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '5vh 0 0 0', height: '100%', minHeight: '95vh',
         }}
         >
           <Header />
           <Main />
+          <MoreGamesButton />
         </Box>
       </div>
     </ThemeProvider>

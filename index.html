@@ -23,6 +23,26 @@
 
       gtag('config', 'G-RKEL5SMCTC');
     </script>
+    <!-- Playlight -->
+    <link rel="stylesheet" href="https://sdk.playlight.dev/playlight-sdk.css">
+    <script type="module">
+      try {
+        const module = await import("https://sdk.playlight.dev/playlight-sdk.es.js");
+        const playlightSDK = module.default;
+        await playlightSDK.init({
+          button: {
+            visible: false,
+          },
+          exitIntent: {
+            enabled: true,
+            immediate: false,
+          }
+        });
+        globalThis.playlightSDK = playlightSDK;
+      } catch (error) {
+        console.error("Error loading the Playlight SDK:", error);
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
