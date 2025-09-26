@@ -143,6 +143,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
         }}>
           <Share guessesData={guessesData} />
         </DialogActions>
+        <MoreGamesButton />
       </Dialog>
     </Fragment>
   );
@@ -323,23 +324,20 @@ function Header() {
   );
 }
 
-function Footer() {
+function MoreGamesButton() {
   return (
-    <>
-      {(globalThis as global)?.playlightSDK &&
-        <StyledLink
-          component="button"
-          style={{
-            textDecoration: 'none',
-          color: '#000000',
-          margin: '2rem auto',
-          }}
-          variant="h6"
-          onClick={() => {(globalThis as global)?.playlightSDK?.setDiscovery(true)}}
-        >
-          More games
-        </StyledLink>}
-    </>
+    <StyledLink
+      component="button"
+      style={{
+        textDecoration: 'none',
+      color: '#000000',
+      margin: '2rem auto',
+      }}
+      variant="h6"
+      onClick={() => {(globalThis as global)?.playlightSDK?.setDiscovery(true)}}
+    >
+      More games
+    </StyledLink>
   );
 }
 
@@ -354,7 +352,7 @@ function App() {
         >
           <Header />
           <Main />
-          <Footer />
+          <MoreGamesButton />
         </Box>
       </div>
     </ThemeProvider>
