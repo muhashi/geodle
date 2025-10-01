@@ -1,11 +1,9 @@
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
+import Grid from '@mui/material/Grid';
 
 import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers.ts';
 import { StyledTableHeaderTypography } from './StyledComponents.tsx';
@@ -69,7 +67,7 @@ const getTooltipText = ({
   return tips;
 };
 
-function ResultRow(
+function ResultCard(
   { guessData, correctData }: { guessData: CountryData, correctData: CountryData },
 ) {
   const {
@@ -96,29 +94,8 @@ function ResultRow(
   const tips = getTooltipText(guessData);
   const headers = getHeaders();
   const tooltipText = <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>{headers.map((header, i) => `${header}: ${tips[i]}`).join('\n')}</div>;
-
-  return (
-    <TableRow>
-      <TableCell component="th" scope="row" sx={{ minWidth: '2rem', overflow: 'auto' }}>
-        <Tooltip title={tooltipText}>
-          <StyledTableHeaderTypography sx={{ width: '100%', textDecoration: 'underline dotted', textDecorationThickness: '2px' }}>
-            { country }
-          </StyledTableHeaderTypography>
-        </Tooltip>
-      </TableCell>
-      {tips.map((tip, i) => (
-        <TableCell key={tip} align="center" sx={{ cursor: 'pointer' }}>
-          <Tooltip title={tip}>{ getEmojiHintImage(correctDataList[i], data[i]) }</Tooltip>
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
-function Results(
-  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
-) {
-  const tips = [
+  
+  const headerTips = [
     'Continent matches the correct country',
     'Population within 10% of correct country',
     'A landlocked country does not have territory connected to an ocean',
@@ -127,46 +104,68 @@ function Results(
     'Government type matches the correct country',
   ];
 
-  const headers = getHeaders();
+  return (
+    <Card sx={{ mb: 1, width: '98vw', maxWidth: '800px', minWidth: '300px', backgroundColor: 'transparent', }}>
+      <CardContent>
+        <Tooltip title={tooltipText}>
+          <StyledTableHeaderTypography 
+            variant="h6" 
+            sx={{ 
+              mb: 2,
+              pb: 1,
+              width: '100%',
+              fontWeight: 'bold',
+              borderBottom: '2px solid #4d4d4d',
+              textDecoration: 'underline dotted',
+              textDecorationThickness: '2px',
+            }}
+          >
+            {country}
+          </StyledTableHeaderTypography>
+        </Tooltip>
+        
+        <Grid container justifyContent="space-evenly" spacing={2}>
+          {headers.map((header, i) => (
+            <Grid key={header} size={{xs: 4, sm: 2}}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Tooltip title={headerTips[i]} sx={{ cursor: 'pointer' }}>
+                  <Typography 
+                    variant="body2" 
+                    noWrap
+                    sx={{ 
+                      fontWeight: 'bold', 
+                      mb: 1,
+                      textDecoration: 'underline dotted',
+                      textDecorationThickness: '2px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {header}
+                  </Typography>
+                </Tooltip>
+                <Tooltip title={tips[i]}>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', cursor: 'pointer' }}>
+                    {getEmojiHintImage(correctDataList[i], data[i])}
+                  </Box>
+                </Tooltip>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+}
 
+function Results(
+  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
+) {
   return (
     guessesData.length > 0 ? (
-      <Box sx={{ overflow: 'auto', margin: '0 10%' }}>
-        <Box sx={{
-          width: '100%', maxWidth: '97w', marginBottom: '10vh', display: 'table', tableLayout: 'fixed',
-        }}
-        >
-          <TableContainer>
-            <Table>
-              <TableHead sx={{ borderBottom: '2px solid #4d4d4d' }}>
-                <TableRow>
-                  <TableCell />
-                  { headers.map((header, i) => (
-                    <Tooltip title={tips[i]} key={header} sx={{ cursor: 'pointer' }}>
-                      <TableCell align="center">
-                        <StyledTableHeaderTypography
-                          variant="body1"
-                          sx={{
-                            textDecoration: 'underline dotted', textDecorationThickness: '2px', margin: '0 auto', whiteSpace: 'nowrap',
-                          }}
-                        >
-                          { header }
-                        </StyledTableHeaderTypography>
-                      </TableCell>
-                    </Tooltip>
-                  )) }
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  guessesData.map((data) => (
-                    <ResultRow guessData={data} correctData={correctData} key={data.country} />
-                  ))
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+      <Box sx={{ padding: { xs: 2, sm: 3, md: '0 10%' }, marginBottom: '10vh' }}>
+        {guessesData.map((data) => (
+          <ResultCard guessData={data} correctData={correctData} key={data.country} />
+        ))}
       </Box>
     ) : null
   );

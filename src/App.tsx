@@ -234,7 +234,7 @@ function Main() {
         display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '3rem 0',
       }}
       >
-        <StyledTypography variant="h5" sx={{ fontWeight: 600 }}>
+        <StyledTypography variant="h5" sx={{ fontWeight: 600, padding: '0 1.2rem' }}>
           {(isWon || isLost) ? (
             <>Come back tomorrow for a new country!</>
           ) : (
@@ -288,12 +288,12 @@ function GithubLink() {
 }
 
 function Header() {
-  const matches = useMediaQuery('(min-width:600px)');
+  const matches = useMediaQuery('(min-width:630px)');
 
   return (
     <header className="App-header" style={{ width: '100%' }}>
       <Box sx={{
-        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: matches ? 'space-between' : 'center', alignItems: 'center', margin: '0 auto', width: '85%',
+        display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: matches ? 'space-between' : 'center', alignItems: 'center', margin: '0 auto', width: '85%', padding: '0 1.2rem',
       }}
       >
         {matches && <GithubLink />}

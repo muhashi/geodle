@@ -6,6 +6,7 @@ import {
   Shadows,
   createTheme, responsiveFontSizes, styled,
 } from '@mui/material/styles';
+import { transform } from 'typescript';
 
 const StyledAutocomplete = styled(Autocomplete)({
   backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -63,7 +64,7 @@ const StyledTypography = styled(Typography)({
 const StyledTableHeaderTypography = styled(StyledTypography)({
   inlineSize: 'min-content',
   '@media (max-width: 680px)': {
-    writingMode: 'vertical-rl',
+    // writingMode: 'vertical-rl',
   },
 });
 
@@ -116,6 +117,15 @@ const theme = responsiveFontSizes(createTheme({
   },
   // disable all default MUI shadow styling
   shadows: Array(25).fill('none') as Shadows,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 580,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
 }));
 
 export {
