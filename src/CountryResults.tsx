@@ -106,27 +106,33 @@ function ResultCard(
   return (
     <Card sx={{ mb: 1, width: '98vw', maxWidth: 'min(800px, 100%)', minWidth: '300px', backgroundColor: 'transparent', }}>
       <CardContent>
-        <Tooltip title={tooltipText}>
-          <Typography 
-            variant="h6"
-            align='center'
-            sx={{ 
-              mb: 2,
-              pb: 1,
-              width: '100%',
-              fontWeight: 'bold',
-              borderBottom: '2px solid #4d4d4d',
-              textDecoration: 'underline dotted',
-              textDecorationThickness: '2px',
-            }}
-          >
-            {country}
-          </Typography>
-        </Tooltip>
-        
+        <Box sx={{
+          mb: 2,
+          pb: 1,
+          width: '100%',
+          borderBottom: '2px solid #4d4d4d',
+        }}>
+          <Tooltip title={tooltipText}>
+            <Typography 
+              variant="h6"
+              align='center'
+              sx={{ 
+                fontWeight: 'bold',
+                textDecoration: 'underline dotted',
+                textDecorationThickness: '2px',
+                width: 'fit-content',
+                margin: '0 auto',
+                cursor: 'pointer',
+              }}
+            >
+              {country}
+            </Typography>
+          </Tooltip>
+        </Box>
+
         <Grid container justifyContent="space-evenly" spacing={2}>
           {headers.map((header, i) => (
-            <Grid key={header} size={{xs: 4, sm: 2}}>
+            <Grid key={header} size={{xs: 2, sm: 2}}>
               <Box sx={{ textAlign: 'center' }}>
                 <Tooltip title={headerTips[i]} sx={{ cursor: 'pointer' }}>
                   <Typography
@@ -139,6 +145,7 @@ function ResultCard(
                       textDecorationThickness: '2px',
                       cursor: 'pointer',
                       overflow: 'visible',
+                      fontSize: { xs: '0.6rem', sm: '1.1rem' },
                     }}
                   >
                     {header}
