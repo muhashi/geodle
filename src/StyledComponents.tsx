@@ -95,15 +95,6 @@ const theme = responsiveFontSizes(createTheme({
   },
   // disable all default MUI shadow styling
   shadows: Array(25).fill('none') as Shadows,
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 580,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
 }));
 
 export {

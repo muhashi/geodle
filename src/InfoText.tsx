@@ -1,6 +1,6 @@
 import InfoIcon from '@mui/icons-material/Info';
 import { Typography } from '@mui/material';
-import CountryResults from './CountryResults.tsx';
+import { ResultCard } from './CountryResults.tsx';
 import svgSquareCaretUp from './img/square-caret-up.svg';
 import svgSquareGreen from './img/square-green.svg';
 import svgSquareRed from './img/square-red.svg';
@@ -41,8 +41,8 @@ function InfoText() {
       <Typography>
         For example:
       </Typography>
-      <CountryResults
-        guessesData={[{
+      <ResultCard
+        guessData={{
           country: 'Australia',
           continent: 'Oceania',
           population: 25000000,
@@ -50,7 +50,7 @@ function InfoText() {
           religion: 'Christianity',
           temperatureCelsius: 22,
           government: 'Federation Constitutional Monarchy',
-        }]}
+        }}
         correctData={{
           country: 'Ivory Coast',
           continent: 'Africa',

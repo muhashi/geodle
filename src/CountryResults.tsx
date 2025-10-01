@@ -104,7 +104,7 @@ function ResultCard(
   ];
 
   return (
-    <Card sx={{ mb: 1, width: '98vw', maxWidth: '800px', minWidth: '300px', backgroundColor: 'transparent', }}>
+    <Card sx={{ mb: 1, width: '98vw', maxWidth: 'min(800px, 100%)', minWidth: '300px', backgroundColor: 'transparent', }}>
       <CardContent>
         <Tooltip title={tooltipText}>
           <Typography 
@@ -138,6 +138,7 @@ function ResultCard(
                       textDecoration: 'underline dotted',
                       textDecorationThickness: '2px',
                       cursor: 'pointer',
+                      overflow: 'visible',
                     }}
                   >
                     {header}
@@ -162,7 +163,7 @@ function Results(
 ) {
   return (
     guessesData.length > 0 ? (
-      <Box sx={{ padding: { xs: 2, sm: 3, md: '0 10%' }, marginBottom: '10vh' }}>
+      <Box sx={{ marginBottom: '10vh', display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
         {guessesData.map((data) => (
           <ResultCard guessData={data} correctData={correctData} key={data.country} />
         ))}
@@ -172,3 +173,4 @@ function Results(
 }
 
 export default Results;
+export { ResultCard };
