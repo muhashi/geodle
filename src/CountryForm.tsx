@@ -20,6 +20,7 @@ type FilterOptionsProp<T> = (
 
 function CountryForm({ onSubmit }: OnSubmitProp) {
   const [country, setCountry] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   const filterOptions: FilterOptionsProp<string> = (options, { inputValue }) => (
     options.filter((option) => {
@@ -31,10 +32,11 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
     }));
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); }}>
+    <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry(''); setInputValue(''); }}>
       <Box sx={{ display: 'flex', flexDirection: 'row', maxWidth: '95vw' }}>
         <StyledAutocomplete
           disablePortal
+          autoHighlight
           id="country-select"
           noOptionsText="No countries found..."
           options={wordlist}
@@ -43,6 +45,9 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           // eslint-disable-next-line react/jsx-props-no-spreading
           renderInput={(params) => <TextField {...params} label="Country" />}
           onChange={(_, newValue) => setCountry(newValue as string)}
+          onInputChange={(_, newValue) => setInputValue(newValue)}
+          value={country}
+          inputValue={inputValue}
           renderOption={(props, option) => (
             // eslint-disable-next-line react/jsx-props-no-spreading
             <li {...props}>
