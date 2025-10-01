@@ -164,7 +164,7 @@ function Results(
   return (
     guessesData.length > 0 ? (
       <Box sx={{ marginBottom: '10vh', display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
-        {guessesData.map((data) => (
+        {guessesData.toReversed().map((data) => (
           <ResultCard guessData={data} correctData={correctData} key={data.country} />
         ))}
       </Box>
