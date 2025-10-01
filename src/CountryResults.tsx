@@ -6,7 +6,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Grid from '@mui/material/Grid';
 
 import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers.ts';
-import { StyledTableHeaderTypography } from './StyledComponents.tsx';
 
 import svgSquareCaretDown from './img/square-caret-down.svg';
 import svgSquareCaretUp from './img/square-caret-up.svg';
@@ -108,8 +107,9 @@ function ResultCard(
     <Card sx={{ mb: 1, width: '98vw', maxWidth: '800px', minWidth: '300px', backgroundColor: 'transparent', }}>
       <CardContent>
         <Tooltip title={tooltipText}>
-          <StyledTableHeaderTypography 
-            variant="h6" 
+          <Typography 
+            variant="h6"
+            align='center'
             sx={{ 
               mb: 2,
               pb: 1,
@@ -121,7 +121,7 @@ function ResultCard(
             }}
           >
             {country}
-          </StyledTableHeaderTypography>
+          </Typography>
         </Tooltip>
         
         <Grid container justifyContent="space-evenly" spacing={2}>
@@ -129,7 +129,7 @@ function ResultCard(
             <Grid key={header} size={{xs: 4, sm: 2}}>
               <Box sx={{ textAlign: 'center' }}>
                 <Tooltip title={headerTips[i]} sx={{ cursor: 'pointer' }}>
-                  <Typography 
+                  <Typography
                     variant="body2" 
                     noWrap
                     sx={{ 

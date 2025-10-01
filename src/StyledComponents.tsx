@@ -6,7 +6,6 @@ import {
   Shadows,
   createTheme, responsiveFontSizes, styled,
 } from '@mui/material/styles';
-import { transform } from 'typescript';
 
 const StyledAutocomplete = styled(Autocomplete)({
   backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -61,13 +60,6 @@ const StyledTypography = styled(Typography)({
   textAlign: 'center',
 });
 
-const StyledTableHeaderTypography = styled(StyledTypography)({
-  inlineSize: 'min-content',
-  '@media (max-width: 680px)': {
-    // writingMode: 'vertical-rl',
-  },
-});
-
 const theme = responsiveFontSizes(createTheme({
   palette: {
     primary: {
@@ -84,6 +76,9 @@ const theme = responsiveFontSizes(createTheme({
     subtitle1: {
       fontSize: '0.9rem',
     },
+    body2: {
+      fontSize: '1.1rem',
+    }
   },
   components: {
     MuiTooltip: {
@@ -95,23 +90,6 @@ const theme = responsiveFontSizes(createTheme({
       defaultProps: {
         arrow: true,
         enterTouchDelay: 0,
-      },
-    },
-    MuiTable: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#f7f7f7',
-        },
-      },
-    },
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          padding: '8px',
-          '@media (max-width: 680px)': {
-            padding: '8px 0',
-          },
-        },
       },
     },
   },
@@ -132,7 +110,6 @@ export {
   StyledAutocomplete,
   StyledButton,
   StyledLink,
-  StyledTableHeaderTypography,
   StyledTypography,
   theme,
 };
