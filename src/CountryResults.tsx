@@ -1,9 +1,13 @@
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers.ts';
 
@@ -66,7 +70,7 @@ const getTooltipText = ({
   return tips;
 };
 
-function ResultCard(
+function ResultRow(
   { guessData, correctData }: { guessData: CountryData, correctData: CountryData },
 ) {
   const {
@@ -93,8 +97,50 @@ function ResultCard(
   const tips = getTooltipText(guessData);
   const headers = getHeaders();
   const tooltipText = <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>{headers.map((header, i) => `${header}: ${tips[i]}`).join('\n')}</div>;
-  
-  const headerTips = [
+
+  return (
+    <TableRow>
+      <TableCell 
+        component="th" 
+        scope="row" 
+        sx={{ 
+          minWidth: '100px',
+          position: 'sticky',
+          left: 0,
+          backgroundColor: '#f7f7f7',
+          zIndex: 1,
+          borderRight: '1px solid rgba(224, 224, 224, 1)',
+          boxShadow: '3px 0px 0px -1px rgba(0, 0, 0, 0.4)',
+        }}
+      >
+        <Tooltip title={tooltipText}>
+          <Typography 
+            sx={{ 
+              width: '100%', 
+              textDecoration: 'underline dotted', 
+              textDecorationThickness: '2px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}
+          >
+            {country}
+          </Typography>
+        </Tooltip>
+      </TableCell>
+      {tips.map((tip, i) => (
+        <TableCell key={`${country}-${headers[i]}`} align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
+          <Tooltip title={tip}>{getEmojiHintImage(correctDataList[i], data[i])}</Tooltip>
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+}
+
+function Results(
+  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
+) {
+  const matches = useMediaQuery('(min-width:750px)');
+  const tips = [
     'Continent matches the correct country',
     'Population within 10% of correct country',
     'A landlocked country does not have territory connected to an ocean',
@@ -103,74 +149,86 @@ function ResultCard(
     'Government type matches the correct country',
   ];
 
-  return (
-    <Card sx={{ mb: 1, width: '98vw', maxWidth: 'min(800px, 100%)', minWidth: '300px', backgroundColor: 'transparent', }}>
-      <CardContent>
-        <Tooltip title={tooltipText}>
-          <Typography 
-            variant="h6"
-            align='center'
-            sx={{ 
-              mb: 2,
-              pb: 1,
-              width: '100%',
-              fontWeight: 'bold',
-              borderBottom: '2px solid #4d4d4d',
-              textDecoration: 'underline dotted',
-              textDecorationThickness: '2px',
-            }}
-          >
-            {country}
-          </Typography>
-        </Tooltip>
-        
-        <Grid container justifyContent="space-evenly" spacing={2}>
-          {headers.map((header, i) => (
-            <Grid key={header} size={{xs: 4, sm: 2}}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Tooltip title={headerTips[i]} sx={{ cursor: 'pointer' }}>
-                  <Typography
-                    variant="body2" 
-                    noWrap
-                    sx={{ 
-                      fontWeight: 'bold', 
-                      mb: 1,
-                      textDecoration: 'underline dotted',
-                      textDecorationThickness: '2px',
-                      cursor: 'pointer',
-                      overflow: 'visible',
-                    }}
-                  >
-                    {header}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title={tips[i]}>
-                  <Box sx={{ display: 'flex', justifyContent: 'center', cursor: 'pointer' }}>
-                    {getEmojiHintImage(correctDataList[i], data[i])}
-                  </Box>
-                </Tooltip>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-}
+  const headers = getHeaders();
 
-function Results(
-  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
-) {
   return (
     guessesData.length > 0 ? (
-      <Box sx={{ marginBottom: '10vh', display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
-        {guessesData.toReversed().map((data) => (
-          <ResultCard guessData={data} correctData={correctData} key={data.country} />
-        ))}
+
+      <Box sx={{ 
+        width: '100%',
+        marginBottom: '10vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: '1rem',
+      }}>
+        <Box sx={{
+          width: '100%',
+          maxWidth: '100vw',
+        }}>
+          <TableContainer sx={{ 
+            width: '100%',
+            overflowX: 'auto',
+            '&::-webkit-scrollbar': {
+              height: '8px',
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'rgba(0,0,0,0.1)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              borderRadius: '4px',
+            },
+          }}>
+            <Table sx={{ minWidth: '500px', width: '100%' }}>
+              <TableHead sx={{ borderBottom: '2px solid #4d4d4d' }}>
+                <TableRow>
+                  <TableCell 
+                    sx={{ 
+                      position: 'sticky',
+                      left: 0,
+                      backgroundColor: '#f7f7f7',
+                      zIndex: 2,
+                      borderRight: '1px solid rgba(224, 224, 224, 1)',
+                      minWidth: '100px',
+                       // -1px spread for some reason fixes a weird thicker row border showing up in safari
+                      boxShadow: '3px 0px 0px -1px rgba(0, 0, 0, 0.4)',
+                    }}
+                  />
+                  {headers.map((header, i) => (
+                    <Tooltip title={tips[i]} key={header}>
+                      <TableCell align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            textDecoration: 'underline dotted',
+                            textDecorationThickness: '2px',
+                            fontWeight: 'bold',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {header}
+                        </Typography>
+                      </TableCell>
+                    </Tooltip>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {guessesData.toReversed().map((data) => (
+                  <ResultRow guessData={data} correctData={correctData} key={data.country} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        {!matches && (<Typography variant="body2" color="textSecondary" sx={{ userSelect: 'none' }}>
+          &larr; Scroll to see all hints &rarr;
+        </Typography>)}
       </Box>
     ) : null
   );
 }
 
 export default Results;
-export { ResultCard };
