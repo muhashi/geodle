@@ -183,6 +183,7 @@ const wordlist = [
   'Trinidad and Tobago',
   'Paraguay',
   'Lesotho',
+  'Taiwan',
 ];
 
 export default wordlist;

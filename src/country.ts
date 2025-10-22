@@ -75,6 +75,7 @@ const synonyms = {
   China: ['PRC'],
   'The Democratic Republic of Congo': ['DRC'],
   Turkey: ['Turkiye'],
+  Taiwan: ['Republic of China', 'China', 'ROC'],
 };
 
 const [

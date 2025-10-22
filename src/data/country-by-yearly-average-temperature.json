@@ -385,7 +385,7 @@
     },
     {
         "country": "Hong Kong",
-        "temperature": null
+        "temperature": 23.30
     },
     {
         "country": "Hungary",
@@ -842,6 +842,10 @@
     {
         "country": "Syria",
         "temperature": 18.75
+    },
+    {
+        "country": "Taiwan",
+        "temperature": 23.30
     },
     {
         "country": "Tajikistan",
