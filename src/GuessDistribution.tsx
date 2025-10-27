@@ -24,7 +24,7 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
                 }
               }
             }}>
-            <Typography variant="body1" sx={{ color: 'white', fontWeight: 700, padding:'0 0.2rem', textAlign: g === 0 ? 'center' : 'end' }}>
+            <Typography variant="body1" sx={{ color: 'white', fontWeight: 700, padding:'0 0.2rem', textAlign: g === 0 ? 'center' : 'end', verticalAlign: 'middle', }}>
               {g}
             </Typography>
           </Box>
