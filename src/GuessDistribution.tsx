@@ -7,8 +7,8 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
   return (
     <Box sx={{ width: '80%', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'flex-start', gap: '0.5rem 0', userSelect: 'none' }}>
       {distribution.map((g, i) => (
-        <Box key={i} sx={{ display: 'grid', gridTemplateColumns: `1fr repeat(${personalBestColumns}, 1fr [personal-best-track])`, gridTemplateRows: 'auto', columnGap: '1rem', width: '100%' }}>
-          <Typography variant="body1" sx={{ width: '1rem', textAlign: 'center', verticalAlign: 'middle', fontWeight: 800, padding: '0 0.2rem' }}>{i + 1}</Typography>
+        <Box key={i} sx={{ display: 'grid', gridTemplateColumns: `1fr repeat(${personalBestColumns}, 1fr [personal-best-track])`, gridTemplateRows: 'auto', width: '100%' }}>
+          <Typography variant="body1" sx={{ width: '1rem', textAlign: 'center', verticalAlign: 'middle', fontWeight: 800, padding: '0 0.2rem', marginRight: '10px' }}>{i + 1}</Typography>
           <Box
             sx={{
               gridColumnStart: 'personal-best-track 0',
@@ -24,7 +24,7 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
                 }
               }
             }}>
-            <Typography variant="body1" sx={{ color: 'white', fontWeight: 700, padding:'0 0.2rem', textAlign: g === 0 ? 'center' : 'end', verticalAlign: 'middle', }}>
+            <Typography variant="body1" sx={{ color: 'white', fontWeight: 700, padding:'0 0.2rem', textAlign: g === 0 ? 'center' : 'end', verticalAlign: 'middle' }}>
               {g}
             </Typography>
           </Box>
