@@ -6,7 +6,7 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
     <Box sx={{ width: '80%', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'flex-start', gap: '0.5rem 0', userSelect: 'none' }}>
       {distribution.map((g, i) => (
         <Box key={i} sx={{ display: 'flex', gap: '0 1rem', width: '100%' }}>
-          <Typography variant="body1" sx={{ fontWeight: 800, fontFamily: 'monospaced' }}>{i + 1}</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 800, fontFamily: 'monospace' }}>{i + 1}</Typography>
           <Box
             sx={{
               flex: `0 1 0%`,
@@ -23,7 +23,7 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
                 }
               }
             }}>
-            <Typography variant="body1" sx={{ lineHeight: '1rem', color: 'white', fontWeight: 700, fontFamily: 'monospaced', height: 'fit-content', margin: '0.2rem 0.5rem' }}>
+            <Typography variant="body1" sx={{ lineHeight: '1rem', color: 'white', fontWeight: 700, fontFamily: 'monospace', height: 'fit-content', margin: '0.2rem 0.5rem' }}>
               {g}
             </Typography>
           </Box>
