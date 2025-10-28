@@ -18,7 +18,7 @@ function GuessDistribution({ distribution, userResult, isWon }: { distribution: 
               ["@keyframes slide" + i]: {
                 "100%": {
                   flexBasis: `${Math.round(
-                    (g / distribution.reduce((partial, a) => partial + a, 0)) * 100
+                    (g / Math.max(...distribution) * 80)
                   )}%`
                 }
               }
