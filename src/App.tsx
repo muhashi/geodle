@@ -32,9 +32,6 @@ import {
 } from './country.ts';
 import Title from './Title.tsx';
 
-// TODO: Add better hints visualisation like - these continents not ruled out
-// TODO: Make sure all countries in wordlist have all data required for the game
-
 type CountryData = {
   continent: string,
   population: number,

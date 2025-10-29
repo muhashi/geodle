@@ -107,7 +107,7 @@ const wordlist = [
   'Tajikistan',
   'Bahamas',
   'Cameroon',
-  'Turkey',
+  'Türkiye',
   'Belgium',
   'Libya',
   'Estonia',
