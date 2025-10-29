@@ -12,7 +12,9 @@ const today = new Date();
 today.setHours(0, 0, 0); // Make sure both dates are on same time of 00:00:00
 const msPerDay = 1000 * 60 * 60 * 24;
 const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
-const correctCountry = wordlist[dayNumber % wordlist.length];
+const COUNTRY_OFFSET = 35; // Offset to make sure daily country stays consistent when new countries are added
+const dayIndex = (dayNumber + COUNTRY_OFFSET) % wordlist.length;
+const correctCountry = wordlist[dayIndex];
 
 // Get the data for country
 function getData(countryName: string) {
@@ -62,7 +64,7 @@ const synonyms = {
   Australia: ['Kangarooland'],
   'Czech Republic': ['Czechia'],
   'Russian Federation': ['Russia'],
-  'United Kingdom': ['Great Britain', 'UK'],
+  'United Kingdom': ['Great Britain', 'UK', 'Scotland', 'Wales', 'England'],
   Japan: ['Nippon'],
   Netherlands: ['Holland'],
   'Papua New Guinea': ['PNG'],
@@ -72,10 +74,12 @@ const synonyms = {
   'Ivory Coast': ['Cote dlvoire'],
   Germany: ['Deutschland'],
   'United States': ['America', 'USA'],
-  China: ['PRC'],
+  China: ['PRC', 'Peoples Republic of China'],
   'The Democratic Republic of Congo': ['DRC'],
   'Türkiye': ['Turkiye', 'Turkey'],
   Taiwan: ['Republic of China', 'China', 'ROC'],
+  'Federated States of Micronesia': ['FSM'],
+  Liechtenstein: ['Lichtenstein'],
 };
 
 const [

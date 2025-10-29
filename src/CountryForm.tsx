@@ -7,8 +7,6 @@ import { descriptions, synonyms } from './country.ts';
 import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents.tsx';
 import wordlist from './wordlist';
 
-wordlist.sort((a, b) => a.localeCompare(b));
-
 type OnSubmitProp = {
   onSubmit: (country: string) => void;
 }
@@ -39,7 +37,7 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           autoHighlight
           id="country-select"
           noOptionsText="No countries found..."
-          options={wordlist}
+          options={[...wordlist].sort((a, b) => a.localeCompare(b))}
           filterOptions={filterOptions as FilterOptionsProp<unknown>}
           sx={{ width: 300 }}
           // eslint-disable-next-line react/jsx-props-no-spreading
