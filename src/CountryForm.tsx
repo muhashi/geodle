@@ -40,14 +40,12 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           options={[...wordlist].sort((a, b) => a.localeCompare(b))}
           filterOptions={filterOptions as FilterOptionsProp<unknown>}
           sx={{ width: 300 }}
-          // eslint-disable-next-line react/jsx-props-no-spreading
           renderInput={(params) => <TextField {...params} label="Country" />}
           onChange={(_, newValue) => setCountry(newValue as string)}
           onInputChange={(_, newValue) => setInputValue(newValue)}
           value={country}
           inputValue={inputValue}
           renderOption={(props, option) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
             <li {...props}>
               <Box sx={{ width: '100%' }}>
                 <StyledTypography variant="body1">{option as React.ReactNode}</StyledTypography>
