@@ -141,7 +141,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
           <Share guessesData={guessesData} />
         </DialogActions>
         <Box sx={{
-          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', marginBottom: '1rem',
+          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', margin: '0 1rem 1rem 1rem',
         }}
         >
           <StyledTypography>Help keep Geodle ad-free 💙</StyledTypography>
