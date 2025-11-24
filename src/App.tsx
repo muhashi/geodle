@@ -351,7 +351,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <Box sx={{
-          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', height: '100%', minHeight: '95vh',
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '2.5vh 0 0 0', height: '100%', minHeight: '95vh',
         }}
         >
           <Header />
