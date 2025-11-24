@@ -140,6 +140,13 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
         }}>
           <Share guessesData={guessesData} />
         </DialogActions>
+        <Box sx={{
+          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', marginBottom: '1rem',
+        }}
+        >
+          <StyledTypography>Help keep Geodle ad-free 💙</StyledTypography>
+          <KofiButton />
+        </Box>
         <MoreGamesButton />
       </Dialog>
     </Fragment>
@@ -268,7 +275,7 @@ function Contact() {
   );
 }
 
-function KofiButtion() {
+function KofiButton() {
   return (
     <a href='https://ko-fi.com/D1D5V1DSF' target='_blank' rel="noreferrer">
       <img height='36' style={{border: 0, height: '36px'}} src='https://storage.ko-fi.com/cdn/kofi4.png?v=3' alt='Buy Me a Coffee at ko-fi.com' />
@@ -315,7 +322,7 @@ function Header() {
           A daily Wordle-ish geography game by&nbsp;
           <StyledLink href="https://muhashi.github.io" target="_blank">Muhashi</StyledLink>
         </StyledTypography>
-        <KofiButtion />
+        <KofiButton />
       </Box>
     </header>
   );
@@ -327,8 +334,8 @@ function MoreGamesButton() {
       component="button"
       style={{
         textDecoration: 'none',
-      color: '#000000',
-      margin: '2rem auto',
+        color: '#000000',
+        margin: '2rem auto',
       }}
       variant="h6"
       onClick={() => {(globalThis as global)?.playlightSDK?.setDiscovery(true)}}
@@ -344,7 +351,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <Box sx={{
-          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '5vh 0 0 0', height: '100%', minHeight: '95vh',
+          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', height: '100%', minHeight: '95vh',
         }}
         >
           <Header />
