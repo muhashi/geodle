@@ -113,7 +113,7 @@ function ResultRow(
           boxShadow: '3px 0px 0px -1px rgba(0, 0, 0, 0.4)',
         }}
       >
-        <Tooltip title={tooltipText}>
+        <Tooltip title={tooltipText} slotProps={{ popper: {container: document.getElementById('root')} }}>
           <Typography 
             sx={{ 
               width: '100%', 
@@ -129,7 +129,7 @@ function ResultRow(
       </TableCell>
       {tips.map((tip, i) => (
         <TableCell key={`${country}-${headers[i]}`} align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
-          <Tooltip title={tip}>{getEmojiHintImage(correctDataList[i], data[i])}</Tooltip>
+          <Tooltip title={tip} slotProps={{ popper: {container: document.getElementById('root') } }}>{getEmojiHintImage(correctDataList[i], data[i])}</Tooltip>
         </TableCell>
       ))}
     </TableRow>
@@ -200,7 +200,7 @@ function Results(
                     }}
                   />
                   {headers.map((header, i) => (
-                    <Tooltip title={tips[i]} key={header}>
+                    <Tooltip title={tips[i]} key={header} slotProps={{ popper: {container: document.getElementById('root') } }}>
                       <TableCell align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
                         <Typography
                           variant="body1"
