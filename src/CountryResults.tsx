@@ -171,7 +171,7 @@ function Results(
             width: '100%',
             overflowX: 'auto',
             '&::-webkit-scrollbar': {
-              height: '8px',
+              height: '6px',
             },
             '&::-webkit-scrollbar-track': {
               backgroundColor: 'rgba(0,0,0,0.1)',
@@ -179,6 +179,9 @@ function Results(
             '&::-webkit-scrollbar-thumb': {
               backgroundColor: 'rgba(0,0,0,0.3)',
               borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              backgroundColor: 'rgba(0,0,0,0.5)',
             },
           }}>
             <Table sx={{ minWidth: '500px', width: '100%' }}>
