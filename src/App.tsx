@@ -340,7 +340,9 @@ function MoreGamesButton() {
       variant="h6"
       onClick={() => {(globalThis as global)?.playlightSDK?.setDiscovery(true)}}
     >
-      More games
+      <span style={{ zIndex: 3, position: 'relative' }}>
+        More games
+      </span>
     </StyledLink>
   );
 }
