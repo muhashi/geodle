@@ -190,6 +190,7 @@ const wordlist = [
   'Malaysia',
   'Norway',
   'Indonesia',
+  'Montenegro',
 ];
 
 export default wordlist;

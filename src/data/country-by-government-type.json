@@ -149,7 +149,7 @@
     },
     {
         "country": "Canada",
-        "government": "Constitutional Monarchy, Federation"
+        "government": "Federation Constitutional Monarchy"
     },
     {
         "country": "Cape Verde",
@@ -566,6 +566,10 @@
     {
         "country": "Mongolia",
         "government": "Republic"
+    },
+    {
+        "country": "Montenegro",
+        "government": "Parliamentary Republic"
     },
     {
         "country": "Montserrat",
