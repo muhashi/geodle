@@ -120,6 +120,7 @@ function ResultRow(
               textDecoration: 'underline dotted', 
               textDecorationThickness: '2px',
               fontWeight: 'bold',
+              fontFamily: 'Trebuchet MS, sans-serif',
               cursor: 'pointer',
             }}
           >
@@ -208,6 +209,7 @@ function Results(
                             textDecoration: 'underline dotted',
                             textDecorationThickness: '2px',
                             fontWeight: 'bold',
+                            fontFamily: 'Trebuchet MS, sans-serif',
                             whiteSpace: 'nowrap',
                           }}
                         >

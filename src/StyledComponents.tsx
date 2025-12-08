@@ -91,8 +91,6 @@ const theme = responsiveFontSizes(createTheme({
   },
   typography: {
     fontFamily: [
-      'Inter',
-      'Helvetica',
       'Arial',
       'sans-serif',
     ].join(','),

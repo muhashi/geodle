@@ -141,7 +141,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
           <Share guessesData={guessesData} />
         </DialogActions>
         <Box sx={{
-          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', margin: '0 1rem 1rem 1rem',
+          display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', margin: '0 1rem',
         }}
         >
           <StyledTypography>Help keep Geodle ad-free 💙</StyledTypography>
@@ -238,7 +238,7 @@ function Main() {
         display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '3rem 0',
       }}
       >
-        <StyledTypography variant="h5" sx={{ fontWeight: 600, padding: '0 1.2rem' }}>
+        <StyledTypography variant="h5" sx={{ fontWeight: 300, padding: '0 1.2rem' }}>
           {(isWon || isLost) ? (
             <>Come back tomorrow for a new country!</>
           ) : (
