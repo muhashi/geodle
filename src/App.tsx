@@ -144,8 +144,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
           display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', margin: '0 1rem',
         }}
         >
-          <StyledTypography>Help keep Geodle ad-free 💙</StyledTypography>
-          <KofiButton />
+          <StyledTypography>Like Geodle? Check out my new game <StyledLink href="https://seadle.muhashi.com/" target="_blank">Seadle</StyledLink>!</StyledTypography>
         </Box>
         <MoreGamesButton />
       </Dialog>
@@ -320,7 +319,7 @@ function Header() {
       >
         <StyledTypography variant="h6" align="center" sx={{ fontWeight: 500 }}>
           A daily Wordle-ish geography game by&nbsp;
-          <StyledLink href="https://muhashi.github.io" target="_blank">Muhashi</StyledLink>
+          <StyledLink href="https://muhashi.com/" target="_blank">Muhashi</StyledLink>
         </StyledTypography>
         <KofiButton />
       </Box>
