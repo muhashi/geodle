@@ -25,6 +25,7 @@ const GroupHeader = styled('div')(({ theme }) => ({
   padding: '4px 10px',
   color: theme.palette.primary.main,
   backgroundColor: lighten(theme.palette.primary.light, 0.85),
+  userSelect: 'none',
 }));
 
 const GroupItems = styled('ul')({
