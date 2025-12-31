@@ -9,8 +9,9 @@ import { descriptions, synonyms, getData } from './country.ts';
 import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents.tsx';
 import wordlist from './wordlist';
 
-type OnSubmitProp = {
+type CountryFormProp = {
   onSubmit: (country: string) => void;
+  hideHints: boolean;
 }
 
 type FilterOptionsProp<T> = (
@@ -30,7 +31,7 @@ const GroupItems = styled('ul')({
   padding: 0,
 });
 
-function CountryForm({ onSubmit }: OnSubmitProp) {
+function CountryForm({ onSubmit, hideHints }: CountryFormProp) {
   const [country, setCountry] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -74,12 +75,12 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           renderOption={(props, option) => (
             <li {...props}>
               <Box sx={{ width: '100%' }}>
-                <StyledTypography variant="body1">{option as React.ReactNode}</StyledTypography>
-                {/* { typeof option === 'string' && ( */}
+                <StyledTypography variant="body1" sx={{ textAlign: hideHints ? 'left' : 'center' }}>{option as React.ReactNode}</StyledTypography>
+                { !hideHints && (
                 <StyledTypography variant="subtitle1" sx={{ color: '#696969', display: 'block' }}>
                   {descriptions[option as keyof typeof descriptions] ?? ''}
                 </StyledTypography>
-                {/* )} */}
+                )}
               </Box>
             </li>
           )}

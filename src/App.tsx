@@ -8,8 +8,14 @@ import ConfettiExplosion from 'react-confetti-blast';
 import Zoom from '@mui/material/Zoom';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import IconButton from '@mui/material/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
 
 // Internal imports
 import './App.css';
@@ -31,6 +37,7 @@ import {
   correctGovernment,
 } from './country.ts';
 import Title from './Title.tsx';
+import SettingsProvider, { useSettings } from './SettingsProvider.tsx';
 
 type CountryData = {
   continent: string,
@@ -190,6 +197,7 @@ function LostMessage({ guessesData }: { guessesData: CountryData[] }) {
 function Main() {
   const [guessesData, setGuessesData] = useState<CountryData[]>([]);
   const [isWon, setIsWon] = useState(false);
+  const { hideHints } = useSettings();
   const TOTAL_GUESSES = 7;
   const guessesLeft = TOTAL_GUESSES - guessesData.length;
   const isLost = !isWon && guessesLeft <= 0;
@@ -255,7 +263,7 @@ function Main() {
         { !isWon
           && !isLost
           && (
-            <CountryForm onSubmit={onSubmit} />
+            <CountryForm onSubmit={onSubmit} hideHints={hideHints} />
           )}
         { isWon && <WonMessage guessesData={guessesData} /> }
         { isLost && <LostMessage guessesData={guessesData} /> }
@@ -282,11 +290,50 @@ function KofiButton() {
   );
 }
 
-function GithubLink() {
+function Settings() {
+  const [open, setOpen] = useState(false);
+  const { hideHints, setHideHints } = useSettings();
+
   return (
-    <Link href="https://github.com/muhashi/geodle" target="_blank">
-      <GitHubIcon fontSize='large' />
-    </Link>
+    <>
+      <IconButton
+        aria-label="Settings"
+        onClick={() => setOpen(true)}
+      >
+        <SettingsOutlinedIcon fontSize="large" />
+      </IconButton>
+
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
+        maxWidth="xs"
+        slots={{ transition: Zoom }}
+      >
+        <DialogTitle sx={{ fontWeight: 600 }}>
+          Settings
+        </DialogTitle>
+
+        <DialogContent>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hideHints}
+                color="info"
+                onChange={(e) => setHideHints(e.target.checked)}
+                sx={{ '& .MuiSwitch-thumb': { boxShadow: '0 2px 4px 0 rgb(0 35 11 / 80%)' } }}
+              />
+            }
+            label="Hide hint information in search results"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} variant="outlined" color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
 
@@ -299,7 +346,7 @@ function Header() {
         display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: matches ? 'space-between' : 'center', alignItems: 'center', margin: '0 auto', width: '85%', padding: '0 1.2rem',
       }}
       >
-        {matches && <GithubLink />}
+        {matches && <Settings />}
         <Title />
         {matches && <Contact />}
       </Box>
@@ -308,7 +355,7 @@ function Header() {
           display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'space-around', alignItems: 'center', gap: '0 1rem', margin: '1rem auto', width: '85%',
         }}
         >
-          <GithubLink />
+          <Settings />
           <Contact />
         </Box>
       
@@ -350,16 +397,18 @@ function MoreGamesButton() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Box sx={{
-          display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '2.5vh 0 0 0', height: '100%', minHeight: '95vh',
-        }}
-        >
-          <Header />
-          <Main />
-          <MoreGamesButton />
-        </Box>
-      </div>
+      <SettingsProvider>
+        <div className="App">
+          <Box sx={{
+            display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', margin: '2.5vh 0 0 0', height: '100%', minHeight: '95vh',
+          }}
+          >
+            <Header />
+            <Main />
+            <MoreGamesButton />
+          </Box>
+        </div>
+      </SettingsProvider>
     </ThemeProvider>
   );
 }
