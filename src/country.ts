@@ -65,7 +65,7 @@ const synonyms = {
   Australia: ['Kangarooland'],
   'Czech Republic': ['Czechia'],
   'Russian Federation': ['Russia'],
-  'United Kingdom': ['Great Britain', 'UK', 'Scotland', 'Wales', 'England'],
+  'United Kingdom': ['Great Britain', 'UK', 'Scotland', 'Wales', 'England', 'Northern Ireland'],
   Japan: ['Nippon'],
   Netherlands: ['Holland'],
   'Papua New Guinea': ['PNG'],
