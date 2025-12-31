@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { lighten, styled } from '@mui/material/styles';
 
-import { descriptions, synonyms } from './country.ts';
+
+import { descriptions, synonyms, getData } from './country.ts';
 import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents.tsx';
 import wordlist from './wordlist';
 
@@ -15,6 +17,18 @@ type FilterOptionsProp<T> = (
   options: T[],
   { inputValue }: { inputValue: string },
 ) => T[];
+
+const GroupHeader = styled('div')(({ theme }) => ({
+  position: 'sticky',
+  top: '-8px',
+  padding: '4px 10px',
+  color: theme.palette.primary.main,
+  backgroundColor: lighten(theme.palette.primary.light, 0.85),
+}));
+
+const GroupItems = styled('ul')({
+  padding: 0,
+});
 
 function CountryForm({ onSubmit }: OnSubmitProp) {
   const [country, setCountry] = useState('');
@@ -37,7 +51,12 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           autoHighlight
           id="country-select"
           noOptionsText="No countries found..."
-          options={[...wordlist].sort((a, b) => a.localeCompare(b))}
+          options={[...wordlist].sort((a, b) => {
+            if (getData(a).continent !== getData(b).continent) {
+              return getData(a).continent.localeCompare(getData(b).continent);
+            }
+            return a.localeCompare(b);
+          })}
           filterOptions={filterOptions as FilterOptionsProp<unknown>}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Country" />}
@@ -45,6 +64,13 @@ function CountryForm({ onSubmit }: OnSubmitProp) {
           onInputChange={(_, newValue) => setInputValue(newValue)}
           value={country}
           inputValue={inputValue}
+          groupBy={(country) => getData(country as string).continent}
+          renderGroup={(params) => (
+            <li key={params.key}>
+              <GroupHeader>{params.group}</GroupHeader>
+              <GroupItems>{params.children}</GroupItems>
+            </li>
+          )}
           renderOption={(props, option) => (
             <li {...props}>
               <Box sx={{ width: '100%' }}>
