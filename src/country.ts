@@ -12,7 +12,7 @@ const today = new Date();
 today.setHours(0, 0, 0); // Make sure both dates are on same time of 00:00:00
 const msPerDay = 1000 * 60 * 60 * 24;
 const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
-const COUNTRY_OFFSET = 42; // Offset to make sure daily country stays consistent when new countries are added
+const COUNTRY_OFFSET = 58; // Offset to make sure daily country stays consistent when new countries are added
 const dayIndex = (dayNumber + COUNTRY_OFFSET) % wordlist.length;
 const correctCountry = wordlist[dayIndex];
 // console.log(`Country #${dayNumber}: ${correctCountry}`);
