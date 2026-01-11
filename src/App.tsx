@@ -242,21 +242,26 @@ function Main() {
   return (
     <main style={{ flex: 1 }}>
       <Box sx={{
-        display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '3rem 0',
+        display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '2rem 0',
       }}
       >
-        <StyledTypography variant="h5" sx={{ fontWeight: 300, padding: '0 1.2rem' }}>
+        <StyledTypography
+          variant="h5"
+          sx={{
+            fontWeight: 500,
+            textAlign: 'center',
+            lineHeight: 1.4,
+          }}
+        >
           {(isWon || isLost) ? (
-            <>Come back tomorrow for a new country!</>
+            'Come back tomorrow for a new country!'
           ) : (
             <>
-              Guess which country I&apos;m thinking of! You have&nbsp;
-              <span style={{ fontWeight: 900 }}>
-                { guessesLeft }
-              </span>
-              &nbsp;guess
-              { guessesLeft === 1 ? '' : 'es' }
-              &nbsp;left.
+              Guess which country I&apos;m thinking of!
+              <Box component="span" sx={{ fontWeight: 700, mx: 0.5 }}>
+                {guessesLeft}
+              </Box>
+              guesses left.
             </>
           )}
         </StyledTypography>
