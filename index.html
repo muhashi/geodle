@@ -26,26 +26,26 @@
     <!-- Playlight -->
     <link rel="stylesheet" href="https://sdk.playlight.dev/playlight-sdk.css">
     <script type="module">
-      try {
-        const module = await import("https://sdk.playlight.dev/playlight-sdk.es.js");
-        const playlightSDK = module.default;
-        await playlightSDK.init({
-          button: {
-            visible: false,
-          },
-          exitIntent: {
-            enabled: true,
-            immediate: false,
-          },
-          sidebar: {
-            forceVisible: false,
-            hasFrameworkRoot: false,
-          },
-        });
-        globalThis.playlightSDK = playlightSDK;
-      } catch (error) {
-        console.error("Error loading the Playlight SDK:", error);
-      }
+      // try {
+      //   const module = await import("https://sdk.playlight.dev/playlight-sdk.es.js");
+      //   const playlightSDK = module.default;
+      //   await playlightSDK.init({
+      //     button: {
+      //       visible: false,
+      //     },
+      //     exitIntent: {
+      //       enabled: true,
+      //       immediate: false,
+      //     },
+      //     sidebar: {
+      //       forceVisible: false,
+      //       hasFrameworkRoot: false,
+      //     },
+      //   });
+      //   globalThis.playlightSDK = playlightSDK;
+      // } catch (error) {
+      //   console.error("Error loading the Playlight SDK:", error);
+      // }
     </script>
   </head>
   <body>
