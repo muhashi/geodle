@@ -236,10 +236,6 @@
         "landlocked": "0"
     },
     {
-        "country": "East Timor",
-        "landlocked": "0"
-    },
-    {
         "country": "Ecuador",
         "landlocked": "0"
     },
@@ -865,6 +861,10 @@
     },
     {
         "country": "The Democratic Republic of Congo",
+        "landlocked": "0"
+    },
+    {
+        "country": "Timor-Leste",
         "landlocked": "0"
     },
     {

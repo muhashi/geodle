@@ -236,10 +236,6 @@
         "continent": "North America"
     },
     {
-        "country": "East Timor",
-        "continent": "Asia"
-    },
-    {
         "country": "Ecuador",
         "continent": "South America"
     },
@@ -866,6 +862,10 @@
     {
         "country": "The Democratic Republic of Congo",
         "continent": "Africa"
+    },
+    {
+        "country": "Timor-Leste",
+        "continent": "Asia"
     },
     {
         "country": "Togo",

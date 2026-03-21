@@ -236,10 +236,6 @@
         "government": "Republic"
     },
     {
-        "country": "East Timor",
-        "government": "Administrated by the UN"
-    },
-    {
         "country": "Ecuador",
         "government": "Republic"
     },
@@ -866,6 +862,10 @@
     {
         "country": "The Democratic Republic of Congo",
         "government": "Republic"
+    },
+    {
+        "country": "Timor-Leste",
+        "government": "Unitary Semi-Presidential Republic"
     },
     {
         "country": "Togo",

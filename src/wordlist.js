@@ -75,7 +75,6 @@ const wordlist = [
   'Japan',
   'Sierra Leone',
   'South Africa',
-  'Guam',
   'Cuba',
   'Fiji',
   'Bhutan',
@@ -126,7 +125,6 @@ const wordlist = [
   'Malawi',
   'Saint Lucia',
   'Botswana',
-  'Hong Kong',
   'Tunisia',
   'Mexico',
   'Peru',
@@ -186,6 +184,7 @@ const wordlist = [
   'Lesotho',
   'Taiwan',
   'Bosnia and Herzegovina',
+  'Timor-Leste',
   'South Korea',
   'Sri Lanka',
   'Colombia',
@@ -193,6 +192,7 @@ const wordlist = [
   'Norway',
   'Indonesia',
   'Montenegro',
+  'Marshall Islands',
 ];
 
 export default wordlist;

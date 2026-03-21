@@ -236,10 +236,6 @@
         "temperature": 24.55
     },
     {
-        "country": "East Timor",
-        "temperature": 24.57
-    },
-    {
         "country": "Ecuador",
         "temperature": 21.43
     },
@@ -866,6 +862,10 @@
     {
         "country": "The Democratic Republic of Congo",
         "temperature": 24.35
+    },
+    {
+        "country": "Timor-Leste",
+        "temperature": 24.57
     },
     {
         "country": "Togo",

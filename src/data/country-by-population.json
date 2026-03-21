@@ -240,10 +240,6 @@
         "population": 10771504
     },
     {
-        "country": "East Timor",
-        "population": 1267972
-    },
-    {
         "country": "Ecuador",
         "population": 18103660
     },
@@ -870,6 +866,10 @@
     {
         "country": "The Democratic Republic of Congo",
         "population": 112832000
+    },
+    {
+        "country": "Timor-Leste",
+        "population": 1267972
     },
     {
         "country": "Togo",
