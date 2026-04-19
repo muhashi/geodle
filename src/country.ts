@@ -12,12 +12,13 @@ const today = new Date();
 today.setHours(0, 0, 0); // Make sure both dates are on same time of 00:00:00
 const msPerDay = 1000 * 60 * 60 * 24;
 const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
-const COUNTRY_OFFSET = 56; // Offset to make sure daily country stays consistent when new countries are added
+const COUNTRY_OFFSET = 72; // Offset to make sure daily country stays consistent when new countries are added
 const dayIndex = (dayNumber + COUNTRY_OFFSET) % wordlist.length;
 const correctCountry = wordlist[dayIndex];
 
-if (import.meta.env.DEV) console.log(`Country #${dayNumber}: ${correctCountry}`);
-
+if (import.meta.env.DEV) {
+  console.log(`Country #${dayNumber}: ${correctCountry}`);
+}
 
 // Get the data for country
 function getData(countryName: string) {
@@ -75,6 +76,7 @@ const synonyms = {
   'Mauritania': ['Maritania'],
   'Saint Lucia': ['St Lucia'],
   'Saint Vincent and the Grenadines': ['St Vincent and the Grenadines'],
+  'Saint Kitts and Nevis': ['St Kitts and Nevis'],
   Myanmar: ['Burma'],
   Zimbabwe: ['Rhodesia'],
   'United Arab Emirates': ['UAE'],
