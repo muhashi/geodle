@@ -151,7 +151,7 @@ function GameStatisticsDialog({ guessesData, isWon }: { guessesData: CountryData
           display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center', gap: '1rem 1rem', margin: '0 1rem',
         }}
         >
-          <StyledTypography>Like Geodle? Check out my new game <StyledLink href="https://seadle.muhashi.com/" target="_blank">Seadle</StyledLink>!</StyledTypography>
+          <StyledTypography>Like Geodle? Check out my game <StyledLink href="https://muhashi.com/aita-guesser" target="_blank">AITA Guesser</StyledLink>!</StyledTypography>
         </Box>
         <MoreGamesButton />
       </Dialog>
