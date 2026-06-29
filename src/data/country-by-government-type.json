@@ -448,6 +448,10 @@
         "government": "Republic"
     },
     {
+        "country": "Kosovo",
+        "government": "Parliamentary Republic"
+    },
+    {
         "country": "Kuwait",
         "government": "Constitutional Monarchy (Emirate)"
     },
@@ -625,7 +629,7 @@
     },
     {
         "country": "Niue",
-        "government": "Nonmetropolitan Territory of New Zealand"
+        "government": "Constitutional Monarchy"
     },
     {
         "country": "Norfolk Island",
@@ -877,7 +881,7 @@
     },
     {
         "country": "Tonga",
-        "government": "Monarchy"
+        "government": "Constitutional Monarchy"
     },
     {
         "country": "Trinidad and Tobago",

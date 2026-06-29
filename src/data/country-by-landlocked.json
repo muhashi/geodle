@@ -448,6 +448,10 @@
         "landlocked": "0"
     },
     {
+        "country": "Kosovo",
+        "landlocked": "1"
+    },
+    {
         "country": "Kuwait",
         "landlocked": "0"
     },

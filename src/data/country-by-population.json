@@ -452,6 +452,10 @@
         "population": 120740
     },
     {
+        "country": "Kosovo",
+        "population": 1585566
+    },
+    {
         "country": "Kuwait",
         "population": 4881254
     },
@@ -661,7 +665,7 @@
     },
     {
         "country": "Palau",
-        "population": 16733
+        "population": 17663
     },
     {
         "country": "Palestine",
