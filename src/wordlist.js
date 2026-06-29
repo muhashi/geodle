@@ -108,6 +108,7 @@ const wordlist = [
   'Albania',
   'Angola',
   'Zimbabwe',
+  'Seychelles',
   'Costa Rica',
   'South Sudan',
   'Uzbekistan',
