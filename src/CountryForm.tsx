@@ -1,93 +1,169 @@
+// import { useState } from 'react';
+// import {
+//   Autocomplete,
+//   Box,
+//   Button,
+//   Group,
+//   Text,
+//   OptionsFilter,
+//   ComboboxItem,
+// } from '@mantine/core';
+
+// import { descriptions, synonyms, getData } from './country';
+// import wordlist from './wordlist';
+
+// type CountryFormProps = {
+//   onSubmit: (country: string) => void;
+//   hideHints: boolean;
+// };
+
+// function CountryForm({ onSubmit, hideHints }: CountryFormProps) {
+//   const [value, setValue] = useState('');
+//   const [search, setCountryrch] = useState('');
+
+//   const options = [...wordlist].sort((a, b) => {
+//     const ca = getData(a).continent;
+//     const cb = getData(b).continent;
+//     return ca !== cb ? ca.localeCompare(cb) : a.localeCompare(b);
+//   });
+
+//   const filter: OptionsFilter = ({options, search}) => {
+//     const clean = search.replace(/[^A-Za-z\s]/g, '').toLowerCase().trim();
+
+//     return (options as ComboboxItem[]).filter(({ label }) => {
+//       if (label.toLowerCase().includes(clean)) return true;
+
+//       return (
+//         synonyms[label as keyof typeof synonyms]?.some((s) =>
+//           s.toLowerCase().includes(clean)
+//         ) ?? false
+//       );
+//     });
+//   };
+
+//   return (
+//     <form
+//       onSubmit={(e) => {
+//         e.preventDefault();
+//         onSubmit(value);
+//         setValue('');
+//         setCountryrch('');
+//       }}
+//     >
+//       <Group gap="sm" wrap="nowrap">
+//         <Autocomplete
+//           value={value}
+//           // searchValue={search}
+//           onChange={setValue}
+//           // onSearchChange={setCountryrch}
+//           placeholder="Country"
+//           // nothingFound="No countries found..."
+//           data={options}
+//           filter={filter}
+//           groupBy={(item) => getData(item).continent}
+//           renderGroup={({ group, children }) => (
+//             <Box key={group}>
+//               <Text
+//                 size="xs"
+//                 fw={600}
+//                 c="blue"
+//                 style={(theme) => ({
+//                   position: 'sticky',
+//                   top: 0,
+//                   backgroundColor: theme.fn.lighten(
+//                     theme.colors.blue[1],
+//                     0.85
+//                   ),
+//                   padding: '4px 10px',
+//                   userSelect: 'none',
+//                 })}
+//               >
+//                 {group}
+//               </Text>
+//               {children}
+//             </Box>
+//           )}
+//           itemComponent={({ value, ...others }) => (
+//             <Box {...others}>
+//               <Text ta={hideHints ? 'left' : 'center'}>
+//                 {value}
+//               </Text>
+//               {!hideHints && (
+//                 <Text size="sm" c="dimmed">
+//                   {descriptions[value as keyof typeof descriptions] ?? ''}
+//                 </Text>
+//               )}
+//             </Box>
+//           )}
+//           maxDropdownHeight={300}
+//           withinPortal
+//           w={300}
+//         />
+
+//         <Button type="submit">
+//           Submit
+//         </Button>
+//       </Group>
+//     </form>
+//   );
+// }
+
+// export default CountryForm;
+
+
 import React, { useState } from 'react';
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { lighten, styled } from '@mui/material/styles';
+import { Select, Button, Group, OptionsFilter, ComboboxItem } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
-
-import { descriptions, synonyms, getData } from './country.ts';
-import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents.tsx';
+import { descriptions, synonyms, getData } from './country';
 import wordlist from './wordlist';
 
-type CountryFormProp = {
+type CountryFormProps = {
   onSubmit: (country: string) => void;
   hideHints: boolean;
-}
+  guessed: string[];
+};
 
-type FilterOptionsProp<T> = (
-  options: T[],
-  { inputValue }: { inputValue: string },
-) => T[];
 
-const GroupHeader = styled('div')(({ theme }) => ({
-  position: 'sticky',
-  top: '-8px',
-  padding: '4px 10px',
-  color: theme.palette.primary.main,
-  backgroundColor: lighten(theme.palette.primary.light, 0.85),
-  userSelect: 'none',
-}));
-
-const GroupItems = styled('ul')({
-  padding: 0,
-});
-
-function CountryForm({ onSubmit, hideHints }: CountryFormProp) {
+function CountryForm({ onSubmit, hideHints, guessed }: CountryFormProps) {
   const [country, setCountry] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const isMobile = useMediaQuery(`(max-width: 485px)`);
 
-  const filterOptions: FilterOptionsProp<string> = (options, { inputValue }) => (
-    options.filter((option) => {
-      const cleanInput = inputValue.replace(/[^A-Za-z\s]/g, '').toLowerCase().trim();
-      return (option.toLowerCase().indexOf(cleanInput) > -1)
-        || (synonyms[option as keyof typeof synonyms]
-          && synonyms[option as keyof typeof synonyms]
-            .some((synonym) => synonym.toLowerCase().indexOf(cleanInput) > -1));
-    }));
+  const filter: OptionsFilter = ({options, search}) => {
+    const clean = search.replace(/[^A-Za-z\s]/g, '').toLowerCase().trim();
+
+    return (options as ComboboxItem[]).filter(({ label }) => {
+      if (label.toLowerCase().includes(clean)) return true;
+
+      return (
+        synonyms[label as keyof typeof synonyms]?.some((s) =>
+          s.toLowerCase().includes(clean)
+        ) ?? false
+      );
+    });
+  };
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry(''); setInputValue(''); }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', maxWidth: '95vw' }}>
-        <StyledAutocomplete
-          disablePortal
-          autoHighlight
-          id="country-select"
-          noOptionsText="No countries found..."
-          options={[...wordlist].sort((a, b) => {
-            if (getData(a).continent !== getData(b).continent) {
-              return getData(a).continent.localeCompare(getData(b).continent);
-            }
-            return a.localeCompare(b);
-          })}
-          filterOptions={filterOptions as FilterOptionsProp<unknown>}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Country" />}
-          onChange={(_, newValue) => setCountry(newValue as string)}
-          onInputChange={(_, newValue) => setInputValue(newValue)}
-          value={country}
-          inputValue={inputValue}
-          groupBy={(country) => getData(country as string).continent}
-          renderGroup={(params) => (
-            <li key={params.key}>
-              <GroupHeader>{params.group}</GroupHeader>
-              <GroupItems>{params.children}</GroupItems>
-            </li>
-          )}
-          renderOption={(props, option) => (
-            <li {...props}>
-              <Box sx={{ width: '100%' }}>
-                <StyledTypography variant="body1" sx={{ textAlign: hideHints ? 'left' : 'center' }}>{option as React.ReactNode}</StyledTypography>
-                { !hideHints && (
-                <StyledTypography variant="subtitle1" sx={{ color: '#696969', display: 'block' }}>
-                  {descriptions[option as keyof typeof descriptions] ?? ''}
-                </StyledTypography>
-                )}
-              </Box>
-            </li>
-          )}
+    <form style={{ width: '100%' }} onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry(null);}}>
+      <Group style={{ width: '100%' }} gap="sm" wrap="nowrap" justify="center">
+        <Button size="md" variant="contained" type="submit" style={{visibility: 'hidden', display: isMobile ? 'none' : 'block'}} disabled>Guess</Button> {/* hidden button for centering */}
+        <Select
+          data={[...wordlist].filter(country => !guessed.some((guess) => country === guess)).sort((a, b) => a.localeCompare(b))}
+          autoSelectOnBlur
+          searchable
+          clearable
+          filter={filter}
+          withCheckIcon={false}
+          rightSection={null}
+          comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 }, shadow: 'md' }}
+          placeholder="Search a country..."
+          onChange={(_value, option) => setCountry(option?.value)}
+          size="md"
+          value={country ?? null}
         />
-        <StyledButton id="country-submit" variant="contained" type="submit">Submit</StyledButton>
-      </Box>
+        <Button size="md" variant="contained" type="submit">Guess</Button>
+      </Group>
     </form>
   );
 }
