@@ -145,7 +145,7 @@ function CountryForm({ onSubmit, hideHints, guessed }: CountryFormProps) {
   };
 
   return (
-    <form style={{ width: '100%' }} onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry(null);}}>
+    <form style={{ width: '100%' }} onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry("");}}>
       <Group style={{ width: '100%' }} gap="sm" wrap="nowrap" justify="center">
         <Button size="md" variant="contained" type="submit" style={{visibility: 'hidden', display: isMobile ? 'none' : 'block'}} disabled>Guess</Button> {/* hidden button for centering */}
         <Select

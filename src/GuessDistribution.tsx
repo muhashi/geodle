@@ -16,8 +16,8 @@ function GuessDistribution({
   return (
     <Stack
       w="80%"
-      spacing="xs"
-      sx={{ userSelect: 'none' }}
+      gap="xs"
+      style={{ userSelect: 'none' }}
       align="flex-start"
     >
       {distribution.map((value, i) => {
@@ -25,7 +25,7 @@ function GuessDistribution({
         const width = max === 0 ? 0 : Math.round((value / max) * 80);
 
         return (
-          <Group key={i} spacing="md" w="100%" noWrap>
+          <Group key={i} gap="md" w="100%" wrap="nowrap">
             <Text
               fw={800}
               ff="monospace"
@@ -35,7 +35,7 @@ function GuessDistribution({
             </Text>
 
             <Box
-              sx={{
+              style={{
                 flexBasis: 0,
                 flexGrow: 0,
                 flexShrink: 1,
@@ -58,7 +58,7 @@ function GuessDistribution({
                 fw={700}
                 ff="monospace"
                 size="sm"
-                sx={{ margin: '0.2rem 0.5rem' }}
+                style={{ margin: '0.2rem 0.5rem' }}
               >
                 {value}
               </Text>

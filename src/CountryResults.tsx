@@ -1,7 +1,9 @@
 import { Fragment, ReactNode, JSX } from 'react';
 import { Box, Grid, Text, Tooltip } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
-import { formatPopulation, getEmojiHintText } from './helpers';
+import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers';
+
 
 const HINT_GREEN = '#6a9955';
 const HINT_RED = '#c15c4c';
@@ -15,23 +17,33 @@ type CountryData = {
   landlocked: boolean;
   religion: string;
   temperatureCelsius: number;
-  government: string;
+  surfaceArea: number;
   country: string;
 };
 
 type HintResult = 'correct' | 'up' | 'down' | 'wrong';
 
+// Shared wrapping rules: normal word-break with a break-word fallback lets
+// the browser hyphenate at real syllable points (via `hyphens: auto` below)
+// and only force a mid-word break as a last resort, rather than breaking
+// anywhere. `lang` is required for the hyphenation dictionary to kick in.
+const wrapStyle = {
+  wordBreak: 'normal' as const,
+  overflowWrap: 'break-word' as const,
+  hyphens: 'auto' as const,
+  WebkitHyphens: 'auto' as const,
+};
+
 /* ---------------- Icons ---------------- */
 
 const iconProps = {
-  width: 28,
-  height: 28,
   viewBox: '0 0 24 24',
   fill: 'none',
   stroke: 'currentColor',
   strokeWidth: 1.6,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
+  style: { width: 'clamp(14px, 6vw, 26px)', height: 'clamp(14px, 6vw, 26px)', flexShrink: 0 },
 };
 
 const IconGlobe = () => (
@@ -97,8 +109,13 @@ const COLUMNS: { label: string; icon: () => JSX.Element; tip: string }[] = [
   },
   { label: 'Religion', icon: IconBook, tip: 'Most common religion matches the correct country' },
   { label: 'Avg. Temp.', icon: IconThermometer, tip: 'Temperature within 10% of correct country' },
-  { label: 'Gov.', icon: IconBuilding, tip: 'Government type matches the correct country' },
+  { label: 'Surface Area', icon: IconBuilding, tip: 'Surface area within 10% of correct country' },
 ];
+
+// Every Grid.Col needs minWidth: 0 -- flex items default to min-width: auto,
+// which uses the content's natural (unbroken) width as a floor and silently
+// overflows the column. This lets our columns actually shrink to fit.
+const colStyle = { minWidth: 0 };
 
 function getHintResult(correct: DemographicDataType, guess: DemographicDataType): HintResult {
   if (typeof correct === 'number') correct = Math.round(correct);
@@ -123,11 +140,19 @@ function formatCellValue(columnIndex: number, value: DemographicDataType): strin
     case 2: // Landlocked
       return value ? 'Landlocked' : 'Coastal';
     case 4: // Avg. Temp.
-      return value === 0 ? 'N/A' : `${Math.round(value as number)}°C`;
+      return value === 0
+        ? 'N/A'
+        : `${Math.round(value as number)}°C`;
+    case 5: // Surface Area
+      return value === 0
+        ? 'N/A'
+        : `${formatPopulation(value as number)} km²`;
     default:
       return String(value);
   }
 }
+
+/* ---------------- Building blocks ---------------- */
 
 function ResultCard({ background, children }: { background: string; children: ReactNode }) {
   return (
@@ -135,15 +160,27 @@ function ResultCard({ background, children }: { background: string; children: Re
       h="100%"
       style={{
         background,
-        borderRadius: 16,
-        padding: '20px 12px',
+        borderRadius: 12,
+        padding: 'clamp(4px, 2.4vw, 16px) clamp(2px, 1.4vw, 5px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: 92,
+        minHeight: 'clamp(48px, 15vw, 88px)',
+        minWidth: 0,
+        overflow: 'hidden',
       }}
     >
-      <Text size="sm" fw={700} c="white" ta="center">
+      <Text
+        fw={700}
+        c="white"
+        ta="center"
+        lang="en"
+        style={{
+          fontSize: 'clamp(0.4rem, 1.8vw, 0.875rem)',
+          lineHeight: 1.15,
+          ...wrapStyle,
+        }}
+      >
         {children}
       </Text>
     </Box>
@@ -154,22 +191,33 @@ function HeaderCell({ label, tip, icon: Icon }: { label: string; tip: string; ic
   return (
     <Tooltip label={tip} withinPortal multiline w={220}>
       <Box
+        h="100%"
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 6,
+          justifyContent: 'flex-end',
+          gap: 4,
           color: HEADER_TEXT,
-          cursor: 'help',
+          cursor: 'pointer',
+          minWidth: 0,
         }}
       >
         {/* <Icon /> */}
         <Text
           ta="center"
           fw={700}
-          size="xs"
           tt="uppercase"
-          style={{ color: HEADER_TEXT }}
+          lang="en"
+          style={{
+            // letterSpacing: 0.5,
+            color: HEADER_TEXT,
+            fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
+            textDecoration: 'underline dotted', 
+            textDecorationThickness: '2px',
+            textUnderlineOffset: 2,
+            ...wrapStyle,
+          }}
         >
           {label}
         </Text>
@@ -178,7 +226,9 @@ function HeaderCell({ label, tip, icon: Icon }: { label: string; tip: string; ic
   );
 }
 
-export default function Results({
+/* ---------------- Main ---------------- */
+
+function Results({
   guessesData,
   correctData,
 }: {
@@ -186,18 +236,40 @@ export default function Results({
   correctData: CountryData;
 }) {
   if (guessesData.length === 0) return null;
+  const matches = useMediaQuery('(min-width: 370px)');
 
   return (
-    <Box w="100%" mb="10vh">
-      <Grid columns={7} gutter="sm" align="stretch">
+    <Box w="100%" maw="50rem" mx="auto" mb="10vh">
+      <Grid columns={7} gutter={matches ? 6 : 1} align="stretch" ml="0.3rem" mr="0.3rem">
         {/* Header row */}
-        <Grid.Col span={1}>
-          <Text ta="center" fw={700} size="xs" tt="uppercase" style={{ color: HEADER_TEXT }}>
-            Guess
-          </Text>
+        <Grid.Col span={1} style={colStyle}>
+          <Box
+            h="100%"
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              minWidth: 0,
+            }}
+          >
+            <Text
+              ta="center"
+              fw={700}
+              tt="uppercase"
+              lang="en"
+              style={{
+                // letterSpacing: 0.5,
+                color: HEADER_TEXT,
+                fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
+                ...wrapStyle,
+              }}
+            >
+              Guess
+            </Text>
+          </Box>
         </Grid.Col>
         {COLUMNS.map((column) => (
-          <Grid.Col span={1} key={column.label}>
+          <Grid.Col span={1} key={column.label} style={colStyle}>
             <HeaderCell {...column} />
           </Grid.Col>
         ))}
@@ -210,7 +282,7 @@ export default function Results({
             guessData.landlocked,
             guessData.religion,
             guessData.temperatureCelsius,
-            guessData.government,
+            guessData.surfaceArea,
           ];
           const correctValues: DemographicDataType[] = [
             correctData.continent,
@@ -218,13 +290,13 @@ export default function Results({
             correctData.landlocked,
             correctData.religion,
             correctData.temperatureCelsius,
-            correctData.government,
+            correctData.surfaceArea,
           ];
           const isCorrectGuess = guessData.country === correctData.country;
 
           return (
             <Fragment key={guessData.country}>
-              <Grid.Col span={1}>
+              <Grid.Col span={1} style={colStyle}>
                 <ResultCard background={isCorrectGuess ? HINT_GREEN : HINT_RED}>
                   {guessData.country}
                 </ResultCard>
@@ -235,7 +307,7 @@ export default function Results({
                 const displayValue = formatCellValue(i, guessValue);
 
                 return (
-                  <Grid.Col span={1} key={`${guessData.country}-${COLUMNS[i].label}`}>
+                  <Grid.Col span={1} key={`${guessData.country}-${COLUMNS[i].label}`} style={colStyle}>
                     <ResultCard background={hint === 'correct' ? HINT_GREEN : HINT_RED}>
                       {displayValue}
                       {hint === 'up' && ' ↑'}
@@ -251,3 +323,5 @@ export default function Results({
     </Box>
   );
 }
+
+export default Results;

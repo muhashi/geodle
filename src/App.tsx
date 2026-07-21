@@ -41,7 +41,7 @@ import {
   correctLandlocked,
   correctReligion,
   correctTemperatureCelsius,
-  correctGovernment,
+  correctSurfaceArea,
 } from './country';
 
 type CountryData = {
@@ -50,7 +50,7 @@ type CountryData = {
   landlocked: boolean;
   religion: string;
   temperatureCelsius: number;
-  government: string;
+  surfaceArea: number;
   country: string;
 };
 
@@ -60,7 +60,7 @@ const correctData: CountryData = {
   landlocked: correctLandlocked,
   religion: correctReligion,
   temperatureCelsius: correctTemperatureCelsius,
-  government: correctGovernment,
+  surfaceArea: correctSurfaceArea,
   country: correctCountry,
 };
 

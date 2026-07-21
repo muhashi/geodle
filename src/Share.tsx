@@ -2,7 +2,7 @@ import { Popover, Button, Text } from '@mantine/core';
 import { useState } from 'react';
 import {
   correctContinent,
-  correctGovernment,
+  correctSurfaceArea,
   correctLandlocked,
   correctPopulation,
   correctReligion,
@@ -17,7 +17,7 @@ type CountryData = {
   landlocked: boolean;
   religion: string;
   temperatureCelsius: number;
-  government: string;
+  surfaceArea: number;
   country: string;
 };
 
@@ -32,14 +32,14 @@ function Share({ guessesData }: { guessesData: CountryData[] }) {
         religion,
         temperatureCelsius,
         continent,
-        government,
+        surfaceArea,
       }) => [
         [correctContinent, continent],
         [correctPopulation, population],
         [correctLandlocked, landlocked],
         [correctReligion, religion],
         [correctTemperatureCelsius, temperatureCelsius],
-        [correctGovernment, government],
+        [correctSurfaceArea, surfaceArea],
       ]
     )
     .map((data) =>

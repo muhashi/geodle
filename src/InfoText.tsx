@@ -53,7 +53,7 @@ function InfoText() {
 
       <Text>
         You are given hints about the following categories: Continent,
-        Population, Landlocked, Religion, Temperature, and Government.
+        Population, Landlocked, Religion, Temperature, and Surface Area.
       </Text>
 
       <Text>
@@ -69,7 +69,7 @@ function InfoText() {
             landlocked: false,
             religion: 'Christianity',
             temperatureCelsius: 22,
-            government: 'Federation Constitutional Monarchy',
+            surfaceArea: 7741220,
           },
         ]}
         correctData={{
@@ -79,7 +79,7 @@ function InfoText() {
           landlocked: false,
           religion: 'N/A',
           temperatureCelsius: 26,
-          government: 'Republic',
+          surfaceArea: 322463,
         }}
       />
 
@@ -107,10 +107,6 @@ function InfoText() {
         The average temperature of the correct country is at least 10% higher
         than Australia&apos;s, so it shows
         {upwardsArrowImg}
-      </Text>
-
-      <Text>
-        Hover over the boxes to get information on your guess&apos;s data.
       </Text>
 
       <Text>
