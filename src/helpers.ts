@@ -32,23 +32,41 @@ function tempFahrenheit(celsius: number) {
   return (celsius * 9) / 5 + 32;
 }
 
-// Rounds population to 3 significant figures and adds locale specific thousand seperators
+// Rounds population to 3 sig figs
 function formatPopulation(num: number): string {
   if (num < 1e3) {
     return num.toString();
   }
   
-  // Calculate the appropriate scale (6 for Millions, 9 for Billions)
   const exponent = Math.floor(Math.log10(num) / 3) * 3;
   const scaledNum = num / Math.pow(10, exponent);
   
-  // toPrecision(3) gets the 3 most significant digits
   const suffix = ["", "k", "M", "B"][exponent / 3];
   
-  // parseFloat strips out any unnecessary trailing zeros (e.g., 8.00M becomes 8M)
   return parseFloat(scaledNum.toPrecision(3)) + suffix;
 }
 
+function km2ToMi2(km2: number): number {
+  return km2 / 2.59;
+}
+
+const COUNTRY_ABBREVIATIONS: Record<string, string> = {
+  'The Democratic Republic of Congo': 'DR Congo',
+  'Saint Vincent and the Grenadines': 'St Vincent & Grenadines',
+  'Federated States of Micronesia': 'Micronesia',
+  'Central African Republic': 'Central African Rep.',
+  'Bosnia and Herzegovina': 'Bosnia & Herzegovina',
+  'Sao Tome and Principe': 'Sao Tome & Principe',
+  'Saint Kitts and Nevis': 'St Kitts & Nevis',
+  'United Arab Emirates': 'UAE',
+  'Antigua and Barbuda': 'Antigua & Barbuda',
+  'Trinidad and Tobago': 'Trinidad & Tobago',
+};
+
+function shortenCountryName(name: string): string {
+  return COUNTRY_ABBREVIATIONS[name] ?? name;
+}
+
 export {
-  isApproxEqual, getEmojiHintText, tempFahrenheit, formatPopulation,
+  isApproxEqual, getEmojiHintText, tempFahrenheit, formatPopulation, km2ToMi2, shortenCountryName,
 };

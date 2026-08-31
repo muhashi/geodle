@@ -1,13 +1,4 @@
-.App {
-  background-color: #f7f7f7;
-  min-height: 100vh;
-  width: 100%;
-  display: block;
-  position: relative;
-  top: 0;
-  bottom: 0;
-  overflow: auto;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@200..1000&display=swap');
 
 /** Title animation from https://codepen.io/arlinacode/pen/BxgRPb, licence below:
   Copyright (c) 2023 by Arlina Code (https://codepen.io/arlinacode/pen/BxgRPb)
@@ -19,26 +10,23 @@
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 .title-text {
-  cursor: default;
   user-select: none;
-  padding-bottom: 2rem;
   width: 100%;
   height: 100px;
   margin: auto;
   display: block;
   text-align: center;
+  font-style: italic;
 }
 
 .title-text span {
-  --shadow-color: #002922;
   position: relative;
-  top: 20px;
+  top: 10px;
   display: inline-block;
   animation: bounce 0.3s ease 6 alternate;
-  font-size: 80px;
-  color: #00b99b;
-  text-shadow: 0 1px 0 var(--shadow-color), 0 2px 0 var(--shadow-color), 0 3px 0 var(--shadow-color), 0 4px 0 var(--shadow-color),
-    0 5px 0 var(--shadow-color), 0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent;
+  font-size: 50px;
+  color: #00a68a;
+  font-weight: 1000;
 }
 
 .title-text span:nth-child(2) {
@@ -67,10 +55,7 @@
 
 @keyframes bounce {
   100% {
-    top: -20px;
-    text-shadow: 0 1px 0 var(--shadow-color), 0 2px 0 var(--shadow-color), 0 3px 0 var(--shadow-color), 0 4px 0 var(--shadow-color),
-      0 5px 0 var(--shadow-color), 0 6px 0 var(--shadow-color), 0 7px 0 var(--shadow-color), 0 8px 0 var(--shadow-color), 0 9px 0 var(--shadow-color),
-      0 50px 25px rgba(0, 0, 0, 0.2);
+    top: -10px;
   }
 }
 
@@ -117,4 +102,16 @@
 		90% {
 			color: rgba(251, 7, 217, 1);
 		}
+}
+
+.home-action-card:hover {
+  transform: scale(1.02);
+}
+
+.home-action-card:hover:not([aria-disabled='true']) {
+  filter: brightness(1.15);
+}
+
+.settings-switch[data-checked="false"] .mantine-Switch-track {
+  background-color: var(--mantine-color-gray-5);
 }
