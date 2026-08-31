@@ -5,15 +5,14 @@
   "type": "module",
   "homepage": "https://geodle.me",
   "dependencies": {
-    "@mantine/core": "^9.5.1",
+    "@mantine/core": "^9.5.2",
     "@mantine/hooks": "^9.5.2",
     "@tabler/icons-react": "^3.46.0",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.1.0",
-    "gh-pages": "^6.3.0",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
     "js-cookie": "^3.0.8",
     "react": "^19.2.8",
     "react-confetti-blast": "^1.0.2",
@@ -49,7 +48,7 @@
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
     "country-json": "^2.3.0",
-    "eslint": "^10.9.0",
+    "eslint": "^10.9.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.11.0"
   }
