@@ -5,8 +5,8 @@ import { useMediaQuery } from '@mantine/hooks';
 import { formatPopulation, getEmojiHintText, tempFahrenheit, km2ToMi2, shortenCountryName } from './helpers';
 
 
-const HINT_GREEN = '#2F6349';
-const HINT_RED = '#c4523b';
+const HINT_GREEN = '#007326';
+const HINT_RED = '#b30000';
 const HEADER_TEXT = '#000';
 
 type DemographicDataType = number | string | boolean;

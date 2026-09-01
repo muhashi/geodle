@@ -5,7 +5,7 @@ import './Stamp.css';
 
 export default function Stamp({ country, isWon, guessCount }: { country: string; isWon: boolean, guessCount: number }) {
 
-  const color = isWon ? '#2F6349' : '#c4523b';
+  const color = isWon ? '#007326' : '#c4523b';
 
   return (
     <Box className="stamp-wrap" style={{
