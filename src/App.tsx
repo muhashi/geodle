@@ -8,7 +8,7 @@ import {
   Stack, Switch, Text, UnstyledButton, useMantineColorScheme, useMantineTheme,
 } from '@mantine/core';
 import {
-  IconBrandGithub, IconCoffee, IconMail, IconMoon, IconSettings, IconSun,
+  IconBrandGithub, IconCoffee, IconHistory, IconMail, IconMoon, IconSettings, IconSun,
 } from '@tabler/icons-react';
 
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
@@ -597,6 +597,14 @@ function Header({ onLogoClick, mode }: { onLogoClick: () => void; mode: GameMode
           onClick={closeMenu}
         >
           Donate
+        </Menu.Item>
+        <Menu.Item
+          leftSection={<IconHistory size={16} />}
+          component="a"
+          href="https://old.geodle.me"
+          onClick={closeMenu}
+        >
+          Old site
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
