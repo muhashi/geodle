@@ -32,14 +32,41 @@ function tempFahrenheit(celsius: number) {
   return (celsius * 9) / 5 + 32;
 }
 
-// Rounds population to 3 significant figures and adds locale specific thousand seperators
-// (e.g. 131225219 => 131,000,000 or 131.000.000)
-function formatPopulation(population: number) {
-  // TODO: Format population in a more readable way (e.g. 906 thousand, 220 million)
-  const SIG_FIGS = 3;
-  return parseFloat((population).toPrecision(SIG_FIGS)).toLocaleString();
+// Rounds population to 3 sig figs
+function formatPopulation(num: number): string {
+  if (num < 1e3) {
+    return num.toString();
+  }
+  
+  const exponent = Math.floor(Math.log10(num) / 3) * 3;
+  const scaledNum = num / Math.pow(10, exponent);
+  
+  const suffix = ["", "k", "M", "B"][exponent / 3];
+  
+  return parseFloat(scaledNum.toPrecision(3)) + suffix;
+}
+
+function km2ToMi2(km2: number): number {
+  return km2 / 2.59;
+}
+
+const COUNTRY_ABBREVIATIONS: Record<string, string> = {
+  'The Democratic Republic of Congo': 'DR Congo',
+  'Saint Vincent and the Grenadines': 'St Vincent & Grenadines',
+  'Federated States of Micronesia': 'Micronesia',
+  'Central African Republic': 'Central African Rep.',
+  'Bosnia and Herzegovina': 'Bosnia & Herzegovina',
+  'Sao Tome and Principe': 'Sao Tome & Principe',
+  'Saint Kitts and Nevis': 'St Kitts & Nevis',
+  'United Arab Emirates': 'UAE',
+  'Antigua and Barbuda': 'Antigua & Barbuda',
+  'Trinidad and Tobago': 'Trinidad & Tobago',
+};
+
+function shortenCountryName(name: string): string {
+  return COUNTRY_ABBREVIATIONS[name] ?? name;
 }
 
 export {
-  isApproxEqual, getEmojiHintText, tempFahrenheit, formatPopulation,
+  isApproxEqual, getEmojiHintText, tempFahrenheit, formatPopulation, km2ToMi2, shortenCountryName,
 };

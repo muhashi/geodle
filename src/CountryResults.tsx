@@ -1,238 +1,475 @@
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Fragment, ReactNode, JSX } from 'react';
+import { Box, Grid, Text, Tooltip } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
-import { formatPopulation, getEmojiHintText, tempFahrenheit } from './helpers.ts';
+import { formatPopulation, getEmojiHintText, tempFahrenheit, km2ToMi2, shortenCountryName } from './helpers';
 
-import svgSquareCaretDown from './img/square-caret-down.svg';
-import svgSquareCaretUp from './img/square-caret-up.svg';
-import svgSquareGreen from './img/square-green.svg';
-import svgSquareRed from './img/square-red.svg';
 
-const squareRedImg = <img src={svgSquareRed} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Red Square" />;
-const squareGreenImg = <img src={svgSquareGreen} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Green Square" />;
-const upwardsArrowImg = <img src={svgSquareCaretUp} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Upwards Arrow" />;
-const downwardsArrowImg = <img src={svgSquareCaretDown} className="emoji-icon" style={{ width: '2rem', height: '2rem' }} alt="Downwards Arrow" />;
-
-const getHeaders = () => ['Continent', 'Population', 'Landlocked', 'Religion', 'Avg. Temp.', 'Gov.'];
+const HINT_GREEN = '#2F6349';
+const HINT_RED = '#c4523b';
+const HEADER_TEXT = '#000';
 
 type DemographicDataType = number | string | boolean;
 
-function getEmojiHintImage(correct: DemographicDataType, guess: DemographicDataType) {
-  if (typeof correct === 'number') {
-    correct = Math.round(correct);
-  }
+type CountryData = {
+  continent: string;
+  population: number;
+  landlocked: boolean;
+  religion: string;
+  temperatureCelsius: number;
+  surfaceArea: number;
+  country: string;
+};
 
-  if (typeof guess === 'number') {
-    guess = Math.round(guess);
-  }
+type HintResult = 'correct' | 'up' | 'down' | 'wrong';
 
-  const textEmoji = getEmojiHintText(correct, guess);
+const wrapStyle = {
+  wordBreak: 'normal' as const,
+  overflowWrap: 'break-word' as const,
+  hyphens: 'auto' as const,
+  WebkitHyphens: 'auto' as const,
+  MozHyphens: 'auto' as const,
+  msHyphens: 'auto' as const,
+};
 
-  switch (textEmoji) {
-    case '🟥':
-      return squareRedImg;
+const iconProps = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.6,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  style: { width: 'clamp(14px, 6vw, 26px)', height: 'clamp(14px, 6vw, 26px)', flexShrink: 0 },
+};
+
+const IconGlobe = () => (
+  <svg {...iconProps}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18" />
+    <path d="M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z" />
+  </svg>
+);
+
+const IconUsers = () => (
+  <svg {...iconProps}>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+);
+
+const IconAnchor = () => (
+  <svg {...iconProps}>
+    <circle cx="12" cy="5" r="3" />
+    <line x1="12" y1="8" x2="12" y2="21" />
+    <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+  </svg>
+);
+
+const IconBook = () => (
+  <svg {...iconProps}>
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </svg>
+);
+
+const IconThermometer = () => (
+  <svg {...iconProps}>
+    <path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z" />
+    <line x1="12" y1="8" x2="12" y2="14" />
+  </svg>
+);
+
+const IconBuilding = () => (
+  <svg {...iconProps}>
+    <path d="M3 10l9-6 9 6" />
+    <path d="M4 10v9" />
+    <path d="M8 10v9" />
+    <path d="M12 10v9" />
+    <path d="M16 10v9" />
+    <path d="M20 10v9" />
+    <path d="M2 21h20" />
+  </svg>
+);
+
+const COLUMNS: { label: string; icon: () => JSX.Element; tip: string }[] = [
+  { label: 'Continent', icon: IconGlobe, tip: 'Continent matches the correct country' },
+  { label: 'Population', icon: IconUsers, tip: 'Population within 10% of correct country' },
+  {
+    label: 'Landlocked',
+    icon: IconAnchor,
+    tip: 'A landlocked country does not have territory connected to an ocean',
+  },
+  { label: 'Religion', icon: IconBook, tip: 'Most common religion matches the correct country' },
+  { label: 'Avg. Temp.', icon: IconThermometer, tip: 'Temperature within 10% of correct country' },
+  { label: 'Area', icon: IconBuilding, tip: 'Surface area within 10% of correct country' },
+];
+
+const colStyle = { minWidth: 0 };
+
+function getHintResult(correct: DemographicDataType, guess: DemographicDataType): HintResult {
+  if (typeof correct === 'number') correct = Math.round(correct);
+  if (typeof guess === 'number') guess = Math.round(guess);
+
+  switch (getEmojiHintText(correct, guess)) {
     case '🟩':
-      return squareGreenImg;
+      return 'correct';
     case '🔼':
-      return upwardsArrowImg;
+      return 'up';
     case '🔽':
-      return downwardsArrowImg;
+      return 'down';
     default:
-      return squareRedImg;
+      return 'wrong';
   }
 }
 
-type CountryData = {
-  continent: string,
-  population: number,
-  landlocked: boolean,
-  religion: string,
-  temperatureCelsius: number,
-  government: string,
-  country: string,
-};
+function formatCellValue(columnIndex: number, value: DemographicDataType, isTempFahrenheit: boolean, isAreaMiles: boolean): string {
+  switch (columnIndex) {
+    case 1: // Population
+      return formatPopulation(value as number);
+    case 2: // Landlocked
+      return value ? 'Yes' : 'No';
+    case 4: // Avg. Temp.
+      return value === 0
+        ? 'N/A'
+        : isTempFahrenheit
+        ? `${Math.round(tempFahrenheit(value as number))}°F`
+        : `${Math.round(value as number)}°C`;
+    case 5: // Surface Area
+      return value === 0
+        ? 'N/A'
+        : formatPopulation(isAreaMiles ? km2ToMi2(value as number) : (value as number));
+    default:
+      return String(value);
+  }
+}
 
-const getTooltipText = ({
-  population, landlocked, religion, temperatureCelsius, continent, government,
-}: CountryData) => {
-  const temperatureTip = temperatureCelsius === 0 ? 'N/A' : `${Math.round(temperatureCelsius)}°C / ${Math.round(tempFahrenheit(temperatureCelsius))}°F`;
-  const landlockedTip = landlocked ? 'Landlocked' : 'Coastal';
-  const populationTip = formatPopulation(population);
-  const tips = [continent, populationTip, landlockedTip, religion, temperatureTip, government];
-  return tips;
-};
+function ResultCard({ background, textColor, children }: { background: string; textColor?: string; children: ReactNode }) {
+  return (
+    <Box
+      h="100%"
+      style={{
+        background,
+        borderRadius: 12,
+        padding: 'clamp(4px, 2.4vw, 16px) clamp(2px, 1.4vw, 5px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 'clamp(48px, 15vw, 88px)',
+        minWidth: 0,
+        overflow: 'hidden',
+      }}
+    >
+      <Text
+        fw={700}
+        c={textColor ?? "white"}
+        ta="center"
+        lang="en"
+        style={{
+          fontSize: 'clamp(0.4rem, 1.8vw, 0.875rem)',
+          lineHeight: 1.15,
+          ...wrapStyle,
+        }}
+      >
+        {children}
+      </Text>
+    </Box>
+  );
+}
 
-function ResultRow(
-  { guessData, correctData }: { guessData: CountryData, correctData: CountryData },
-) {
-  const {
-    country,
-    population,
-    landlocked,
-    religion,
-    temperatureCelsius,
-    continent,
-    government,
-  } = guessData;
+function HeaderCell({ label, tip }: { label: string; tip: string }) {
+  return (
+    <Tooltip label={tip} withinPortal multiline w={220} events={{ hover: true, focus: true, touch: true }}>
+      <Box
+        h="100%"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 4,
+          color: HEADER_TEXT,
+          cursor: 'pointer',
+          minWidth: 0,
+        }}
+      >
+        <Text
+          ta="center"
+          fw={700}
+          tt="uppercase"
+          lang="en"
+          style={{
+            color: HEADER_TEXT,
+            fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
+            textDecoration: 'underline dotted', 
+            textDecorationThickness: '2px',
+            textUnderlineOffset: 2,
+            ...wrapStyle,
+          }}
+        >
+          {label}
+        </Text>
+      </Box>
+    </Tooltip>
+  );
+}
 
-  const data = [continent, population, landlocked, religion, temperatureCelsius, government];
 
-  const correctDataList = [
+function MobileStatCard({
+  columnIndex,
+  hint,
+  displayValue,
+  tip,
+}: {
+  columnIndex: number;
+  hint: HintResult;
+  displayValue: string;
+  tip: string;
+}) {
+  const { label } = COLUMNS[columnIndex];
+
+  const sharedBoxStyle = {
+    borderRadius: 10,
+    padding: '6px 4px',
+    minHeight: 58,
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+  };
+
+  const isCorrect = hint === 'correct';
+  return (
+    <Box style={{ ...sharedBoxStyle, background: isCorrect ? HINT_GREEN : HINT_RED }}>
+      <Tooltip label={tip} withinPortal multiline w={220} events={{ hover: true, focus: true, touch: true }}>
+        <Text
+          c="white"
+          ta="center"
+          fw={600}
+          tt="uppercase"
+          lang="en"
+          style={{
+            fontSize: '0.55rem',
+            color: 'rgba(255,255,255,0.85)',
+            textDecoration: 'underline dotted',
+            textDecorationThickness: '1.5px',
+            textUnderlineOffset: 1,
+            cursor: 'pointer',
+            ...wrapStyle,
+          }}
+        >
+          {label}
+        </Text>
+      </Tooltip>
+      <Text fw={700} c="white" ta="center" lang="en" style={{ fontSize: '0.78rem', ...wrapStyle }}>
+          {displayValue}
+          {hint === 'up' && ' ↑'}
+          {hint === 'down' && ' ↓'}
+      </Text>
+    </Box>
+  );
+}
+
+function MobileGuessCard({
+  guessData,
+  correctData,
+  isTempFahrenheit,
+  isAreaMiles,
+}: {
+  guessData: CountryData;
+  correctData: CountryData;
+  isTempFahrenheit: boolean;
+  isAreaMiles: boolean;
+}) {
+  const isCorrectGuess = guessData.country === correctData.country;
+
+  const guessValues: DemographicDataType[] = [
+    guessData.continent,
+    guessData.population,
+    guessData.landlocked,
+    guessData.religion,
+    guessData.temperatureCelsius,
+    guessData.surfaceArea,
+  ];
+  const correctValues: DemographicDataType[] = [
     correctData.continent,
     correctData.population,
     correctData.landlocked,
     correctData.religion,
     correctData.temperatureCelsius,
-    correctData.government,
+    correctData.surfaceArea,
   ];
 
-  const tips = getTooltipText(guessData);
-  const headers = getHeaders();
-  const tooltipText = <div style={{ whiteSpace: 'pre-line', textAlign: 'center' }}>{headers.map((header, i) => `${header}: ${tips[i]}`).join('\n')}</div>;
-
   return (
-    <TableRow>
-      <TableCell 
-        component="th" 
-        scope="row" 
-        sx={{ 
-          minWidth: '100px',
-          position: 'sticky',
-          left: 0,
-          backgroundColor: '#f7f7f7',
-          zIndex: 1,
-          borderRight: '1px solid rgba(224, 224, 224, 1)',
-          boxShadow: '3px 0px 0px -1px rgba(0, 0, 0, 0.4)',
+    <Box
+      style={{
+        background: 'var(--mantine-color-body)',
+        // border: '2px solid var(--mantine-color-ink-6)',
+        borderRadius: 16,
+        padding: '10px 12px 12px',
+      }}
+    >
+      <Text
+        fw={800}
+        lang="en"
+        style={{
+          fontSize: '1.1rem',
+          display: 'inline-block',
+          ...(isCorrectGuess ? { background: '#cfe3fb', padding: '1px 8px', borderRadius: 6 } : {}),
+          ...wrapStyle,
         }}
       >
-        <Tooltip title={tooltipText} slotProps={{ popper: {container: document.getElementById('root')} }}>
-          <Typography 
-            sx={{ 
-              width: '100%', 
-              textDecoration: 'underline dotted', 
-              textDecorationThickness: '2px',
-              fontWeight: 'bold',
-              fontFamily: 'Trebuchet MS, sans-serif',
-              cursor: 'pointer',
-            }}
-          >
-            {country}
-          </Typography>
-        </Tooltip>
-      </TableCell>
-      {tips.map((tip, i) => (
-        <TableCell key={`${country}-${headers[i]}`} align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
-          <Tooltip title={tip} slotProps={{ popper: {container: document.getElementById('root') } }}>{getEmojiHintImage(correctDataList[i], data[i])}</Tooltip>
-        </TableCell>
-      ))}
-    </TableRow>
+        {shortenCountryName(guessData.country)}
+      </Text>
+
+      <Grid columns={3} gap={6} mt={8}>
+        {COLUMNS.map(({label}, columnIndex) => {
+          const hint = getHintResult(correctValues[columnIndex], guessValues[columnIndex]);
+          const displayValue = formatCellValue(columnIndex, guessValues[columnIndex], isTempFahrenheit, isAreaMiles);
+          const column = COLUMNS[columnIndex];
+          const tip = column.label === 'Area' ? `${column.tip} (${isAreaMiles ? 'mi²' : 'km²'})` : column.tip;
+
+          return (
+            <Grid.Col span={1} key={label} style={colStyle}>
+              <MobileStatCard columnIndex={columnIndex} hint={hint} displayValue={displayValue} tip={tip} />
+            </Grid.Col>
+          );
+        })}
+      </Grid>
+    </Box>
   );
 }
 
-function Results(
-  { guessesData, correctData }: { guessesData: CountryData[], correctData: CountryData },
-) {
-  const matches = useMediaQuery('(min-width:750px)');
-  const tips = [
-    'Continent matches the correct country',
-    'Population within 10% of correct country',
-    'A landlocked country does not have territory connected to an ocean',
-    'Most common religion matches the correct country',
-    'Temperature within 10% of correct country',
-    'Government type matches the correct country',
-  ];
+function MobileResults({
+  guessesData,
+  correctData,
+  isTempFahrenheit,
+  isAreaMiles,
+}: {
+  guessesData: CountryData[];
+  correctData: CountryData;
+  isTempFahrenheit: boolean;
+  isAreaMiles: boolean;
+}) {
+  return (
+    <Box w="95%" maw="50rem" mx="auto">
+      <Box style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {[...guessesData].reverse().map((guessData) => (
+          <MobileGuessCard key={guessData.country} guessData={guessData} correctData={correctData} isTempFahrenheit={isTempFahrenheit} isAreaMiles={isAreaMiles} />
+        ))}
+      </Box>
+    </Box>
+  );
+}
 
-  const headers = getHeaders();
+function Results({
+  guessesData,
+  correctData,
+  isTempFahrenheit,
+  isAreaMiles,
+  isMobile = false,
+}: {
+  guessesData: CountryData[];
+  correctData: CountryData;
+  isTempFahrenheit: boolean;
+  isAreaMiles: boolean;
+  isMobile?: boolean;
+}) {
+  if (guessesData.length === 0) return null;
+  const mobile = isMobile || useMediaQuery('(max-width: 600px)');
+
+  if (mobile) {
+    return <MobileResults guessesData={guessesData} correctData={correctData} isTempFahrenheit={isTempFahrenheit} isAreaMiles={isAreaMiles} />;
+  }
 
   return (
-    guessesData.length > 0 ? (
+    <Box w="100%" maw="50rem" mx="auto">
+      <Grid columns={7} gap={mobile ? 1 : "xs"} align="stretch" ml="0.3rem" mr="0.3rem">
+        {/* Header row */}
+        <Grid.Col span={1} style={colStyle}>
+          <Box
+            h="100%"
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              minWidth: 0,
+            }}
+          >
+            <Text
+              ta="center"
+              fw={700}
+              tt="uppercase"
+              lang="en"
+              style={{
+                color: HEADER_TEXT,
+                fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
+                ...wrapStyle,
+              }}
+            >
+              Guess
+            </Text>
+          </Box>
+        </Grid.Col>
+        {COLUMNS.map((column) => {
+          const tip = column.label === 'Area' ? `${column.tip} (${isAreaMiles ? 'mi²' : 'km²'})` : column.tip;
+          return (
+            <Grid.Col span={1} key={column.label} style={colStyle}>
+              <HeaderCell label={column.label} tip={tip} />
+            </Grid.Col>
+          );
+        })}
 
-      <Box sx={{ 
-        width: '100%',
-        marginBottom: '10vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        gap: '1rem',
-      }}>
-        <Box sx={{
-          width: '100%',
-          maxWidth: '100vw',
-        }}>
-          <TableContainer sx={{ 
-            width: '100%',
-            overflowX: 'auto',
-            '&::-webkit-scrollbar': {
-              height: '6px',
-            },
-            '&::-webkit-scrollbar-track': {
-              backgroundColor: 'rgba(0,0,0,0.1)',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(0,0,0,0.3)',
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb:hover': {
-              backgroundColor: 'rgba(0,0,0,0.5)',
-            },
-          }}>
-            <Table sx={{ minWidth: '500px', width: '100%' }}>
-              <TableHead sx={{ borderBottom: '2px solid #4d4d4d' }}>
-                <TableRow>
-                  <TableCell 
-                    sx={{ 
-                      position: 'sticky',
-                      left: 0,
-                      backgroundColor: '#f7f7f7',
-                      zIndex: 2,
-                      borderRight: '1px solid rgba(224, 224, 224, 1)',
-                      minWidth: '100px',
-                       // -1px spread for some reason fixes a weird thicker row border showing up in safari
-                      boxShadow: '3px 0px 0px -1px rgba(0, 0, 0, 0.4)',
-                    }}
-                  />
-                  {headers.map((header, i) => (
-                    <Tooltip title={tips[i]} key={header} slotProps={{ popper: {container: document.getElementById('root') } }}>
-                      <TableCell align="center" sx={{ cursor: 'pointer', minWidth: '60px' }}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            textDecoration: 'underline dotted',
-                            textDecorationThickness: '2px',
-                            fontWeight: 'bold',
-                            fontFamily: 'Trebuchet MS, sans-serif',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {header}
-                        </Typography>
-                      </TableCell>
-                    </Tooltip>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {guessesData.toReversed().map((data) => (
-                  <ResultRow guessData={data} correctData={correctData} key={data.country} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-        {!matches && (<Typography variant="body2" color="textSecondary" sx={{ userSelect: 'none' }}>
-          &larr; Scroll to see all hints &rarr;
-        </Typography>)}
-      </Box>
-    ) : null
+        {/* Guess rows */}
+        {[...guessesData].reverse().map((guessData) => {
+          const guessValues: DemographicDataType[] = [
+            guessData.continent,
+            guessData.population,
+            guessData.landlocked,
+            guessData.religion,
+            guessData.temperatureCelsius,
+            guessData.surfaceArea,
+          ];
+          const correctValues: DemographicDataType[] = [
+            correctData.continent,
+            correctData.population,
+            correctData.landlocked,
+            correctData.religion,
+            correctData.temperatureCelsius,
+            correctData.surfaceArea,
+          ];
+          const isCorrectGuess = guessData.country === correctData.country;
+
+          return (
+            <Fragment key={guessData.country}>
+              <Grid.Col span={1} style={colStyle}>
+                <ResultCard background={isCorrectGuess ? HINT_GREEN : HINT_RED}>
+                  {shortenCountryName(guessData.country)}
+                </ResultCard>
+              </Grid.Col>
+
+              {guessValues.map((guessValue, i) => {
+                const hint = getHintResult(correctValues[i], guessValue);
+                const displayValue = formatCellValue(i, guessValue, isTempFahrenheit, isAreaMiles);
+
+                return (
+                  <Grid.Col span={1} key={`${guessData.country}-${COLUMNS[i].label}`} style={colStyle}>
+                    <ResultCard background={hint === 'correct' ? HINT_GREEN : HINT_RED}>
+                      {displayValue}
+                      {hint === 'up' && ' ↑'}
+                      {hint === 'down' && ' ↓'}
+                    </ResultCard>
+                  </Grid.Col>
+                );
+              })}
+            </Fragment>
+          );
+        })}
+      </Grid>
+    </Box>
   );
 }
 

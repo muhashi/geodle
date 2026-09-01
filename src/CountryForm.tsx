@@ -1,93 +1,117 @@
-import React, { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { lighten, styled } from '@mui/material/styles';
+import { Button, ComboboxItem, ComboboxItemGroup, Group, OptionsFilter, Select } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
-
-import { descriptions, synonyms, getData } from './country.ts';
-import { StyledAutocomplete, StyledButton, StyledTypography } from './StyledComponents.tsx';
+import { synonyms } from './country';
 import wordlist from './wordlist';
+import continentData from './data/country-by-continent.json';
 
-type CountryFormProp = {
+type CountryFormProps = {
   onSubmit: (country: string) => void;
-  hideHints: boolean;
+  guessed: string[];
+  revealedContinent?: string | null;
+  excludedContinents?: string[] | Set<string>;
+};
+
+// Order in which continent groups appear in the dropdown
+const CONTINENT_ORDER = [
+  'Africa',
+  'Asia',
+  'Europe',
+  'North America',
+  'South America',
+  'Oceania',
+  'Antarctica',
+];
+
+const continentMap = new Map(
+  continentData.map((entry) => [entry.country.toLowerCase(), entry.continent]),
+);
+
+function buildGroupedData(
+  guessed: string[],
+  revealedContinent: string | null,
+  excludedContinents: Set<string>,
+): ComboboxItemGroup<ComboboxItem>[] {
+  const groups = new Map<string, ComboboxItem[]>();
+
+  wordlist.forEach((countryName) => {
+    if (guessed.includes(countryName)) return;
+    const continent = continentMap.get(countryName.toLowerCase()) ?? 'Other';
+    if (revealedContinent && continent !== revealedContinent) return;
+    if (!revealedContinent && excludedContinents.has(continent)) return;
+    const items = groups.get(continent) ?? [];
+    items.push({ value: countryName, label: countryName });
+    groups.set(continent, items);
+  });
+
+  return CONTINENT_ORDER
+    .filter((continent) => groups.has(continent))
+    .map((continent) => ({
+      group: continent,
+      items: (groups.get(continent) ?? []).sort((a, b) => a.label.localeCompare(b.label)),
+    }));
 }
 
-type FilterOptionsProp<T> = (
-  options: T[],
-  { inputValue }: { inputValue: string },
-) => T[];
+function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedContinents = [] }: CountryFormProps) {
+  const [country, setCountry] = useState<string | null>(null);
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
 
-const GroupHeader = styled('div')(({ theme }) => ({
-  position: 'sticky',
-  top: '-8px',
-  padding: '4px 10px',
-  color: theme.palette.primary.main,
-  backgroundColor: lighten(theme.palette.primary.light, 0.85),
-  userSelect: 'none',
-}));
+  const excludedSet = useMemo(
+    () => (excludedContinents instanceof Set ? excludedContinents : new Set(excludedContinents)),
+    [excludedContinents],
+  );
 
-const GroupItems = styled('ul')({
-  padding: 0,
-});
+  const data = useMemo(
+    () => buildGroupedData(guessed, revealedContinent, excludedSet),
+    [guessed, revealedContinent, excludedSet],
+  );
 
-function CountryForm({ onSubmit, hideHints }: CountryFormProp) {
-  const [country, setCountry] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const filter: OptionsFilter = ({ options, search }) => {
+    const clean = search.replace(/[^A-Za-z\s]/g, '').toLowerCase().trim();
 
-  const filterOptions: FilterOptionsProp<string> = (options, { inputValue }) => (
-    options.filter((option) => {
-      const cleanInput = inputValue.replace(/[^A-Za-z\s]/g, '').toLowerCase().trim();
-      return (option.toLowerCase().indexOf(cleanInput) > -1)
-        || (synonyms[option as keyof typeof synonyms]
-          && synonyms[option as keyof typeof synonyms]
-            .some((synonym) => synonym.toLowerCase().indexOf(cleanInput) > -1));
-    }));
+    const matches = (label: string) =>
+      label.toLowerCase().includes(clean) ||
+      (synonyms[label as keyof typeof synonyms]?.some((s) =>
+        s.toLowerCase().includes(clean),
+      ) ?? false);
+
+    return options
+      .map((option) => {
+        // Keep continent group structure while filtering
+        if ('items' in option) {
+          return { group: option.group, items: option.items.filter((item) => matches(item.label)) };
+        }
+        return matches(option.label) ? option : null;
+      })
+      .filter((option): option is ComboboxItem | ComboboxItemGroup<ComboboxItem> => {
+        if (option === null) return false;
+        if ('items' in option) return option.items.length > 0;
+        return true;
+      });
+  };
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); onSubmit(country); setCountry(''); setInputValue(''); }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', maxWidth: '95vw' }}>
-        <StyledAutocomplete
-          disablePortal
-          autoHighlight
-          id="country-select"
-          noOptionsText="No countries found..."
-          options={[...wordlist].sort((a, b) => {
-            if (getData(a).continent !== getData(b).continent) {
-              return getData(a).continent.localeCompare(getData(b).continent);
-            }
-            return a.localeCompare(b);
-          })}
-          filterOptions={filterOptions as FilterOptionsProp<unknown>}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Country" />}
-          onChange={(_, newValue) => setCountry(newValue as string)}
-          onInputChange={(_, newValue) => setInputValue(newValue)}
-          value={country}
-          inputValue={inputValue}
-          groupBy={(country) => getData(country as string).continent}
-          renderGroup={(params) => (
-            <li key={params.key}>
-              <GroupHeader>{params.group}</GroupHeader>
-              <GroupItems>{params.children}</GroupItems>
-            </li>
-          )}
-          renderOption={(props, option) => (
-            <li {...props}>
-              <Box sx={{ width: '100%' }}>
-                <StyledTypography variant="body1" sx={{ textAlign: hideHints ? 'left' : 'center' }}>{option as React.ReactNode}</StyledTypography>
-                { !hideHints && (
-                <StyledTypography variant="subtitle1" sx={{ color: '#696969', display: 'block' }}>
-                  {descriptions[option as keyof typeof descriptions] ?? ''}
-                </StyledTypography>
-                )}
-              </Box>
-            </li>
-          )}
+    <form style={{ width: '100%' }} onSubmit={(e) => { e.preventDefault(); onSubmit(country ?? ''); setCountry(null);}}>
+      <Group style={{ width: '100%' }} gap="sm" wrap="nowrap" justify="center">
+        <Button size="md" variant="contained" type="submit" style={{visibility: 'hidden', display: isMobile ? 'none' : 'block'}} disabled>Guess</Button> {/* hidden button for centering */}
+        <Select
+          data={data}
+          autoSelectOnBlur
+          searchable
+          clearable
+          filter={filter}
+          withCheckIcon={false}
+          rightSection={' '}
+          comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 }, shadow: 'md' }}
+          placeholder="Search a country..."
+          onChange={(_value, option) => setCountry(option?.value)}
+          size="md"
+          value={country ?? null}
         />
-        <StyledButton id="country-submit" variant="contained" type="submit">Submit</StyledButton>
-      </Box>
+        <Button size="md" variant="contained" type="submit" style={{ overflow: 'visible' }}>Guess</Button>
+      </Group>
     </form>
   );
 }

@@ -1,15 +1,15 @@
 import continentData from './data/country-by-continent.json';
-import governmentData from './data/country-by-government-type.json';
 import landlockedData from './data/country-by-landlocked.json';
-import populationData from './data/country-by-population.json'; // TODO: Round to 1 sig fig
+import populationData from './data/country-by-population.json';
 import religionData from './data/country-by-religion.json';
+import surfaceAreaData from './data/country-by-surface-area.json';
 import temperatureCelsiusData from './data/country-by-yearly-average-temperature.json';
 import wordlist from './wordlist';
 
 // Get the country of the day
 const epoch = new Date(2022, 4, 9); // Created on 9th May 2022!
 const today = new Date();
-today.setHours(0, 0, 0); // Make sure both dates are on same time of 00:00:00
+today.setHours(0, 0, 0);
 const msPerDay = 1000 * 60 * 60 * 24;
 const dayNumber = Math.round((today.getTime() - epoch.getTime()) / msPerDay);
 const COUNTRY_OFFSET = 134; // Offset to make sure daily country stays consistent when new countries are added
@@ -33,40 +33,30 @@ function getData(countryName: string) {
     temperatureCelsiusData.find(
       (x) => x.country.toLowerCase().trim() === countrySearch,
     )?.temperature ?? 0,
-  ); // Default of 0, because no country has an average of 0.00 C, we can use 0 as a `null`
+  ); // Default of 0, because no country has 0.00 C, we can use 0 as a `null`
 
   const continent = continentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.continent ?? '';
-  const government = governmentData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.government ?? 'N/A';
+  const surfaceArea = surfaceAreaData.find((x) => x.country.toLowerCase().trim() === countrySearch)?.area ?? 0;
+
   return {
     population,
     landlocked,
     religion,
     temperatureCelsius,
     continent,
-    government,
+    surfaceArea,
     country: countryName,
   };
 }
 
-// Returns a string of description for the country
-// Used to provide some information when searching for the country
-// (i.e. "Kenya" => "Africa, 55,000,000, Republic")
-function generateDescription(countryName: string) {
-  const { population, continent, government } = getData(countryName);
-  return `${continent}, ${population.toLocaleString()}, ${government}`;
-}
-
-// Store all description strings for countries in an object
-const descriptions = wordlist.reduce((obj, countryName) => (
-  { ...obj, [countryName]: generateDescription(countryName) }), {});
-
 const {
-  population, landlocked, religion, temperatureCelsius, continent, government,
+  population, landlocked, religion, temperatureCelsius, continent, surfaceArea,
 } = getData(correctCountry);
 
 const synonyms = {
   Australia: ['Kangarooland'],
   'Czech Republic': ['Czechia'],
+  'Dominican Republic': ['DR'],
   'Russian Federation': ['Russia'],
   'United Kingdom': ['Great Britain', 'UK', 'Scotland', 'Wales', 'England', 'Northern Ireland'],
   Japan: ['Nippon'],
@@ -99,19 +89,10 @@ const [
   correctReligion,
   correctTemperatureCelsius,
   correctContinent,
-  correctGovernment,
-] = [population, landlocked, religion, temperatureCelsius, continent, government];
+  correctSurfaceArea,
+] = [population, landlocked, religion, temperatureCelsius, continent, surfaceArea];
 
 export {
-  correctCountry,
-  dayNumber,
-  getData,
-  synonyms,
-  descriptions,
-  correctPopulation,
-  correctLandlocked,
-  correctReligion,
-  correctTemperatureCelsius,
-  correctContinent,
-  correctGovernment,
+  correctContinent, correctCountry, correctLandlocked, correctPopulation, correctReligion, correctSurfaceArea, correctTemperatureCelsius, dayNumber, getData,
+  synonyms
 };
