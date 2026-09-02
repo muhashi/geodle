@@ -5,6 +5,7 @@ import religionData from './data/country-by-religion.json';
 import surfaceAreaData from './data/country-by-surface-area.json';
 import temperatureCelsiusData from './data/country-by-yearly-average-temperature.json';
 import wordlist from './wordlist';
+import { formatPopulation } from './helpers';
 
 // Get the country of the day
 const epoch = new Date(2022, 4, 9); // Created on 9th May 2022!
@@ -48,6 +49,20 @@ function getData(countryName: string) {
     country: countryName,
   };
 }
+
+// Returns a string of description for the country
+// Used to provide some information when searching for the country
+// (i.e. "Kenya" => "Africa, 55,000,000, Republic")
+function generateDescription(countryName: string) {
+  const { population } = getData(countryName);
+  return `Population: ${formatPopulation(population)}`;
+}
+
+// Store all description strings for countries in an object
+const descriptions = wordlist.reduce((obj, countryName) => (
+  { ...obj, [countryName]: generateDescription(countryName) }
+), {});
+
 
 const {
   population, landlocked, religion, temperatureCelsius, continent, surfaceArea,
@@ -93,6 +108,15 @@ const [
 ] = [population, landlocked, religion, temperatureCelsius, continent, surfaceArea];
 
 export {
-  correctContinent, correctCountry, correctLandlocked, correctPopulation, correctReligion, correctSurfaceArea, correctTemperatureCelsius, dayNumber, getData,
-  synonyms
+  correctContinent,
+  correctCountry,
+  correctLandlocked,
+  correctPopulation,
+  correctReligion,
+  correctSurfaceArea,
+  correctTemperatureCelsius,
+  dayNumber,
+  descriptions,
+  getData,
+  synonyms,
 };

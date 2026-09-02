@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { Button, ComboboxItem, ComboboxItemGroup, Group, OptionsFilter, Select } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
-import { synonyms } from './country';
+import { descriptions, synonyms } from './country';
 import wordlist from './wordlist';
 import continentData from './data/country-by-continent.json';
 
@@ -109,6 +109,14 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
           onChange={(_value, option) => setCountry(option?.value)}
           size="md"
           value={country ?? null}
+          renderOption={({ option }) => (
+            <div>
+              <div>{option.label}</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.6, lineHeight: 1.2 }}>
+                {(descriptions as Record<string, string>)[option.value]}
+              </div>
+            </div>
+          )}
         />
         <Button size="md" variant="contained" type="submit" style={{ overflow: 'visible' }}>Guess</Button>
       </Group>
