@@ -490,7 +490,7 @@ function HomePage({
 }
 
 function SettingsModal({ opened, setOpened }: { opened: boolean; setOpened: (open: boolean) => void }) {
-  const { tempFahrenheit, setTempFahrenheit, areaMiles, setAreaMiles } = useSettings();
+  const { tempFahrenheit, setTempFahrenheit, areaMiles, setAreaMiles, hideHints, setHideHints } = useSettings();
 
   return (
     <Modal opened={opened} onClose={() => setOpened(false)} title="Settings" centered>
@@ -505,6 +505,13 @@ function SettingsModal({ opened, setOpened }: { opened: boolean; setOpened: (ope
         checked={areaMiles}
         label="Show surface area in mi²"
         onChange={(e) => setAreaMiles(e.currentTarget.checked)}
+        mt="md"
+      />
+      <Switch
+        className="settings-switch"
+        checked={hideHints}
+        label="Hide population hints"
+        onChange={(e) => setHideHints(e.currentTarget.checked)}
         mt="md"
       />
       <Group justify="right" mt="md">

@@ -4,6 +4,7 @@ import { Button, ComboboxItem, ComboboxItemGroup, Group, OptionsFilter, Select }
 import { useMediaQuery } from '@mantine/hooks';
 
 import { descriptions, synonyms } from './country';
+import { useSettings } from './SettingsProvider';
 import wordlist from './wordlist';
 import continentData from './data/country-by-continent.json';
 
@@ -57,6 +58,7 @@ function buildGroupedData(
 function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedContinents = [] }: CountryFormProps) {
   const [country, setCountry] = useState<string | null>(null);
   const isMobile = useMediaQuery(`(max-width: 600px)`);
+  const { hideHints } = useSettings();
 
   const excludedSet = useMemo(
     () => (excludedContinents instanceof Set ? excludedContinents : new Set(excludedContinents)),
@@ -112,9 +114,11 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
           renderOption={({ option }) => (
             <div>
               <div>{option.label}</div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.6, lineHeight: 1.2 }}>
-                {(descriptions as Record<string, string>)[option.value]}
-              </div>
+              {!hideHints && (
+                <div style={{ fontSize: '0.75rem', opacity: 0.6, lineHeight: 1.2 }}>
+                  {(descriptions as Record<string, string>)[option.value]}
+                </div>
+              )}
             </div>
           )}
         />
