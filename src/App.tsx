@@ -346,7 +346,7 @@ function GamePage({
         />
       )}
 
-      {!isDone && <AdBanner slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: 728, width: '100%' }} />}
+      {!isDone && <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: 728, width: '100%' }} />}
     </Stack>
   );
 }
@@ -493,7 +493,7 @@ function HomePage({
         </Group>
       </Stack>
 
-      <AdBanner slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%', maxHeight: '125px' }} />
+      <AdBanner format="horizontal" slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
 
       <Stack align="center" gap="md">
         <MoreGamesButton />
