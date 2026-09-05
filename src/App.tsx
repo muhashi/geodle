@@ -718,8 +718,9 @@ export default function App() {
   return (
     <Box
       className="App"
+      id="App"
       style={{
-        minHeight: '100dvh !important',
+        minHeight: '100dvh',
         backgroundColor: theme.other.pageBackground,
         backgroundImage: `linear-gradient(${theme.other.gridLine} 1px, transparent 1px), linear-gradient(90deg, ${theme.other.gridLine} 1px, transparent 1px)`,
         backgroundSize: '32px 32px',
