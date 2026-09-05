@@ -715,6 +715,21 @@ export default function App() {
 
   const headerMode: GameMode | null = view === 'daily' || view === 'random' ? view : null;
 
+  // Stop adsense from messing up app height
+  useEffect(() => {
+    const wrapper = document.getElementById('App');
+    if (!wrapper) return;
+    const observer = new MutationObserver(() => {
+      if (wrapper.style.height) wrapper.style.height = '';
+      if (wrapper.style.minHeight !== '100dvh') wrapper.style.minHeight = '100dvh';
+    });
+    observer.observe(wrapper, {
+      attributes: true,
+      attributeFilter: ['style'],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Box
       className="App"

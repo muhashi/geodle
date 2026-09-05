@@ -50,17 +50,5 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
-    <script>
-      // Stop adsense from messing up app height
-      let wrapper = document.getElementById('App');
-      const observer = new MutationObserver(function (mutations, observer) {
-        wrapper.style.height = '';
-        wrapper.style.minHeight = '100dvh';
-      })
-      observer.observe(wrapper, {
-        attributes: true,
-        attributeFilter: ['style'],
-      });
-    </script>
   </body>
 </html>
