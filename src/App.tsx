@@ -66,6 +66,8 @@ const AD_SLOTS = {
   HOME_BANNER: '4988621227',
   GAME_BANNER_TOP: '5571804104',
   GAME_BANNER_BOTTOM: '1712450148',
+  DESKTOP_LEFT_RAIL: '7158016818',
+  DESKTOP_RIGHT_RAIL: '2939570207',
 };
 
 
@@ -232,6 +234,7 @@ function GamePage({
   // so we don't clobber a saved game with an empty guess list before it loads.
   const [hasLoadedSavedGame, setHasLoadedSavedGame] = useState(mode !== 'daily');
   const { tempFahrenheit, areaMiles } = useSettings();
+  const isDesktop = useMediaQuery('(min-width: 75em)');
 
   const [target] = useState<CountryData>(() => (mode === 'daily' ? correctData : pickRandomCountryData()));
 
@@ -289,7 +292,11 @@ function GamePage({
 
   return (
     <Stack align="center" gap="sm" mb="10vh">
-      {isDone && <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />}
+      {isDone && !isDesktop && (
+        <Box className="horizontal-ad-slot">
+          <AdBanner format="rectangle, horizontal" slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />
+        </Box>
+      )}
 
       <Group gap="xs" justify="center" wrap="nowrap">
         {!isDone && <Box style={{ width: 20, height: 20, visibility: 'hidden' }} />}
@@ -346,7 +353,11 @@ function GamePage({
         />
       )}
 
-      {!isDone && <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: 728, width: '100%' }} />}
+      {!isDone && !isDesktop && (
+        <Box className="horizontal-ad-slot">
+          <AdBanner format="rectangle, horizontal" slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: 728, width: '100%' }} />
+        </Box>
+      )}
     </Stack>
   );
 }
@@ -480,6 +491,8 @@ function HomePage({
   onPrivacy: () => void;
   onUpdates: () => void;
 }) {
+  const isDesktop = useMediaQuery('(min-width: 75em)');
+
   return (
     <Stack align="center" justify="space-between" mih="70vh" py="xl">
       <Stack align="center" gap="lg" mt="6vh" style={{ maxWidth: 480 }}>
@@ -493,7 +506,11 @@ function HomePage({
         </Group>
       </Stack>
 
-      <AdBanner format="horizontal" slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
+      {!isDesktop && (
+        <Box className="horizontal-ad-slot">
+          <AdBanner format="rectangle, horizontal" slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
+        </Box>
+      )}
 
       <Stack align="center" gap="md">
         <MoreGamesButton />
@@ -688,6 +705,7 @@ export default function App() {
   // Bumped every time game is restarted, so game component properly rerenders with new country
   const [randomSeed, setRandomSeed] = useState(0);
   const theme = useMantineTheme();
+  const isDesktop = useMediaQuery('(min-width: 75em)');
 
   const goHome = () => setView('home');
   const goRandom = () => {
@@ -708,10 +726,34 @@ export default function App() {
       }}
     >
       <SettingsProvider>
-        <Container size="sm" px="md" py="md">
-          <Header onLogoClick={goHome} mode={headerMode} />
-          <Content view={view} setView={setView} randomSeed={randomSeed} goHome={goHome} goRandom={goRandom} />
-        </Container>
+        <Box className="app-layout">
+          {isDesktop && (
+            <Box className="side-ad">
+              <AdBanner
+                slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
+                format="vertical"
+                responsive={false}
+                style={{ width: 160, height: 600 }}
+              />
+            </Box>
+          )}
+
+          <Container size="sm" px="md" py="md" style={{ flex: 1, minWidth: 0 }}>
+            <Header onLogoClick={goHome} mode={headerMode} />
+            <Content view={view} setView={setView} randomSeed={randomSeed} goHome={goHome} goRandom={goRandom} />
+          </Container>
+
+          {isDesktop && (
+            <Box className="side-ad">
+              <AdBanner
+                slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
+                format="vertical"
+                responsive={false}
+                style={{ width: 160, height: 600 }}
+              />
+            </Box>
+          )}
+        </Box>
       </SettingsProvider>
     </Box>
   );

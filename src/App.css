@@ -115,3 +115,44 @@
 .settings-switch[data-checked="false"] .mantine-Switch-track {
   background-color: var(--mantine-color-gray-5);
 }
+
+.app-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.side-ad {
+  width: 160px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 24px;
+  align-self: flex-start;
+}
+
+.horizontal-ad-slot {
+  max-width: 728px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Desktop: hide horizontal banners (JS also prevents rendering them) */
+@media (min-width: 75em) {
+  .horizontal-ad-slot {
+    display: none !important;
+  }
+}
+
+/* Mobile/tablet: hide side rails */
+@media (max-width: 74.99em) {
+  .side-ad {
+    display: none !important;
+  }
+}

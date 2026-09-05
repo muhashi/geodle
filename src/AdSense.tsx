@@ -22,6 +22,8 @@ export function AdBanner({
   responsive = true,
   style,
 }: AdBannerProps) {
+  const isVertical = format === 'vertical';
+
   useEffect(() => {
     if (import.meta.env.DEV) return;
     try {
@@ -36,10 +38,12 @@ export function AdBanner({
   if (import.meta.env.DEV) {
     return (
       <Box
-        my="md"
+        my={isVertical ? 0 : 'md'}
         p="md"
         style={{
-          minHeight: 90,
+          minHeight: isVertical ? 600 : 90,
+          width: isVertical ? 160 : undefined,
+          maxWidth: isVertical ? 160 : undefined,
           border: '1px dashed var(--mantine-color-gray-4)',
           borderRadius: 'var(--mantine-radius-md)',
           backgroundColor: 'var(--mantine-color-gray-0)',
@@ -50,7 +54,7 @@ export function AdBanner({
           ...style,
         }}
       >
-        <Text size="xs" c="dimmed">
+        <Text size="xs" c="dimmed" style={{ wordBreak: 'break-word' }}>
           AdSense placeholder — slot {slot} ({format})
         </Text>
       </Box>
@@ -59,9 +63,10 @@ export function AdBanner({
 
   return (
     <Box
-      my="md"
+      my={isVertical ? 0 : 'md'}
       style={{
-        minHeight: 90,
+        minHeight: isVertical ? 600 : 90,
+        width: isVertical ? 160 : undefined,
         overflow: 'hidden',
         textAlign: 'center',
         ...style,
@@ -69,7 +74,10 @@ export function AdBanner({
     >
       <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{
+          display: 'block',
+          ...(isVertical ? { width: '160px', height: '600px' } : {}),
+        }}
         data-ad-client={AD_CLIENT}
         data-ad-slot={slot}
         data-ad-format={format}
