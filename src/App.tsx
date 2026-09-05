@@ -289,7 +289,7 @@ function GamePage({
 
   return (
     <Stack align="center" gap="sm" mb="10vh">
-      {isDone && <AdBanner slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />}
+      {isDone && <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />}
 
       <Group gap="xs" justify="center" wrap="nowrap">
         {!isDone && <Box style={{ width: 20, height: 20, visibility: 'hidden' }} />}
@@ -493,7 +493,6 @@ function HomePage({
         </Group>
       </Stack>
 
-      {/* AdSense — home banner */}
       <AdBanner slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
 
       <Stack align="center" gap="md">
