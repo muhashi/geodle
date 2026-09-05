@@ -294,7 +294,7 @@ function GamePage({
     <Stack align="center" gap="sm" mb="10vh">
       {isDone && !isDesktop && (
         <Box className="horizontal-ad-slot">
-          <AdBanner format="rectangle, horizontal" slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />
+          <AdBanner format="rectangle, horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />
         </Box>
       )}
 
