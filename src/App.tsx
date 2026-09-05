@@ -493,7 +493,7 @@ function HomePage({
         </Group>
       </Stack>
 
-      <AdBanner slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
+      <AdBanner slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%', maxHeight: '125px' }} />
 
       <Stack align="center" gap="md">
         <MoreGamesButton />
