@@ -294,7 +294,7 @@ function GamePage({
     <Stack align="center" gap="sm" mb="10vh">
       {isDone && !isDesktop && (
         <Box className="horizontal-ad-slot">
-          <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: 728, width: '100%' }} />
+          <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
       )}
 
@@ -355,7 +355,7 @@ function GamePage({
 
       {!isDone && !isDesktop && (
         <Box className="horizontal-ad-slot">
-          <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: 728, width: '100%' }} />
+          <AdBanner format="horizontal" slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
       )}
     </Stack>
@@ -508,7 +508,7 @@ function HomePage({
 
       {!isDesktop && (
         <Box className="horizontal-ad-slot">
-          <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: 728, width: '100%' }} />
+          <AdBanner format="horizontal" slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
       )}
 
@@ -748,7 +748,6 @@ export default function App() {
               <AdBanner
                 slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
                 format="vertical"
-                responsive={false}
                 style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
@@ -764,7 +763,6 @@ export default function App() {
               <AdBanner
                 slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
                 format="vertical"
-                responsive={false}
                 style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
