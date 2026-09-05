@@ -749,7 +749,7 @@ export default function App() {
                 slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
                 format="vertical"
                 responsive={false}
-                style={{ width: 160, height: 600 }}
+                style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
           )}
@@ -765,7 +765,7 @@ export default function App() {
                 slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
                 format="vertical"
                 responsive={false}
-                style={{ width: 160, height: 600 }}
+                style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
           )}
