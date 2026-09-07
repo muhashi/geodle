@@ -14,6 +14,7 @@ type AdBannerProps = {
   format?: string;
   responsive?: boolean;
   style?: React.CSSProperties;
+  refreshKey?: string | number;
 };
 
 export function AdBanner({
@@ -21,6 +22,7 @@ export function AdBanner({
   format = 'auto',
   responsive = true,
   style,
+  refreshKey,
 }: AdBannerProps) {
   const isVertical = format === 'vertical';
 
@@ -33,7 +35,7 @@ export function AdBanner({
     } catch (e) {
       console.error('AdSense error:', e);
     }
-  }, [slot]);
+  }, [slot, refreshKey]);
 
   if (import.meta.env.DEV) {
     return (
@@ -73,6 +75,7 @@ export function AdBanner({
       }}
     >
       <ins
+        key={refreshKey != null ? String(refreshKey) : slot}
         className="adsbygoogle"
         style={{
           display: 'block',

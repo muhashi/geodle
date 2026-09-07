@@ -715,6 +715,9 @@ export default function App() {
 
   const headerMode: GameMode | null = view === 'daily' || view === 'random' ? view : null;
 
+  // Key that changes on every navigation so vertical ads refresh via adsbygoogle push.
+  const verticalAdRefreshKey = `${view}-${randomSeed}`;
+
   // Stop adsense from messing up app height
   useEffect(() => {
     const wrapper = document.getElementById('App');
@@ -746,9 +749,11 @@ export default function App() {
           {isDesktop && (
             <Box className="side-ad">
               <AdBanner
+                key={`left-${verticalAdRefreshKey}`}
                 slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
                 responsive={false}
                 format="vertical"
+                refreshKey={verticalAdRefreshKey}
                 style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
@@ -762,9 +767,11 @@ export default function App() {
           {isDesktop && (
             <Box className="side-ad">
               <AdBanner
+                key={`right-${verticalAdRefreshKey}`}
                 slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
                 responsive={false}
                 format="vertical"
+                refreshKey={verticalAdRefreshKey}
                 style={{ maxWidth: 180, maxHeight: '100dvh' }}
               />
             </Box>
