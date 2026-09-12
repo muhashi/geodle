@@ -263,15 +263,43 @@ export function PrivacyPage({ onBack }: { onBack: () => void }) {
 export function UpdatesPage({ onBack }: { onBack: () => void }) {
   return (
     <StaticPage title="Updates" onBack={onBack}>
-      <Text size="lg" fw={700}>
-        Sep 1, 2026
-      </Text>
-      <Text>
-        Launch of the new Geodle design! I hope you enjoy it :&#41;
-      </Text>
-      <Text>
-        Please email me any feedback or bugs: hello [at symbol] geodle [dot symbol] me
-      </Text>
+      <Update
+        date="Sep 5, 2026"
+        lines={[
+          "We are addings ads to Geodle to support development and keep it free for everyone. We are looking into creating an ad-free version for supporters."
+        ]}
+      />
+      <Update
+        date="Sep 2, 2026"
+        lines={[
+          "Updated table colours to suit red-green colourblindness.",
+          "Added link for old Geodle for people who prefer the old design.",
+          "Added population hint to country search.",
+        ]}
+      />
+      <Update
+        date="Sep 1, 2026"
+        lines={[
+          "Launch of the new Geodle design! I hope you enjoy it :) Please email me any feedback or bugs."
+        ]}
+      />
     </StaticPage>
+  );
+}
+
+function Update({ date, lines }: { date: string, lines: string[] }) {
+  return (
+    <>
+      <Text size="lg" fw={700}>
+        {date}
+      </Text>
+      <Text component='div'>
+        <ul>
+          {lines.map((line) =>
+            <li dangerouslySetInnerHTML={{ __html: line }}/>
+          )}
+        </ul>
+      </Text>
+    </>
   );
 }

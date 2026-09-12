@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import ConfettiExplosion from 'react-confetti-blast';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ClientOnly, Head } from 'vite-react-ssg';
 
 import {
   Badge, Box, Burger, Button, Center,
@@ -17,7 +19,7 @@ import './App.css';
 import { AdBanner } from './AdSense';
 import CountryForm from './CountryForm';
 import Results from './CountryResults';
-import { Footer, PrivacyPage, TermsPage, UpdatesPage } from './Footer';
+import { Footer as FooterView, PrivacyPage as PrivacyContent, TermsPage as TermsContent, UpdatesPage as UpdatesContent } from './Footer';
 import GuessDistribution from './GuessDistribution';
 import InfoModal from './InfoModal';
 import SettingsProvider, { useSettings } from './SettingsProvider';
@@ -37,6 +39,9 @@ import {
   dayNumber,
   getData,
 } from './country';
+import type { RouteRecord } from 'vite-react-ssg';
+import { MantineProvider } from '@mantine/core';
+import theme from './theme';
 
 type CountryData = {
   continent: string;
@@ -130,17 +135,25 @@ const DEFAULT_STATISTICS: Statistics = {
 };
 
 function loadStatistics(): Statistics {
-  return Cookies.get('statistics') ? JSON.parse(Cookies.get('statistics')!) : DEFAULT_STATISTICS;
+  if (typeof document === 'undefined') return DEFAULT_STATISTICS;
+  try {
+    return Cookies.get('statistics') ? JSON.parse(Cookies.get('statistics')!) : DEFAULT_STATISTICS;
+  } catch {
+    return DEFAULT_STATISTICS;
+  }
 }
 
 function DailyStatistics({ guessesData, isWon }: { guessesData: CountryData[]; isWon: boolean }) {
-  const [statistics, setStatistics] = useState<Statistics>(loadStatistics);
+  const [statistics, setStatistics] = useState<Statistics>(() => DEFAULT_STATISTICS);
 
   useEffect(() => {
+    const loaded = loadStatistics();
     setStatistics((prev) => {
-      if (prev.lastDayNumber === dayNumber) return prev; // already recorded today
+      // if already set to loaded and already recorded today, keep it
+      const base = prev.total === 0 && loaded.total !== 0 ? loaded : prev.total === 0 ? loaded : prev;
+      if (base.lastDayNumber === dayNumber) return base;
 
-      const updated: Statistics = { ...prev, distribution: [...prev.distribution] };
+      const updated: Statistics = { ...base, distribution: [...base.distribution] };
       updated.streak = isWon && updated.lastDayNumber + 1 === dayNumber ? updated.streak + 1 : (isWon ? 1 : 0);
       updated.lastDayNumber = dayNumber;
       updated.longestStreak = Math.max(updated.streak, updated.longestStreak);
@@ -148,9 +161,15 @@ function DailyStatistics({ guessesData, isWon }: { guessesData: CountryData[]; i
       updated.total += 1;
       updated.distribution[guessesData.length - 1] += isWon ? 1 : 0;
 
-      Cookies.set('statistics', JSON.stringify(updated), { expires: 500 });
+      try { Cookies.set('statistics', JSON.stringify(updated), { expires: 500 }); } catch {}
       return updated;
     });
+  }, [guessesData.length, isWon]);
+
+  // hydrate with actual cookies after mount to avoid SSR mismatch
+  useEffect(() => {
+    setStatistics(loadStatistics());
+    // the effect above will handle recording today's result, ensure we reload after that
   }, []);
 
   return (
@@ -206,7 +225,7 @@ function CompletionPanel({
   return (
     <Stack align="center" gap="xl" w="100%" style={{ maxWidth: 420 }}>
       {mode === 'daily' && (
-        <DailyStatistics guessesData={guessesData} isWon={isWon} />
+        <ClientOnly>{() => <DailyStatistics guessesData={guessesData} isWon={isWon} />}</ClientOnly>
       )}
 
       <Group justify="center">
@@ -230,11 +249,8 @@ function GamePage({
 }) {
   const [guessesData, setGuessesData] = useState<CountryData[]>([]);
   const [isWon, setIsWon] = useState(false);
-  // Tracks whether we've finished checking cookies for a saved in-progress game,
-  // so we don't clobber a saved game with an empty guess list before it loads.
   const [hasLoadedSavedGame, setHasLoadedSavedGame] = useState(mode !== 'daily');
   const { tempFahrenheit, areaMiles } = useSettings();
-  const isDesktop = useMediaQuery('(min-width: 75em)');
 
   const [target] = useState<CountryData>(() => (mode === 'daily' ? correctData : pickRandomCountryData()));
 
@@ -257,34 +273,38 @@ function GamePage({
 
   useEffect(() => {
     if (mode !== 'daily') return undefined;
-
-    const lastAttempt = Cookies.get('lastAttempt');
-    const lastAttemptData = Cookies.get('lastAttemptData');
-
-    if (lastAttempt && Number(lastAttempt) === dayNumber && lastAttemptData) {
-      const data: CountryData[] = JSON.parse(lastAttemptData);
-      setGuessesData(data);
-      setIsWon(data.some(d => d.country.toLowerCase() === correctCountry.toLowerCase()));
+    if (typeof document === 'undefined') {
+      setHasLoadedSavedGame(true);
+      return undefined;
     }
+    try {
+      const lastAttempt = Cookies.get('lastAttempt');
+      const lastAttemptData = Cookies.get('lastAttemptData');
+      if (lastAttempt && Number(lastAttempt) === dayNumber && lastAttemptData) {
+        const data: CountryData[] = JSON.parse(lastAttemptData);
+        setGuessesData(data);
+        setIsWon(data.some(d => d.country.toLowerCase() === correctCountry.toLowerCase()));
+      }
+    } catch {}
     setHasLoadedSavedGame(true);
     return undefined;
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     if (mode !== 'daily' || !hasLoadedSavedGame) return;
-    Cookies.set('lastAttempt', dayNumber.toString(), { expires: 1 });
-    Cookies.set('lastAttemptData', JSON.stringify(guessesData), { expires: 1 });
+    if (typeof document === 'undefined') return;
+    try {
+      Cookies.set('lastAttempt', dayNumber.toString(), { expires: 1 });
+      Cookies.set('lastAttemptData', JSON.stringify(guessesData), { expires: 1 });
+    } catch {}
   }, [mode, guessesData, hasLoadedSavedGame]);
 
   const onSubmit = (guess: string) => {
     const clean = guess.toLowerCase().trim();
     if (!clean || guessesData.some(g => g.country.toLowerCase() === clean)) return;
-
     const data = getData(guess);
     data.country = guess;
-
     setGuessesData([...guessesData, data]);
-
     if (clean === target.country.toLowerCase()) {
       setIsWon(true);
     }
@@ -292,7 +312,7 @@ function GamePage({
 
   return (
     <Stack align="center" gap="sm" mb="10vh">
-      {isDone && !isDesktop && (
+      {isDone && (
         <Box className="horizontal-ad-slot">
           <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
@@ -353,7 +373,7 @@ function GamePage({
         />
       )}
 
-      {!isDone && !isDesktop && (
+      {!isDone && (
         <Box className="horizontal-ad-slot">
           <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_BOTTOM} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
@@ -411,14 +431,13 @@ function HomeActionCard({
 type DailyStatus = 'new' | 'in-progress' | 'done';
 
 function getDailyStatus(): DailyStatus {
-  const lastAttempt = Cookies.get('lastAttempt');
-  const lastAttemptData = Cookies.get('lastAttemptData');
-
-  if (!lastAttempt || Number(lastAttempt) !== dayNumber || !lastAttemptData) {
-    return 'new';
-  }
-
+  if (typeof document === 'undefined') return 'new';
   try {
+    const lastAttempt = Cookies.get('lastAttempt');
+    const lastAttemptData = Cookies.get('lastAttemptData');
+    if (!lastAttempt || Number(lastAttempt) !== dayNumber || !lastAttemptData) {
+      return 'new';
+    }
     const data: CountryData[] = JSON.parse(lastAttemptData);
     const won = data.some((d) => d.country.toLowerCase() === correctCountry.toLowerCase());
     const lost = !won && data.length >= TOTAL_GUESSES;
@@ -444,12 +463,15 @@ function formatCountdown(ms: number): string {
 }
 
 function DailyHomeCard({ onClick }: { onClick: () => void }) {
-  const [status] = useState<DailyStatus>(getDailyStatus);
+  const [status, setStatus] = useState<DailyStatus>('new');
   const [countdown, setCountdown] = useState(() => formatCountdown(msUntilNextDaily()));
 
   useEffect(() => {
-    if (status !== 'done') return undefined;
+    setStatus(getDailyStatus());
+  }, []);
 
+  useEffect(() => {
+    if (status !== 'done') return undefined;
     const id = setInterval(() => {
       setCountdown(formatCountdown(msUntilNextDaily()));
     }, 1000);
@@ -491,8 +513,6 @@ function HomePage({
   onPrivacy: () => void;
   onUpdates: () => void;
 }) {
-  const isDesktop = useMediaQuery('(min-width: 75em)');
-
   return (
     <Stack align="center" justify="space-between" mih="70vh" py="xl">
       <Stack align="center" gap="lg" mt="6vh" style={{ maxWidth: 480 }}>
@@ -501,20 +521,21 @@ function HomePage({
         </Text>
 
         <Group mt="md" w="100%" wrap="nowrap">
-          <DailyHomeCard onClick={onDaily} />
+          {/* Daily card reads cookies; wrap in ClientOnly to avoid SSR mismatch, but provide fallback for SEO */}
+          <ClientOnly fallback={<HomeActionCard title="Daily" subtitle="New country daily!" onClick={onDaily} emphasized />}>
+            {() => <DailyHomeCard onClick={onDaily} />}
+          </ClientOnly>
           <HomeActionCard title="Quick Play" subtitle="Unlimited practice!" onClick={onRandom} />
         </Group>
       </Stack>
 
-      {!isDesktop && (
-        <Box className="horizontal-ad-slot">
-          <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
-        </Box>
-      )}
+      <Box className="horizontal-ad-slot">
+        <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
+      </Box>
 
       <Stack align="center" gap="md">
         <MoreGamesButton />
-        <Footer onTerms={onTerms} onPrivacy={onPrivacy} onUpdates={onUpdates} />
+        <FooterView onTerms={onTerms} onPrivacy={onPrivacy} onUpdates={onUpdates} />
       </Stack>
     </Stack>
   );
@@ -581,7 +602,6 @@ function HeaderPill({ mode }: { mode: GameMode }) {
   const isMobile = useMediaQuery('(max-width: 450px)');
   const isXsMobile = useMediaQuery('(max-width: 400px)');
   const dailyPillText = isXsMobile ? `#${dayNumber}` : `Daily #${dayNumber}`;
-
   return (
     <Badge size={isMobile ? 'xs' : 'md'}>{mode === 'daily' ? dailyPillText : 'Random'}</Badge>
   );
@@ -660,63 +680,124 @@ function Header({ onLogoClick, mode }: { onLogoClick: () => void; mode: GameMode
   );
 }
 
-type View = 'home' | 'daily' | 'random' | 'terms' | 'privacy' | 'updates';
-
-function Content({
-  view,
-  setView,
-  randomSeed,
-  goHome,
-  goRandom,
-}: {
-  view: View;
-  setView: (view: View) => void;
-  randomSeed: number;
-  goHome: () => void;
-  goRandom: () => void;
-}) {
-  switch (view) {
-    case 'daily':
-      return <GamePage mode="daily" onHome={goHome} onRandom={goRandom} />;
-    case 'random':
-      return <GamePage key={randomSeed} mode="random" onHome={goHome} onRandom={goRandom} />;
-    case 'terms':
-      return <TermsPage onBack={goHome} />;
-    case 'privacy':
-      return <PrivacyPage onBack={goHome} />;
-    case 'updates':
-      return <UpdatesPage onBack={goHome} />;
-    case 'home':
-    default:
-      return (
-        <HomePage
-          onDaily={() => setView('daily')}
-          onRandom={goRandom}
-          onTerms={() => setView('terms')}
-          onPrivacy={() => setView('privacy')}
-          onUpdates={() => setView('updates')}
-        />
-      );
-  }
+function HomeRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>Geodle - Geography Wordle</title>
+        <meta name="description" content="Guess the mystery country of the day based on demographics such as population, temperature, and religion. New country daily!" />
+        <link rel="canonical" href="https://geodle.me/" />
+      </Head>
+      <HomePage
+        onDaily={() => navigate('/daily')}
+        onRandom={() => navigate('/random')}
+        onTerms={() => navigate('/terms')}
+        onPrivacy={() => navigate('/privacy')}
+        onUpdates={() => navigate('/updates')}
+      />
+    </>
+  );
 }
 
-export default function App() {
-  const [view, setView] = useState<View>('home');
-  // Bumped every time game is restarted, so game component properly rerenders with new country
-  const [randomSeed, setRandomSeed] = useState(0);
-  const theme = useMantineTheme();
-  const isDesktop = useMediaQuery('(min-width: 75em)');
+function DailyRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>{`Daily Geodle #${dayNumber} - Geography Wordle`}</title>
+        <meta name="description" content={`Geodle Daily #${dayNumber} - Guess today's mystery country in 7 tries!`} />
+        <link rel="canonical" href="https://geodle.me/daily" />
+      </Head>
+      {/* Game is client-heavy (cookies, random); render shell on SSR then hydrate full game client-side */}
+      <ClientOnly fallback={<Box ta="center" py="xl"><Text c="dimmed">Loading daily puzzle…</Text></Box>}>
+        {() => <GamePage mode="daily" onHome={() => navigate('/')} onRandom={() => navigate('/random')} />}
+      </ClientOnly>
+    </>
+  );
+}
 
-  const goHome = () => setView('home');
-  const goRandom = () => {
-    setRandomSeed((s) => s + 1);
-    setView('random');
-  };
+function RandomRoute() {
+  const navigate = useNavigate();
+  const [seed, setSeed] = useState(0);
+  return (
+    <>
+      <Head>
+        <title>Random Geodle - Unlimited Practice</title>
+        <meta name="description" content="Play Geodle unlimited - guess the mystery country based on continent, population, religion and more." />
+        <link rel="canonical" href="https://geodle.me/random" />
+      </Head>
+      <ClientOnly fallback={<Box ta="center" py="xl"><Text c="dimmed">Loading puzzle…</Text></Box>}>
+        {() => <GamePage key={seed} mode="random" onHome={() => navigate('/')} onRandom={() => setSeed((s) => s + 1)} />}
+      </ClientOnly>
+    </>
+  );
+}
 
-  const headerMode: GameMode | null = view === 'daily' || view === 'random' ? view : null;
+function TermsRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>Terms of Service — Geodle</title>
+        <link rel="canonical" href="https://geodle.me/terms" />
+      </Head>
+      <TermsContent onBack={() => navigate('/')} />
+    </>
+  );
+}
+function PrivacyRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>Privacy Policy — Geodle</title>
+        <link rel="canonical" href="https://geodle.me/privacy" />
+      </Head>
+      <PrivacyContent onBack={() => navigate('/')} />
+    </>
+  );
+}
+function UpdatesRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>Updates — Geodle</title>
+        <link rel="canonical" href="https://geodle.me/updates" />
+      </Head>
+      <UpdatesContent onBack={() => navigate('/')} />
+    </>
+  );
+}
+
+function NotFoundRoute() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Head>
+        <title>404 — Geodle</title>
+      </Head>
+      <Stack align="center" py="xl" gap="md">
+        <Text fz="xl" fw={700}>Page not found</Text>
+        <Button onClick={() => navigate('/')}>Go home</Button>
+      </Stack>
+    </>
+  );
+}
+
+function Layout() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const themeMantine = useMantineTheme();
+
+  const pathname = location.pathname;
+  let headerMode: GameMode | null = null;
+  if (pathname.startsWith('/daily')) headerMode = 'daily';
+  else if (pathname.startsWith('/random')) headerMode = 'random';
 
   // Key that changes on every navigation so vertical ads refresh via adsbygoogle push.
-  const verticalAdRefreshKey = `${view}-${randomSeed}`;
+  const verticalAdRefreshKey = pathname;
 
   // Stop adsense from messing up app height
   useEffect(() => {
@@ -739,45 +820,67 @@ export default function App() {
       id="App"
       style={{
         minHeight: '100dvh',
-        backgroundColor: theme.other.pageBackground,
-        backgroundImage: `linear-gradient(${theme.other.gridLine} 1px, transparent 1px), linear-gradient(90deg, ${theme.other.gridLine} 1px, transparent 1px)`,
+        backgroundColor: themeMantine.other.pageBackground,
+        backgroundImage: `linear-gradient(${themeMantine.other.gridLine} 1px, transparent 1px), linear-gradient(90deg, ${themeMantine.other.gridLine} 1px, transparent 1px)`,
         backgroundSize: '32px 32px',
       }}
     >
-      <SettingsProvider>
-        <Box className="app-layout">
-          {isDesktop && (
-            <Box className="side-ad">
-              <AdBanner
-                key={`left-${verticalAdRefreshKey}`}
-                slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
-                responsive={false}
-                format="vertical"
-                refreshKey={verticalAdRefreshKey}
-                style={{ maxWidth: 180, maxHeight: '100dvh' }}
-              />
-            </Box>
-          )}
-
-          <Container size="sm" px="md" py="md" style={{ flex: 1, minWidth: 0 }}>
-            <Header onLogoClick={goHome} mode={headerMode} />
-            <Content view={view} setView={setView} randomSeed={randomSeed} goHome={goHome} goRandom={goRandom} />
-          </Container>
-
-          {isDesktop && (
-            <Box className="side-ad">
-              <AdBanner
-                key={`right-${verticalAdRefreshKey}`}
-                slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
-                responsive={false}
-                format="vertical"
-                refreshKey={verticalAdRefreshKey}
-                style={{ maxWidth: 180, maxHeight: '100dvh' }}
-              />
-            </Box>
-          )}
+      <Box className="app-layout">
+        <Box className="side-ad">
+          <AdBanner
+            key={`left-${verticalAdRefreshKey}`}
+            slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
+            responsive={false}
+            format="vertical"
+            refreshKey={verticalAdRefreshKey}
+            style={{ maxWidth: 180, maxHeight: '100dvh' }}
+          />
         </Box>
-      </SettingsProvider>
+
+        <Container size="sm" px="md" py="md" style={{ flex: 1, minWidth: 0 }}>
+          <Header onLogoClick={() => navigate('/')} mode={headerMode} />
+          <Outlet />
+        </Container>
+
+        <Box className="side-ad">
+          <AdBanner
+            key={`right-${verticalAdRefreshKey}`}
+            slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
+            responsive={false}
+            format="vertical"
+            refreshKey={verticalAdRefreshKey}
+            style={{ maxWidth: 180, maxHeight: '100dvh' }}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 }
+
+function Root() {
+  return (
+    <MantineProvider theme={theme}>
+      <SettingsProvider>
+        <Layout />
+      </SettingsProvider>
+    </MantineProvider>
+  );
+}
+
+export const routes: RouteRecord[] = [
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      { index: true, element: <HomeRoute /> },
+      { path: 'daily', element: <DailyRoute /> },
+      { path: 'random', element: <RandomRoute /> },
+      { path: 'terms', element: <TermsRoute /> },
+      { path: 'privacy', element: <PrivacyRoute /> },
+      { path: 'updates', element: <UpdatesRoute /> },
+      { path: '*', element: <NotFoundRoute /> },
+    ],
+  },
+];
+
+export default Root;
