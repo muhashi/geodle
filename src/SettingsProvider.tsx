@@ -2,9 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 function useLocalStorageState<T>(key: string, defaultValue: T) {
   const [state, setState] = useState<T>(() => {
-    if (typeof window === 'undefined') return defaultValue;
     try {
-      const value = window.localStorage.getItem(key);
+      const value = localStorage.getItem(key);
       return value !== null ? JSON.parse(value) : defaultValue;
     } catch {
       return defaultValue;
@@ -12,9 +11,8 @@ function useLocalStorageState<T>(key: string, defaultValue: T) {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     try {
-      window.localStorage.setItem(key, JSON.stringify(state));
+      localStorage.setItem(key, JSON.stringify(state));
     } catch {}
   }, [key, state]);
 
