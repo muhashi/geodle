@@ -143,14 +143,12 @@
   margin-right: auto;
 }
 
-/* Desktop: hide horizontal banners (JS also prevents rendering them) */
 @media (min-width: 75em) {
   .horizontal-ad-slot {
     display: none !important;
   }
 }
 
-/* Mobile/tablet: hide side rails */
 @media (max-width: 74.99em) {
   .side-ad {
     display: none !important;
