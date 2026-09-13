@@ -1,7 +1,7 @@
 import { Box, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AdBanner } from "../../src/AdSense";
 import { correctCountry, dayNumber } from "../../src/country";
 import { Footer as FooterView } from "../../src/Footer";
@@ -75,8 +75,7 @@ function HomeActionCard({
       className="home-action-card"
       p="sm"
       style={{
-        flex: 1,
-        minWidth: 150,
+        width: '100%',
         textAlign: 'center',
         backgroundColor: disabled
           ? 'var(--mantine-color-gray-2)'
@@ -129,12 +128,14 @@ function DailyHomeCard({ onClick }: { onClick: () => void }) {
   }
 
   return (
-    <HomeActionCard
-      title={status === 'in-progress' ? 'Resume Daily' : 'Daily'}
-      subtitle={status === 'in-progress' ? 'Continue where you left off!' : 'New country daily!'}
-      onClick={onClick}
-      emphasized
-    />
+    <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/daily" prefetch="intent" td="none">
+      <HomeActionCard
+        title={status === 'in-progress' ? 'Resume Daily' : 'Daily'}
+        subtitle={status === 'in-progress' ? 'Continue where you left off!' : 'New country daily!'}
+        onClick={onClick}
+        emphasized
+      />
+    </Box>
   );
 }
 
@@ -149,7 +150,9 @@ export default function Home() {
 
         <Group mt="md" w="100%" wrap="nowrap">
           <DailyHomeCard onClick={() => navigate('/daily')} />
-          <HomeActionCard title="Quick Play" subtitle="Unlimited practice!" onClick={() => navigate('/random')} />
+          <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/random" prefetch="intent" td="none">
+            <HomeActionCard title="Quick Play" subtitle="Unlimited practice!" onClick={() => navigate('/random')} />
+          </Box>
         </Group>
       </Stack>
 

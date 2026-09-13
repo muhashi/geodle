@@ -183,7 +183,7 @@ export function GamePage({
   const [hasLoadedSavedGame, setHasLoadedSavedGame] = useState(mode !== 'daily');
   const { tempFahrenheit, areaMiles } = useSettings();
 
-  const [target, setTarget] = useState<CountryData | null>(null);
+  const [target, setTarget] = useState<CountryData | null>(() => (mode === 'daily' ? correctData : null));
   useEffect(() => {
     setTarget(mode === 'daily' ? correctData : pickRandomCountryData());
   }, [mode]);
