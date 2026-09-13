@@ -1,11 +1,21 @@
 {
+  "include": [
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
+  ],
   "compilerOptions": {
-    "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["vite/client"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+    "paths": {
+      "~/*": ["./app/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -13,19 +23,11 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "allowImportingTsExtensions": true,
-    "types": [
-      "vite/client"
-    ]
-  },
-  "include": [
-    "src"
-  ]
+    "verbatimModuleSyntax": false
+  }
 }

@@ -5,29 +5,34 @@
   "type": "module",
   "homepage": "https://geodle.me",
   "dependencies": {
-    "@mantine/core": "^9.5.2",
-    "@mantine/hooks": "^9.5.2",
+    "@mantine/core": "^9.6.1",
+    "@mantine/hooks": "^9.6.1",
+    "@react-router/dev": "^8.3.1",
+    "@react-router/node": "^8.3.1",
+    "@react-router/serve": "^8.3.1",
     "@tabler/icons-react": "^3.46.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^26.4.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
+    "isbot": "^5.2.2",
     "js-cookie": "^3.0.8",
-    "react": "^19.2.8",
+    "react": "^19.3.0",
     "react-confetti-blast": "^1.0.2",
-    "react-dom": "^19.2.8",
-    "react-router-dom": "^6.30.6",
+    "react-dom": "^19.3.0",
+    "react-router": "^8.3.1",
     "typescript": "^7.0.2",
-    "vite": "^8.2.2",
-    "vite-react-ssg": "^0.9.2"
+    "vite": "^8.3.0"
   },
   "scripts": {
     "predeploy": "npm run build",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "start": "vite",
-    "dev": "vite",
-    "build": "tsc && vite-react-ssg build",
+    "typecheck": "react-router typegen && tsc",
+    "start": "react-router dev",
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "postbuild": "node -e \"try{require('fs').copyFileSync('build/client/__spa-fallback.html','build/client/404.html')}catch{}\"",
     "preview": "vite preview"
   },
   "eslintConfig": {
@@ -48,11 +53,11 @@
     ]
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "country-json": "^2.3.0",
-    "eslint": "^10.9.1",
+    "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.11.0"
+    "globals": "^17.12.0"
   }
 }
