@@ -7,4 +7,5 @@ export default [
   route("terms", "routes/terms.tsx"),
   route("privacy", "routes/privacy.tsx"),
   route("updates", "routes/updates.tsx"),
+  route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;
