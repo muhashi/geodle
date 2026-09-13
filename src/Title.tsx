@@ -1,16 +1,16 @@
-import { Text } from '@mantine/core';
+import { Title } from '@mantine/core';
 
-function Title() {
+function GameTitle() {
   return (
-    <Text variant="h1" className="title-text">
+    <Title order={1} className="title-text">
       <span>G</span>
       <span>e</span>
       <span>o</span>
       <span>d</span>
       <span>l</span>
       <span>e</span>
-    </Text>
+    </Title>
   );
 }
 
-export default Title;
+export default GameTitle;
