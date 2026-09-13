@@ -1,15 +1,8 @@
+import { Box, Button, Group, Paper, Stack, Text } from '@mantine/core';
 import Cookies from 'js-cookie';
 import { useEffect, useMemo, useState } from 'react';
 import ConfettiExplosion from 'react-confetti-blast';
-import { Badge, Box, Button, Group, Paper, Stack, Text } from '@mantine/core';
-import CountryForm from "../../src/CountryForm";
-import Results from "../../src/CountryResults";
-import GuessDistribution from "../../src/GuessDistribution";
-import InfoModal from "../../src/InfoModal";
-import { useSettings } from "../../src/SettingsProvider";
-import Share from "../../src/Share";
-import Stamp from "../../src/Stamp";
-import wordlist from "../../src/wordlist";
+import { AdBanner } from "../../src/AdSense";
 import {
   correctContinent,
   correctCountry,
@@ -21,7 +14,14 @@ import {
   dayNumber,
   getData,
 } from "../../src/country";
-import { AdBanner } from "../../src/AdSense";
+import CountryForm from "../../src/CountryForm";
+import Results from "../../src/CountryResults";
+import GuessDistribution from "../../src/GuessDistribution";
+import InfoModal from "../../src/InfoModal";
+import { useSettings } from "../../src/SettingsProvider";
+import Share from "../../src/Share";
+import Stamp from "../../src/Stamp";
+import wordlist from "../../src/wordlist";
 
 type CountryData = {
   continent: string;
