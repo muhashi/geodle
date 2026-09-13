@@ -32,7 +32,7 @@
     "start": "react-router dev",
     "dev": "react-router dev",
     "build": "react-router build",
-    "postbuild": "node -e \"try{require('fs').copyFileSync('build/client/__spa-fallback.html','build/client/404.html')}catch{}\"",
+    "postbuild": "node -e \"const f=require('fs'),b='build/client';try{f.copyFileSync(b+'/__spa-fallback.html',b+'/404.html')}catch{};for(const d of f.readdirSync(b))try{if(f.statSync(b+'/'+d).isDirectory())f.copyFileSync(b+'/'+d+'/index.html',b+'/'+d+'.html')}catch{}\"",
     "preview": "vite preview"
   },
   "eslintConfig": {
