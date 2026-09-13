@@ -128,7 +128,7 @@ function DailyHomeCard({ onClick }: { onClick: () => void }) {
   }
 
   return (
-    <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/daily" prefetch="intent" td="none">
+    <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/daily" prefetch="render" td="none">
       <HomeActionCard
         title={status === 'in-progress' ? 'Resume Daily' : 'Daily'}
         subtitle={status === 'in-progress' ? 'Continue where you left off!' : 'New country daily!'}
@@ -150,7 +150,7 @@ export default function Home() {
 
         <Group mt="md" w="100%" wrap="nowrap">
           <DailyHomeCard onClick={() => navigate('/daily')} />
-          <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/random" prefetch="intent" td="none">
+          <Box style={{ flex: 1, minWidth: 150 }} component={Link} to="/random" prefetch="render" td="none">
             <HomeActionCard title="Quick Play" subtitle="Unlimited practice!" onClick={() => navigate('/random')} />
           </Box>
         </Group>
