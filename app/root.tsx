@@ -9,7 +9,7 @@ import {
   useNavigate,
 } from "react-router";
 import type { Route } from "./+types/root";
-import { MantineProvider, Box, Container, useMantineTheme, Badge, Burger, Button, Center, Group, Menu, Modal, Paper, Stack, Switch, Text, UnstyledButton, useMantineColorScheme } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider, Box, Container, useMantineTheme, Badge, Burger, Button, Center, Group, Menu, Modal, Paper, Stack, Switch, Text, UnstyledButton, useMantineColorScheme } from "@mantine/core";
 import { IconBrandGithub, IconCoffee, IconHistory, IconMail, IconMoon, IconSettings, IconSun } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import SettingsProvider, { useSettings } from "../src/SettingsProvider";
@@ -31,8 +31,9 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-mantine-color-scheme="light">
       <head>
+        <ColorSchemeScript defaultColorScheme="light" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
@@ -259,7 +260,7 @@ function AppLayout() {
 
 export default function App() {
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="light">
       <SettingsProvider>
         <AppLayout />
       </SettingsProvider>
