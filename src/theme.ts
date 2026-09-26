@@ -6,6 +6,8 @@ import {
     Modal,
     Paper,
     Text,
+    Title,
+    Switch,
 } from '@mantine/core';
 
 declare module '@mantine/core' {
@@ -92,17 +94,17 @@ export const theme = createTheme({
     }),
     Button: Button.extend({
       defaultProps: {
-        radius: 'lg',
+        radius: 'xl',
       },
     }),
     Paper: Paper.extend({
       defaultProps: {
-        radius: 'lg',
+        radius: 'xl',
       },
     }),
     Modal: Modal.extend({
       defaultProps: {
-        radius: 'lg',
+        radius: 'xl',
       },
     }),
     ActionIcon: ActionIcon.extend({
@@ -110,7 +112,24 @@ export const theme = createTheme({
         radius: 'xl',
       },
     }),
+    Select: ActionIcon.extend({
+      defaultProps: {
+        radius: 'xl',
+      },
+    }),
     Text: Text.extend({
+      defaultProps: {
+        c: 'ink.6',
+        fw: 500,
+      },
+    }),
+    Title: Title.extend({
+      defaultProps: {
+        c: 'ink.6',
+        fw: 700,
+      },
+    }),
+    Switch: Switch.extend({
       defaultProps: {
         c: 'ink.6',
         fw: 500,

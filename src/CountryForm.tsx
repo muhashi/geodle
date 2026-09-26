@@ -122,7 +122,9 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
             </div>
           )}
         />
-        <Button size="md" variant="contained" type="submit" style={{ overflow: 'visible' }}>Guess</Button>
+        <Button size="md" variant="contained" type="submit" style={{ overflow: 'visible' }}>
+          Guess
+        </Button>
       </Group>
     </form>
   );

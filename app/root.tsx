@@ -9,7 +9,7 @@ import {
   useNavigate,
 } from "react-router";
 import type { Route } from "./+types/root";
-import { ColorSchemeScript, MantineProvider, Box, Container, useMantineTheme, Badge, Burger, Button, Center, Group, Menu, Modal, Paper, Stack, Switch, Text, UnstyledButton, useMantineColorScheme } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider, Box, Container, useMantineTheme, Badge, Burger, Button, Center, Group, Menu, Modal, Paper, Stack, Switch, Title, UnstyledButton, useMantineColorScheme } from "@mantine/core";
 import { IconBrandGithub, IconCoffee, IconHistory, IconMail, IconMoon, IconSettings, IconSun } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import SettingsProvider, { useSettings } from "../src/SettingsProvider";
@@ -121,14 +121,32 @@ function CenterRow({ children, left, right }: { children: ReactNode; left?: Reac
 function SettingsModal({ opened, setOpened }: { opened: boolean; setOpened: (open: boolean) => void }) {
   const { tempFahrenheit, setTempFahrenheit, areaMiles, setAreaMiles, hideHints, setHideHints } = useSettings();
   return (
-    <Modal opened={opened} onClose={() => setOpened(false)} title="Settings" centered>
-      <Switch className="settings-switch" checked={tempFahrenheit} label="Show temperatures in Fahrenheit" onChange={(e) => setTempFahrenheit(e.currentTarget.checked)} />
-      <Switch className="settings-switch" checked={areaMiles} label="Show surface area in mi²" onChange={(e) => setAreaMiles(e.currentTarget.checked)} mt="md" />
-      <Switch className="settings-switch" checked={hideHints} label="Hide population hints" onChange={(e) => setHideHints(e.currentTarget.checked)} mt="md" />
-      <Group justify="right" mt="md">
-        <Button variant="filled" onClick={() => setOpened(false)}>Close</Button>
-      </Group>
-    </Modal>
+    <Modal.Root
+      opened={opened}
+      onClose={() => setOpened(false)}
+      centered
+      padding="xl"
+    >
+      <Modal.Overlay backgroundOpacity={0.55} blur={3} />
+      <Modal.Content>
+        <Modal.Header>
+          <Modal.Title>
+            <Title order={3} fw={700}>
+              Settings
+            </Title>
+          </Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body pb="42px">
+          <Switch className="settings-switch" checked={tempFahrenheit} label="Show temperatures in Fahrenheit" onChange={(e) => setTempFahrenheit(e.currentTarget.checked)} />
+          <Switch className="settings-switch" checked={areaMiles} label="Show surface area in mi²" onChange={(e) => setAreaMiles(e.currentTarget.checked)} mt="md" />
+          <Switch className="settings-switch" checked={hideHints} label="Hide population hints" onChange={(e) => setHideHints(e.currentTarget.checked)} mt="md" />
+          {/* <Group justify="right" mt="md">
+            <Button variant="filled" onClick={() => setOpened(false)}>Close</Button>
+          </Group> */}
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 }
 

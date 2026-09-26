@@ -83,7 +83,7 @@ function HomeActionCard({
         border: disabled
           ? '2px solid var(--mantine-color-gray-4)'
           : (emphasized ? 'none' : '2px solid var(--mantine-color-ink-6)'),
-        borderRadius: 'var(--mantine-radius-lg)',
+        borderRadius: 'var(--mantine-radius-xl)',
         transition: 'transform 0.1s ease-in-out, filter 0.1s ease-in-out',
         opacity: disabled ? 0.7 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
