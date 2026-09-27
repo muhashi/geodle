@@ -4,6 +4,7 @@ import {
     Button,
     createTheme,
     Modal,
+    Overlay,
     Paper,
     Text,
     Title,
@@ -105,6 +106,12 @@ export const theme = createTheme({
     Modal: Modal.extend({
       defaultProps: {
         radius: 'xl',
+      },
+    }),
+    Overlay: Overlay.extend({
+      defaultProps: {
+        backgroundOpacity: 0.55,
+        blur: 3
       },
     }),
     ActionIcon: ActionIcon.extend({

@@ -127,7 +127,7 @@ function SettingsModal({ opened, setOpened }: { opened: boolean; setOpened: (ope
       centered
       padding="xl"
     >
-      <Modal.Overlay backgroundOpacity={0.55} blur={3} />
+      <Modal.Overlay />
       <Modal.Content>
         <Modal.Header>
           <Modal.Title>
@@ -141,9 +141,6 @@ function SettingsModal({ opened, setOpened }: { opened: boolean; setOpened: (ope
           <Switch className="settings-switch" checked={tempFahrenheit} label="Show temperatures in Fahrenheit" onChange={(e) => setTempFahrenheit(e.currentTarget.checked)} />
           <Switch className="settings-switch" checked={areaMiles} label="Show surface area in mi²" onChange={(e) => setAreaMiles(e.currentTarget.checked)} mt="md" />
           <Switch className="settings-switch" checked={hideHints} label="Hide population hints" onChange={(e) => setHideHints(e.currentTarget.checked)} mt="md" />
-          {/* <Group justify="right" mt="md">
-            <Button variant="filled" onClick={() => setOpened(false)}>Close</Button>
-          </Group> */}
         </Modal.Body>
       </Modal.Content>
     </Modal.Root>

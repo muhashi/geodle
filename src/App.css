@@ -57,51 +57,6 @@
   }
 }
 
-.kofi-hover {
-  color: #002a4a;
-  transition: transform 0.3s;
-}
-
-.kofi-hover:hover {
-  transform: scale(1.15) rotate(-5deg);
-  transition: transform 0.3s;
-  animation: rainbow 2s linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes rainbow {
-		100%, 0% {
-			color: rgba(255, 0, 0, 1);
-		}
-		10% {
-			color: rgba(255, 154, 0, 1);
-		}
-		20% {
-			color: rgba(208, 222, 33, 1);
-		}
-		30% {
-			color: rgba(79, 220, 74, 1);
-		}
-		40% {
-			color: rgba(63, 218, 216, 1);
-		}
-		50% {
-			color: rgba(47, 201, 226, 1);
-		}
-		60% {
-			color: rgba(28, 127, 238, 1);
-		}
-		70% {
-			color: rgba(95, 21, 242, 1);
-		}
-		80% {
-			color: rgba(186, 12, 248, 1);
-		}
-		90% {
-			color: rgba(251, 7, 217, 1);
-		}
-}
-
 .home-action-card:hover {
   transform: scale(1.02);
 }
