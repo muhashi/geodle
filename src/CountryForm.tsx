@@ -97,7 +97,7 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
   return (
     <form style={{ width: '100%' }} onSubmit={(e) => { e.preventDefault(); onSubmit(country ?? ''); setCountry(null);}}>
       <Group style={{ width: '100%' }} gap="sm" wrap="nowrap" justify="center">
-        <Button size="md" variant="contained" type="submit" style={{visibility: 'hidden', display: isMobile ? 'none' : 'block'}} disabled>Guess</Button> {/* hidden button for centering */}
+        <Button size="md" variant="contained" style={{ visibility: 'hidden', display: isMobile ? 'none' : 'block' }} disabled>Guess</Button> {/* hidden button for centering */}
         <Select
           data={data}
           autoSelectOnBlur
@@ -110,6 +110,7 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
           placeholder="Search a country..."
           onChange={(_value, option) => setCountry(option?.value)}
           size="md"
+          selectFirstOptionOnChange
           value={country ?? null}
           renderOption={({ option }) => (
             <div>
