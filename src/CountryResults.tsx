@@ -7,7 +7,6 @@ import { formatPopulation, getEmojiHintText, tempFahrenheit, km2ToMi2, shortenCo
 
 const HINT_GREEN = '#007326';
 const HINT_RED = '#b30000';
-const HEADER_TEXT = '#000';
 
 type DemographicDataType = number | string | boolean;
 
@@ -190,7 +189,6 @@ function HeaderCell({ label, tip }: { label: string; tip: string }) {
           alignItems: 'center',
           justifyContent: 'flex-end',
           gap: 4,
-          color: HEADER_TEXT,
           cursor: 'pointer',
           minWidth: 0,
         }}
@@ -201,7 +199,6 @@ function HeaderCell({ label, tip }: { label: string; tip: string }) {
           tt="uppercase"
           lang="en"
           style={{
-            color: HEADER_TEXT,
             fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
             textDecoration: 'underline dotted', 
             textDecorationThickness: '2px',
@@ -409,7 +406,6 @@ function Results({
               tt="uppercase"
               lang="en"
               style={{
-                color: HEADER_TEXT,
                 fontSize: 'clamp(0.3rem, 1.8vw, 0.7rem)',
                 ...wrapStyle,
               }}

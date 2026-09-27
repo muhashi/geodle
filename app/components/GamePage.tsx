@@ -1,4 +1,4 @@
-import { Box, Button, Group, Paper, Stack, Text } from '@mantine/core';
+import { Box, Button, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import Cookies from 'js-cookie';
 import { useEffect, useMemo, useState } from 'react';
 import ConfettiExplosion from 'react-confetti-blast';
@@ -143,30 +143,6 @@ export function MoreGamesButton() {
   );
 }
 
-function CompletionPanel({
-  mode,
-  guessesData,
-  isWon,
-  onRandom,
-  onHome,
-}: {
-  mode: GameMode;
-  guessesData: CountryData[];
-  isWon: boolean;
-  onRandom: () => void;
-  onHome: () => void;
-}) {
-  return (
-    <Stack align="center" gap="xl" w="100%" style={{ maxWidth: 420 }}>
-      {mode === 'daily' && <DailyStatistics guessesData={guessesData} isWon={isWon} />}
-      <Group justify="center">
-        <Button onClick={onRandom}>{mode === 'daily' ? 'Play random' : 'Play again'}</Button>
-        <Button onClick={onHome} variant="outline">Back to home</Button>
-      </Group>
-    </Stack>
-  );
-}
-
 type GameMode = 'daily' | 'random';
 
 export function GamePage({
@@ -287,15 +263,16 @@ export function GamePage({
             <ConfettiExplosion style={{ position: 'absolute', top: '50vh', left: '50vw' }} duration={3000} force={0.6} />
           )}
           <Stamp country={target.country} isWon={isWon} guessCount={guessesData.length} />
-          <Group>
-            {mode === 'daily' && <Share guessesData={guessesData} />}
-            <MoreGamesButton />
-          </Group>
+          <Stack align="center" gap="xl" w="100%" style={{ maxWidth: 420 }}>
+            <SimpleGrid cols={2} spacing="md" styles={{}}>
+              {mode === 'daily' && <Share guessesData={guessesData} />}
+              <Button onClick={onRandom}>{mode === 'daily' ? 'Play random' : 'Play again'}</Button>
+              <Button onClick={onHome} variant="outline">Back to home</Button>
+              <MoreGamesButton />
+            </SimpleGrid>
+            {mode === 'daily' && <DailyStatistics guessesData={guessesData} isWon={isWon} />}
+          </Stack>
         </>
-      )}
-
-      {isDone && (
-        <CompletionPanel mode={mode} guessesData={guessesData} isWon={isWon} onRandom={onRandom} onHome={onHome} />
       )}
 
       {!isDone && (
