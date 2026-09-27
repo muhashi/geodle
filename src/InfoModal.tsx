@@ -32,9 +32,31 @@ export default function InfoModal() {
         <IconHelpCircle size={20} />
       </ActionIcon>
 
-      <Modal opened={opened} onClose={() => setOpened(false)} centered>
-        <InfoText />
-      </Modal>
+      <Modal.Root
+        opened={opened}
+        onClose={() => setOpened(false)}
+        centered
+        padding="xl"
+        size="lg"
+      >
+        <Modal.Overlay />
+        <Modal.Content>
+          <Modal.Header>
+            <Modal.Title>
+              <Group justify="center" gap="xs">
+                <IconInfoCircle size={22} />
+                <Title order={3} fw={700}>
+                  How to Play
+                </Title>
+              </Group>
+            </Modal.Title>
+            <Modal.CloseButton />
+          </Modal.Header>
+          <Modal.Body>
+            <InfoText />
+          </Modal.Body>
+        </Modal.Content>
+      </Modal.Root>
     </>
   );
 }
@@ -49,13 +71,6 @@ function InfoText() {
         pl="sm"
         w="100%"
       >
-        <Group justify="center" gap="xs">
-          <IconInfoCircle size={22} />
-          <Title order={3} fw={600}>
-            How to Play
-          </Title>
-        </Group>
-
         <Text>
           Figure out the secret country in 7 guesses!
         </Text>
