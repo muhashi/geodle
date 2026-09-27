@@ -107,3 +107,9 @@
     display: none !important;
   }
 }
+
+.result-card:hover {
+  transform: scale(1.05);
+  filter: brightness(1.15);
+  transition: transform 0.1s ease-in-out, filter 0.1s ease-in-out;
+}

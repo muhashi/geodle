@@ -160,6 +160,7 @@ function ResultCard({ background, textColor, children }: { background: string; t
         minWidth: 0,
         overflow: 'hidden',
       }}
+      className="result-card"
     >
       <Text
         fw={700}
@@ -243,7 +244,10 @@ function MobileStatCard({
 
   const isCorrect = hint === 'correct';
   return (
-    <Box style={{ ...sharedBoxStyle, background: isCorrect ? HINT_GREEN : HINT_RED }}>
+    <Box
+      style={{ ...sharedBoxStyle, background: isCorrect ? HINT_GREEN : HINT_RED }}
+      className="result-card"
+    >
       <Tooltip label={tip} withinPortal multiline w={220} events={{ hover: true, focus: true, touch: true }}>
         <Text
           c="white"
