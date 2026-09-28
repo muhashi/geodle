@@ -11,11 +11,11 @@ const squareStyle = {
 };
 
 const squareRedImg = (
-  <Box bg="red" style={squareStyle} />
+  <Box bg="#b30000" style={squareStyle} />
 );
 
 const squareGreenImg = (
-  <Box bg="green" style={squareStyle} />
+  <Box bg="#007326" style={squareStyle} />
 );
 
 export default function InfoModal() {

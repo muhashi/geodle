@@ -264,6 +264,7 @@ export function GamePage({
           )}
           <Stamp country={target.country} isWon={isWon} guessCount={guessesData.length} />
           <Stack align="center" gap="xl" w="100%" style={{ maxWidth: 420 }}>
+            {/* fix odd button not centering when only 3 buttons display */}
             <SimpleGrid cols={2} spacing="md" styles={{}}>
               {mode === 'daily' && <Share guessesData={guessesData} />}
               <Button onClick={onRandom}>{mode === 'daily' ? 'Play random' : 'Play again'}</Button>
