@@ -117,13 +117,15 @@ function DailyHomeCard({ onClick }: { onClick: () => void }) {
 
   if (status === 'done') {
     return (
-      <HomeActionCard
-        title="Daily"
-        subtitle={`New country in ${countdown}`}
-        onClick={onClick}
-        emphasized
-        disabled
-      />
+      <Box style={{ flex: 1, minWidth: 150 }}>
+        <HomeActionCard
+          title="Daily"
+          subtitle={`New country in ${countdown}`}
+          onClick={onClick}
+          emphasized
+          disabled
+        />
+      </Box>
     );
   }
 

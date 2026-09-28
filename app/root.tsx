@@ -185,9 +185,8 @@ function Header({ onLogoClick, mode }: { onLogoClick: () => void; mode: "daily" 
         <Menu.Item leftSection={<IconSettings size={16} />} onClick={() => { closeMenu(); setDisplaySettings(true); }}>Settings</Menu.Item>
         <Menu.Divider />
         <Menu.Item leftSection={<IconMail size={16} />} component="a" href={`mailto:${CONTACT_EMAIL}`} onClick={closeMenu}>Email</Menu.Item>
-        <Menu.Item leftSection={<IconBrandGithub size={16} />} component="a" href={GITHUB_URL} target="_blank" onClick={closeMenu}>GitHub</Menu.Item>
         <Menu.Item leftSection={<IconCoffee size={16} />} component="a" href="https://ko-fi.com/muhashi" target="_blank" onClick={closeMenu}>Donate</Menu.Item>
-        <Menu.Item leftSection={<IconHistory size={16} />} component="a" href="https://old.geodle.me" onClick={closeMenu}>Old site</Menu.Item>
+        <Menu.Item leftSection={<IconBrandGithub size={16} />} component="a" href={GITHUB_URL} target="_blank" onClick={closeMenu}>GitHub</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

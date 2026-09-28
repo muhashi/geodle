@@ -45,7 +45,7 @@ function StaticPage({ title, onBack, children }: { title: string; onBack: () => 
       <Anchor component="button" type="button" size="sm" onClick={onBack} style={{ alignSelf: 'flex-start' }}>
         &larr; Back to home
       </Anchor>
-      <Paper p="lg">
+      <Paper p="xl">
         <Stack gap="md">
           <Text fz="xl" fw={700}>{title}</Text>
           <Stack gap="sm">{children}</Stack>
@@ -263,6 +263,13 @@ export function PrivacyPage({ onBack }: { onBack: () => void }) {
 export function UpdatesPage({ onBack }: { onBack: () => void }) {
   return (
     <StaticPage title="Updates" onBack={onBack}>
+      <Update
+        date="Sep 28, 2026"
+        lines={[
+          "Fixed bug where country wouldn't submit on hitting Enter button.",
+          "Removed the old Geodle link, as very few people visit it. The old website is still available for anyone that prefers it.",
+        ]}
+      />
       <Update
         date="Sep 5, 2026"
         lines={[
