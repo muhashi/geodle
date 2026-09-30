@@ -68,7 +68,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               visible: false,
             },
             exitIntent: {
-              enabled: true,
+              enabled: false,
               immediate: false,
             },
           });
