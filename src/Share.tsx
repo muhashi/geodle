@@ -49,7 +49,7 @@ function Share({ guessesData }: { guessesData: CountryData[] }) {
     )
     .join('\n');
 
-  const copyText = `${title}\n${emojis}\nhttps://geodle.me`;
+  const copyText = `${title}\n${emojis}\n\nhttps://geodle.me`;
 
   return (
       <Button onClick={() => clipboard.copy(copyText)} color={clipboard.copied ? "var(--mantine-color-green-6)" : "var(--mantine-color-yellow-6)"}>

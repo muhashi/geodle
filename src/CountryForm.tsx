@@ -110,7 +110,6 @@ function CountryForm({ onSubmit, guessed, revealedContinent = null, excludedCont
           placeholder="Search a country..."
           onChange={(_value, option) => setCountry(option?.value)}
           size="md"
-          selectFirstOptionOnChange
           value={country ?? null}
           renderOption={({ option }) => (
             <div>
