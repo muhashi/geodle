@@ -52,6 +52,7 @@ function km2ToMi2(km2: number): number {
 
 const COUNTRY_ABBREVIATIONS: Record<string, string> = {
   'The Democratic Republic of Congo': 'DR Congo',
+  'Republic of the Congo': 'Rep. of the Congo',
   'Saint Vincent and the Grenadines': 'St Vincent & Grenadines',
   'Federated States of Micronesia': 'Micronesia',
   'Central African Republic': 'Central African Rep.',

@@ -153,7 +153,7 @@ const wordlist = [
   'Bulgaria',
   'Namibia',
   'Palestine',
-  'Congo',
+  'Republic of the Congo',
   'Panama',
   'Myanmar',
   'Cyprus',
