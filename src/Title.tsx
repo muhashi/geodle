@@ -2,7 +2,7 @@ import { Title } from '@mantine/core';
 
 function GameTitle() {
   return (
-    <Title order={1} className="title-text">
+    <Title order={1} className="title-text hover-stretch">
       <span>G</span>
       <span>e</span>
       <span>o</span>

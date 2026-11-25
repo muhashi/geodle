@@ -232,11 +232,11 @@ export function GamePage({
 
   return (
     <Stack align="center" gap="sm" mb="10vh">
-      {isDone && (
+      {/* {isDone && (
         <Box className="horizontal-ad-slot">
           <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.GAME_BANNER_TOP} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
         </Box>
-      )}
+      )} */}
 
       <Group gap="xs" justify="center" wrap="nowrap">
         {!isDone && <Box style={{ width: 20, height: 20, visibility: 'hidden' }} />}

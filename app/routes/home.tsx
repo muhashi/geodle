@@ -158,9 +158,9 @@ export default function Home() {
         </Group>
       </Stack>
 
-      <Box className="horizontal-ad-slot">
+      {/* <Box className="horizontal-ad-slot">
         <AdBanner format="horizontal" responsive={false} slot={AD_SLOTS.HOME_BANNER} style={{ maxWidth: '100dvw', width: '100%', maxHeight: '120px' }} />
-      </Box>
+      </Box> */}
 
       <Stack align="center" gap="md">
         <MoreGamesButton />

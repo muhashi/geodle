@@ -240,7 +240,7 @@ function AppLayout() {
       }}
     >
       <Box className="app-layout">
-        <Box className="side-ad">
+        {/* <Box className="side-ad">
           <AdBanner
             key={`left-${verticalAdRefreshKey}`}
             slot={AD_SLOTS.DESKTOP_LEFT_RAIL}
@@ -249,7 +249,7 @@ function AppLayout() {
             refreshKey={verticalAdRefreshKey}
             style={{ maxWidth: 180, maxHeight: '100dvh' }}
           />
-        </Box>
+        </Box> */}
 
         <Container size="sm" px="md" py="md" style={{ flex: 1, minWidth: 0 }}>
           {/* reuse Header from src/App.tsx */}
@@ -257,7 +257,7 @@ function AppLayout() {
           <Outlet />
         </Container>
 
-        <Box className="side-ad">
+        {/* <Box className="side-ad">
           <AdBanner
             key={`right-${verticalAdRefreshKey}`}
             slot={AD_SLOTS.DESKTOP_RIGHT_RAIL}
@@ -266,7 +266,7 @@ function AppLayout() {
             refreshKey={verticalAdRefreshKey}
             style={{ maxWidth: 180, maxHeight: '100dvh' }}
           />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
